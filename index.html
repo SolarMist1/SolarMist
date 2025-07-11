@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+  
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,16 @@
   <meta property="og:image" content="https://solarmist1.github.io/SolarMist/images/solarmist-preview.jpg" />
   <meta property="og:url" content="https://solarmist1.github.io/SolarMist/" />
   <meta name="twitter:card" content="summary_large_image" />
+
+<!-- Favicon and App Icons -->
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="images/site.webmanifest">
+<meta name="theme-color" content="#ffffff">
+
+
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -31,41 +41,35 @@
   }
   </script>
 
-  <!-- Favicon and App Icons -->
-  <link rel="icon" href="images/favicon.ico" sizes="any">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-  <link rel="icon" href="images/favicon.png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900;1000;1100;1200;1300&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="style.css">
  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap" rel="stylesheet">
- <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
- <link rel="icon" href="/favicon.png">
-  <link rel="stylesheet" href="style.css">
-
-</head>
- 
 <body>
   <div class="sticky-cta-banner">
     <a href="#get-involved" class="cta-button">Register Your Interest</a>
   </div>
  
+ <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
   <header class="site-header">
     <div class="container header-content">
-      <div class="logo">
-        <div class="logo-placeholder">SolarMist</div>
-      </div>
+   <div class="logo">
+  <a href="#top" class="logo-link">
+    <img src="images/logo.png" alt="SolarMist Logo" class="logo-img">
+    <span class="logo-hitbox"></span>
+  </a>
+</div>
  
       <!-- Mobile menu toggle -->
       <button id="mobileToggle" class="mobile-nav-toggle" aria-label="Open Menu">
-        <span class="hamburger"></span>
+        <span class="hamburger">
+    </span>
       </button>
  
       <!-- Desktop nav -->
@@ -84,87 +88,109 @@
     <nav class="mobile-nav-overlay" id="mobileMenu">
       <div class="mobile-nav-bg"></div> <!-- This is the sliding background -->
       <ul>
-        <li><a href="#about">Our Vision</a></li>
-        <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#survey-form">Survey</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#about">Our Vision
+<span class="nav-arrow">&#8250;</span></a></li>
+        <li><a href="#how-it-works">How It Works
+<span class="nav-arrow">&#8250;</span></a></li>
+        <li><a href="#features">Features
+<span class="nav-arrow">&#8250;</span></a></li>
+        <li><a href="#survey-form">Survey
+<span class="nav-arrow">&#8250;</span></a></li>
+        <li><a href="#faq">FAQ
+<span class="nav-arrow">&#8250;</span></a></li>
       </ul>
     </nav>
   </header>
  
   <main>
+  <body id="top"></body>
     <section class="hero">
       <div class="hero-grid">
         <div class="hero-left">
-          <h1 class="hero-title">
-            <span class="desktop-only">Touch-free SPF in under 10 seconds.</span>
-            <span class="mobile-only">Touch-free SPF in 10 seconds.</span>
+          <h1 class="hero-title"> <span class="desktop-only">
+<span>Hands-Free</span><br>
+<span>Sunscreen</span><br>
+<span>Misting</span><br>
+<span>Booth</span></h1>
+<span class="mobile-only">Hands-free sunscreen misting booth</span>
           </h1>
+<p class="hero-subtitle desktop-only">No greasy hands. No missed spots. A full-body SPF mist in 10 seconds. Designed for beaches, parks, and resorts — choose between 50, 30, or 15 SPF.</p>
  
-          <p class="hero-subtitle desktop-only">
-            No greasy hands. No missed spots. Full-body SPF in seconds. Built for beaches, parks, and resorts.
-          </p>
- 
-          <form class="inline-email-form" action="#waitlist">
-            <input type="email" name="email" placeholder="Email address" required>
-            <input type="hidden" name="utm_source" value="website">
-            <button type="submit">Register Interest <span class="arrow">→</span></button>
-          </form>
+         <form class="inline-email-form" action="#waitlist">
+  <div class="input-wrapper">
+    <input type="email" name="email" required placeholder=" " />
+    <label>Email address</label>
+  </div>
+  <button type="submit">
+    Register Interest <span class="arrow">→</span>
+  </button>
+</form>
+
         </div>
  
         <div class="hero-right">
-         <img src="images/render.png" alt="SolarMist Render" class="render-img" />
- 
+         <img src="images/model.png" alt="SolarMist Model" class="render-img" />
           <div id="countdown-timer">Launching in 30 days</div>
         </div>
       </div>
     </section>
  
-    <section id="about" class="about-section" data-animate>
-      <div class="container">
-        <h2>Our Vision</h2>
-        <p>We created SolarMist to make sun protection faster, more effective, and more accessible for everyone.</p>
-        <div class="founders" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
-          <div class="founder-card" style="flex: 1; min-width: 280px;">
-            <div class="image-placeholder embed-box">Image Placeholder</div>
-            <h3>Cormac Neville</h3>
-            <p>Finance & Product Strategy</p>
-            <p>“I wanted to solve a problem I’ve seen at every beach, pool and event — no one wants to reapply sunscreen. This fixes that.”</p>
-          </div>
-          <div class="founder-card" style="flex: 1; min-width: 280px;">
-            <div class="image-placeholder embed-box">Image Placeholder</div>
-            <h3>Dr Hannah Sharpe</h3>
-            <p>Clinical Safety & Public Health</p>
-            <p>“As a doctor, I’ve seen the effects of UV damage. SolarMist makes protection simple, even fun.”</p>
-          </div>
-        </div>
-      </div>
-    </section>
+ <section id="about" class="about-section" data-animate>
+  <div class="container">
+<h2>Our Vision</h2>
+<div class="about-top">  
+<p>We're building SolarMist to make SPF effortless.
+Our touch-free misting booths deliver fast, full-body sunscreen coverage — no mess, no friction.
+Think showers of SPF at beaches, festivals, and resorts worldwide.
+This is sun safety reimagined — and it starts this summer.</p></div>
+    <div class="founders" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+      <div class="founder-card" style="flex: 1; min-width: 280px;">
+    <div class="image-wrapper">
+    <img src="images/cormac.png" alt="Cormac Neville" class="profile-img cormac-img" />
+    </div>
+    <div class="founder-role-wrapper">
+<h3 class="founder-name">Cormac Neville</h3></div>
+<p class="founder-role">Finance & Product Strategy</p>
+        <div class="quote-with-bar">
+<p>“I’ve seen the same issue at every beach, pool and festival — no one wants to stop and reapply sunscreen. We built SolarMist to make sun protection effortless.”</p>
+</div>
+</div>
+
+      <div class="founder-card" style="flex: 1; min-width: 280px;">
+    <div class="image-wrapper">
+   <img src="images/hannah.png" alt="Hannah Sharpe" class="profile-img hannah-img" />
+    </div> <h3 class="founder-name">Dr Hannah Sharpe</h3>
+<p class="founder-role">Clinical Safety & Public Health</p>
+        <div class="quote-with-bar"> 
+<p>“As a doctor, I’ve seen firsthand how easily people underestimate UV damage. SolarMist turns protection into a habit — simple, fast, even fun.”</p>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
  
     <section id="how-it-works" class="how-it-works-section" data-animate>
       <div class="container">
-        <h2 class="hiw-heading">How It Works</h2>
- 
+        <h2 class="hiw-heading">Mist. Rotate. Done.</h2>
+   <div class="hiw-wrapper">
         <div class="hiw-cards">
           <div class="hiw-card">
-            <div class="hiw-icon">Step 1</div>
             <h3>Step In</h3>
             <p>The booth senses you and starts the mist.</p>
           </div>
  
           <div class="hiw-card">
-            <div class="hiw-icon">Step 2</div>
             <h3>Rotate</h3>
-            <p>Slowly turn to ensure full coverage.</p>
+            <p>Rotate slowly for full body 360° coverage.</p>
           </div>
  
           <div class="hiw-card">
-            <div class="hiw-icon">Step 3</div>
             <h3>Done</h3>
-            <p>Walk out protected. No sticky residue.</p>
+            <p>Fully protected. No rubbing, no residue.</p>
           </div>
         </div>
+<div>
  
         <!-- Arrows go outside hiw-cards -->
         <div class="hiw-nav-arrows">
@@ -175,80 +201,95 @@
       </div>
     </section>
  
-    <section id="features" class="features-section parallax-mist" data-animate>
-      <div class="container">
-        <h2>Features</h2>
-        <div class="features-grid">
-          <div class="feature">
-            <div class="feature-image embed-box">Touchless Icon</div>
-            <h3>Touchless Application</h3>
-            <p>No rubbing. A clean mist delivers SPF hands-free.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Coverage Icon</div>
-            <h3>Full Coverage in 10 Seconds</h3>
-            <p>Faster and more consistent than manual application.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Family Icon</div>
-            <h3>Kid & Family Friendly</h3>
-            <p>Safe for all skin types and ages.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Eco Icon</div>
-            <h3>Eco-Smart Design</h3>
-            <p>Refillable canisters, no single-use plastics.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">SPF Icon</div>
-            <h3>Refillable SPF Formulas</h3>
-            <p>Multiple SPF levels, dermatologically tested.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Indoor Icon</div>
-            <h3>Indoor & Outdoor Options</h3>
-            <p>Flexible booth sizes for any venue type.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Clean Icon</div>
-            <h3>Self-Cleaning Design</h3>
-            <p>Sanitised between each use for hygiene.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-image embed-box">Analytics Icon</div>
-            <h3>Partner Analytics</h3>
-            <p>Get real usage stats for insights and ROI.</p>
-          </div>
-        </div>
-      </div>
-    </section>
- 
-    <section id="get-involved" class="pilot-partner-section" data-animate>
-      <div class="container centered-section">
-        <h2>Be Part of the SolarMist Launch</h2>
-        <p>
-          Resorts, parks, councils — or just excited to try it? Register your interest below.
-        </p>
- 
-        <form action="https://formspree.io/f/your-form-id" method="POST" class="floating-form">
-          <div class="form-group">
-            <input type="email" name="email" id="email" required placeholder=" " />
-            <label for="email">Email address</label>
-          </div>
- 
-          <div class="form-group">
-            <textarea name="message" id="message" placeholder=" "></textarea>
-            <label for="message">Optional message</label>
-          </div>
- 
-          <button type="submit" class="cta-button">Submit</button>
-        </form>
-      </div>
-    </section>
- 
-    <div class="progress-container">
-      <div id="progressBar" class="progress-bar"></div>
-    </div>
+  <section id="features" class="features-section parallax-mist" data-animate>
+  <div class="container">
+    <h2>Features</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/touchless.svg" alt="Touchless application icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Touchless Application</h3>
+          <p>No rubbing. A clean mist delivers SPF hands-free.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/coverage.svg" alt="Full-body coverage icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Full Coverage in 10 Seconds</h3>
+          <p>Faster and more consistent than manual application.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/family.svg" alt="Family friendly icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Kid & Family Friendly</h3>
+          <p>Safe for all skin types and ages.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/eco.svg" alt="Eco-smart design icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Eco-Smart Design</h3>
+          <p>Refillable canisters, no single-use plastics.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/spf.svg" alt="SPF bottle icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Refillable SPF Formulas</h3>
+          <p>Multiple SPF levels, dermatologically tested.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/indoor.svg" alt="Indoor and outdoor booth icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Indoor & Outdoor Options</h3>
+          <p>Flexible booth sizes for any venue type.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/clean.svg" alt="Sanitisation icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Self-Cleaning Design</h3>
+          <p>Sanitised between each use for hygiene.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <figure class="feature-image embed-box" role="presentation" aria-hidden="true">
+          <img src="icons/analytics.svg" alt="Analytics dashboard icon">
+        </figure>
+        <div class="feature-content">
+          <h3>Partner Analytics</h3>
+          <p>Get real usage stats for insights and ROI.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
  
     <!-- Survey Title Section -->
     <section id="survey-form" class="survey-section" data-animate>
@@ -369,91 +410,138 @@
       </form>
     </section>
  
-    <section id="faq" class="faq-section" data-animate>
-      <div class="container">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-list">
-          <div class="faq-item">
-            <h3>Is SolarMist safe for children?</h3>
-            <p>Yes, safe for all ages and skin types.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Will it mess up hair or makeup?</h3>
-            <p>We use a lightweight dry mist with a soft finish.</p>
-          </div>
-          <div class="faq-item">
-            <h3>What if I have sensitive skin?</h3>
-            <p>Our formulas are dermatologically tested and fragrance-free.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Is it hygienic between users?</h3>
-            <p>Yes, the booth is fully self-cleaning and contact-free.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Can I buy one for home use?</h3>
-            <p>We're starting with public-use locations, home units may follow.</p>
-          </div>
-          <div class="faq-item">
-            <h3>How long does the protection last?</h3>
-            <p>Similar to traditional sunscreen: up to 2 hours, reapply after swimming.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Where will booths be located?</h3>
-            <p>Beaches, waterparks, resorts and public outdoor spaces across the UK.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Can I invest or collaborate?</h3>
-            <p>We're open to investor and pilot discussions. Use the contact form below.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section id="faq" class="faq-section" data-animate>
+    <div class="container">
+  <h2>Frequently Asked Questions</h2>
+</div>
+  <div class="faq-container">
+  <div class="faq-item">
+    <button class="faq-question">Is SolarMist safe for children?</button>
+    <div class="faq-answer">
+      <p>Yes — SolarMist is completely safe for children of all ages and skin types. Our SPF formulas are gentle, dermatologist-approved, and designed for quick, no-touch application, making it easier for parents on the go.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Will it mess up hair or makeup?</button>
+    <div class="faq-answer">
+      <p>Not at all. We use an ultra-fine dry mist that applies evenly without smudging makeup or weighing down hair. It dries instantly for a clean, invisible finish, perfect for beauty-conscious users.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">What if I have sensitive skin?</button>
+    <div class="faq-answer">
+      <p>Our SPF is dermatologically tested, fragrance-free, and free of harsh irritants. SolarMist is ideal for sensitive skin and has been formulated with comfort and safety in mind, even for daily use.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Is it hygienic between users?</button>
+    <div class="faq-answer">
+      <p>Absolutely. SolarMist is designed to be fully contact-free and self-sanitising between uses. No touching, no cross-contamination — just a clean, hands-free SPF experience every time.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Can I buy one for home use?</button>
+    <div class="faq-answer">
+      <p>SolarMist is currently focused on high-footfall public locations such as beaches and parks. However, we’re exploring compact versions for home or private use — register interest if this sounds like you.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">How long does the protection last?</button>
+    <div class="faq-answer">
+      <p>Like traditional sunscreens, protection typically lasts up to 2 hours and should be reapplied after swimming or sweating. We recommend topping up regularly — SolarMist makes that easier than ever.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Where will booths be located?</button>
+    <div class="faq-answer">
+      <p>We’re starting with pilot installations at UK beaches, waterparks, resorts, and local councils. Our goal is to bring SolarMist wherever sun safety matters — let us know where you’d like to see one.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Can I invest or collaborate?</button>
+    <div class="faq-answer">
+      <p>We’re currently speaking to investors, councils, and partners to grow SolarMist nationwide. If you’re interested in collaboration, funding, or piloting, we’d love to hear from you through the contact form below.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+
+ <section id="get-involved" class="pilot-partner-section" data-animate>
+  <div class="container signup-section">
+    <h2 class="signup-heading">Join the SolarMist Launch</h2>
+    <p class="signup-sub">Be among the first to try our touch-free SPF misting booth. Resorts, parks, councils — or just curious? Let us know below.</p>
+
+    <form action="https://formspree.io/f/your-form-id" method="POST" class="floating-form">
+      <div class="form-group">
+        <input type="text" name="name" id="name" placeholder=" " required />
+        <label for="name">Name</label>
+      </div>
+
+      <div class="form-group">
+        <input type="email" name="email" id="email" required placeholder=" " />
+        <label for="email">Email address</label>
+      </div>
+
+      <div class="form-group">
+        <textarea name="message" id="message" placeholder=" "></textarea>
+        <label for="message">Optional message</label>
+      </div>
+
+      <button type="submit" class="cta-button">Join the launch</button>
+    </form>
+
+    <p class="form-trust-note">No spam. We’ll only contact you about SolarMist’s launch.</p>
+  </div>
+</section>
+
+
   </main>
- 
-  <footer class="site-footer" data-animate>
-    <div class="container new-footer">
-      <div class="footer-branding">
-        <p class="footer-logo">SolarMist</p>
-        <p class="footer-tagline">Touch-free sunscreen misting for public spaces.</p>
-      </div>
- 
-      <div class="footer-links-group">
-        <div class="footer-column">
-          <h4>Explore</h4>
-          <a href="#about">About</a>
-          <a href="#features">Features</a>
-          <a href="#get-involved">Register Interest</a>
-          <a href="#faq">FAQ</a>
-        </div>
- 
-        <div class="footer-column">
-          <h4>Legal</h4>
-          <a href="#" class="privacy-link">Privacy</a>
-        </div>
- 
-        <div class="footer-column">
-          <h4>Follow</h4>
-          <a href="#">Instagram</a>
-          <a href="#">LinkedIn</a>
-        </div>
-      </div>
-    </div>
- 
-    <div class="footer-bottom">
-      <p>© 2025 SolarMist. All rights reserved.</p>
-    </div>
- 
-    <!-- Privacy Popup -->
-    <div id="privacy-popup-wrapper" class="privacy-popup-wrapper">
-      <div class="privacy-popup">
-        <span class="close-btn">&times;</span>
-        <h3>Privacy Policy</h3>
-        <p>
-          We collect your email address and any optional message you provide to keep you informed about SolarMist updates and future availability. Your data is securely stored, never shared with third parties, and used solely for communication related to SolarMist. You can request access to or deletion of your data at any time by contacting us.
-        </p>
-      </div>
-    </div>
-  </footer>
+
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <div class="footer-column">
+      <p class="footer-logo">SolarMist</p>
+      <p class="footer-tagline">Touch-free sunscreen misting for public spaces.</p>
+    </div>
+
+    <div class="footer-column">
+      <h4>Explore</h4>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#get-involved">Register Interest</a>
+      <a href="#faq">FAQ</a>
+    </div>
+
+    <div class="footer-column">
+      <h4>Legal</h4>
+      <a href="#" class="privacy-link">Privacy</a>
+    </div>
+
+    <div class="footer-column">
+      <h4>Follow</h4>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 SolarMist. All rights reserved.</p>
+  </div>
+</footer>
+
  
   <script src="script.js"></script>
 </body>

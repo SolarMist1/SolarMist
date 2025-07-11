@@ -22,44 +22,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------
 const toggleBtn = document.getElementById('mobileToggle');
 const mobileMenu = document.getElementById('mobileMenu');
+let isAnimating = false;
 
 if (toggleBtn && mobileMenu) {
+  function openMenu() {
+    if (isAnimating) return;
+    isAnimating = true;
+    mobileMenu.style.display = 'flex';
+    document.body.classList.add('nav-open');
+    requestAnimationFrame(() => {
+      mobileMenu.classList.add('open');
+      toggleBtn.classList.add('open');
+      isAnimating = false;
+    });
+  }
+
+  function closeMenu() {
+    if (isAnimating) return;
+    isAnimating = true;
+    mobileMenu.classList.remove('open');
+    toggleBtn.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    // Wait for transition to finish before hiding
+    const onTransitionEnd = () => {
+      mobileMenu.style.display = 'none';
+      mobileMenu.removeEventListener('transitionend', onTransitionEnd);
+      isAnimating = false;
+    };
+    mobileMenu.addEventListener('transitionend', onTransitionEnd);
+  }
+
   toggleBtn.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.contains('open');
-
-    if (!isOpen) {
-      // Step 1: make it visible
-      mobileMenu.style.display = 'flex';
-
-      // Step 2: wait a frame, then add .open so CSS transitions can animate
-      requestAnimationFrame(() => {
-        mobileMenu.classList.add('open');
-        toggleBtn.classList.add('open');
-      });
+    if (mobileMenu.classList.contains('open')) {
+      closeMenu();
     } else {
-      // Reverse: remove class, then after transition, hide
-      mobileMenu.classList.remove('open');
-      toggleBtn.classList.remove('open');
-
-      // Wait for animation to finish before hiding
-      setTimeout(() => {
-        mobileMenu.style.display = 'none';
-      }, 500); // matches the CSS transition duration
+      openMenu();
     }
   });
 
   // Close menu when clicking a nav link
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', () => {
-      if (mobileMenu.classList.contains('open')) {
-        mobileMenu.classList.remove('open');
-        toggleBtn.classList.remove('open');
-        setTimeout(() => {
-          mobileMenu.style.display = 'none';
-        }, 500);
-    }
+  document.querySelectorAll('.mobile-nav-overlay a').forEach(link => {
+    link.addEventListener('click', closeMenu);
   });
-});
 }
                         
   // ----------------------------
@@ -95,13 +99,37 @@ if (countdownEl) {
   // ----------------------------
   // 4. Smooth Scrolling
   // ----------------------------
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute("href"));
-      if (target) target.scrollIntoView({ behavior: "smooth" });
+// ----------------------------
+// 4. Smooth Scrolling (with overscroll prevention)
+// ----------------------------
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const id = this.getAttribute("href");
+    const target = document.querySelector(id);
+    if (!target) return;
+
+    const offset = 45; // Match your fixed nav height
+    const targetTop = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    const currentScroll = window.pageYOffset;
+    const difference = Math.abs(currentScroll - targetTop);
+
+    // Prevent scrolling if we're already very close to the target
+    if (difference < 5) return;
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: 'smooth'
     });
   });
+});
+
+
+
+
+
 
   // ----------------------------
   // 5. Ripple Button Effect
@@ -278,3 +306,90 @@ if (hiwScrollLeft) {
 if (hiwScrollRight) {
   hiwScrollRight.addEventListener('click', () => scrollHIW(1));
 }
+
+// ----------------------------
+// 11. Sticky bar slide up
+// ----------------------------
+
+document.addEventListener("DOMContentLoaded", () => {
+  const stickyBanner = document.querySelector('.sticky-cta-banner');
+  const heroSection = document.querySelector('.hero');
+  const launchSection = document.querySelector('.signup-section');
+  const footer = document.querySelector('footer');
+
+  if (!stickyBanner || !heroSection) return;
+
+  // Detect current page — adjust if your launch page isn't "/"
+  const isHomePage = window.location.pathname === "/" || window.location.pathname === "/index.html";
+  const isMobile = window.innerWidth <= 767;
+
+  function handleStickyBanner() {
+    // Mobile: always show unless launch form or footer is visible
+    if (isMobile) {
+      const launchRect = launchSection?.getBoundingClientRect();
+      const footerRect = footer?.getBoundingClientRect();
+      const launchVisible = launchRect && launchRect.top < window.innerHeight && launchRect.bottom > 0;
+      const footerVisible = footerRect && footerRect.top < window.innerHeight && footerRect.bottom > 0;
+
+      if (launchVisible || footerVisible) {
+        stickyBanner.classList.remove('visible');
+      } else {
+        stickyBanner.classList.add('visible');
+      }
+      return;
+    }
+
+    // Desktop: show only if not on launch page, or scrolled past hero
+    if (!isHomePage) {
+      stickyBanner.classList.add('visible');
+      return;
+    }
+
+    const launchRect = launchSection?.getBoundingClientRect();
+    const footerRect = footer?.getBoundingClientRect();
+    const launchVisible = launchRect && launchRect.top < window.innerHeight && launchRect.bottom > 0;
+    const footerVisible = footerRect && footerRect.top < window.innerHeight && footerRect.bottom > 0;
+
+    const heroBottom = heroSection.getBoundingClientRect().bottom + window.scrollY;
+
+    if ((window.scrollY > heroBottom - 80) && !launchVisible && !footerVisible) {
+      stickyBanner.classList.add('visible');
+    } else {
+      stickyBanner.classList.remove('visible');
+    }
+  }
+
+  // Run after short delay to avoid flash
+  setTimeout(() => {
+    handleStickyBanner();
+    window.addEventListener('scroll', handleStickyBanner);
+    window.addEventListener('resize', handleStickyBanner);
+  }, 50);
+});
+
+// ----------------------------
+// 12. FAQ drop down
+// --------
+
+document.querySelectorAll('.faq-question').forEach(button => {
+  button.addEventListener('click', () => {
+    const faqItem = button.parentElement;
+    const wasActive = faqItem.classList.contains('active');
+
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.classList.remove('active');
+    });
+
+    // Open clicked one if it wasn't already active
+    if (!wasActive) {
+      faqItem.classList.add('active');
+    }
+  });
+});
+
+
+
+
+
+
