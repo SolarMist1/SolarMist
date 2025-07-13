@@ -1,37 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-  
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SolarMist | Touch-Free Sunscreen</title>
-  <meta name="description" content="The world’s first touch-free sunscreen misting booth. Join our Summer 2026 pilot launch.">
-  <meta name="keywords" content="touch-free sunscreen, sunscreen booth, SPF misting, public sunscreen, SolarMist, UK SPF solution, hands-free sunscreen">
+
+  <!-- SEO Meta Tags -->
+  <title>SolarMist | Touch-Free Sunscreen Booths</title>
+  <meta name="description" content="SolarMist is the UK's first touch-free sunscreen misting booth, delivering fast, eco-friendly SPF coverage in public spaces. Register interest now.">
+  <meta name="keywords" content="SolarMist, sunscreen booth, hands-free SPF, public sunscreen solution, SPF misting, UK startup, eco sunscreen, touch-free sun protection">
+  <meta name="robots" content="index, follow"> <!-- ✅ Encourages indexing -->
 
   <!-- Open Graph / Social Preview -->
   <meta property="og:title" content="SolarMist | Touch-Free Sun Protection" />
-  <meta property="og:description" content="The world’s first touch-free sunscreen misting booth. Launching Summer 2026." />
+  <meta property="og:description" content="A UK-first touch-free sunscreen misting booth. Help launch our public SPF solution." />
   <meta property="og:image" content="https://solarmist1.github.io/SolarMist/images/solarmist-preview.jpg" />
-  <meta property="og:url" content="https://solarmist1.github.io/SolarMist/" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:url" content="https://solarmist.co.uk" />
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SolarMist | Touch-Free Sun Protection">
+  <meta name="twitter:description" content="Launching the UK's first touch-free sunscreen booth – pilot locations coming soon.">
+  <meta name="twitter:image" content="https://solarmist1.github.io/SolarMist/images/solarmist-preview.jpg">
 
-<!-- Favicon and App Icons -->
-<link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-<link rel="manifest" href="images/site.webmanifest">
-<meta name="theme-color" content="#ffffff">
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="images/site.webmanifest">
+  <meta name="theme-color" content="#ffffff">
 
-
-
-  <!-- Schema.org Structured Data -->
+  <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "SolarMist",
-    "url": "https://solarmist1.github.io/SolarMist/",
+    "url": "https://solarmist.co.uk",
     "logo": "https://solarmist1.github.io/SolarMist/images/logo.png",
     "founders": [
       { "@type": "Person", "name": "Cormac Neville" },
@@ -41,66 +43,17 @@
   }
   </script>
 
-<!-- Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900;1000;1100;1200;1300&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- Main CSS -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<body>
-  <div class="sticky-cta-banner">
-    <a href="#get-involved" class="cta-button">Register Your Interest</a>
-  </div>
- 
- <div class="progress-container">
-      <div id="progressBar" class="progress-bar"></div>
-    </div>
 
-  <header class="site-header">
-    <div class="container header-content">
-   <div class="logo">
-  <a href="#top" class="logo-link">
-    <img src="images/logo.png" alt="SolarMist Logo" class="logo-img">
-    <span class="logo-hitbox"></span>
-  </a>
-</div>
- 
-      <!-- Mobile menu toggle -->
-      <button id="mobileToggle" class="mobile-nav-toggle" aria-label="Open Menu">
-        <span class="hamburger">
-    </span>
-      </button>
- 
-      <!-- Desktop nav -->
-      <nav class="site-nav">
-        <ul>
-          <li><a href="#about">Our Vision</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#survey-form">Survey</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ul>
-      </nav>
-    </div>
- 
-    <!-- Full-screen Mobile Menu -->
-    <nav class="mobile-nav-overlay" id="mobileMenu">
-      <div class="mobile-nav-bg"></div> <!-- This is the sliding background -->
-      <ul>
-        <li><a href="#about">Our Vision
-<span class="nav-arrow">&#8250;</span></a></li>
-        <li><a href="#how-it-works">How It Works
-<span class="nav-arrow">&#8250;</span></a></li>
-        <li><a href="#features">Features
-<span class="nav-arrow">&#8250;</span></a></li>
-        <li><a href="#survey-form">Survey
-<span class="nav-arrow">&#8250;</span></a></li>
-        <li><a href="#faq">FAQ
-<span class="nav-arrow">&#8250;</span></a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://solarmist.co.uk"> <!-- ✅ Prevents duplicate indexing -->
+</head>
+
  
   <main>
   <body id="top"></body>
