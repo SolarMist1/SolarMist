@@ -239,32 +239,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 
   nextBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const currentQuestion = questions[current];
-      const inputs = currentQuestion.querySelectorAll("input, textarea");
-      let isAnswered = false;
-      inputs.forEach(input => {
-        if ((input.type === "radio" || input.type === "checkbox") && input.checked) {
-          isAnswered = true;
-        }
-        if (input.tagName === "TEXTAREA" && input.value.trim() !== "") {
-          isAnswered = true;
-        }
-        if (input.type === "email" && input.value.trim() !== "") {
-          isAnswered = true;
-        }
-      });
-      if (!isAnswered) {
-        alert("Please select or enter an answer before continuing.");
-        return;
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const currentQuestion = questions[current];
+    const inputs = currentQuestion.querySelectorAll("input, textarea");
+    let isAnswered = false;
+
+    inputs.forEach(input => {
+      if ((input.type === "radio" || input.type === "checkbox") && input.checked) {
+        isAnswered = true;
       }
-      if (current < questions.length - 1) {
-        current++;
-        showQuestion(current);
+      if (input.tagName === "TEXTAREA" && input.value.trim() !== "") {
+        isAnswered = true;
+      }
+      if (input.type === "email" && input.value.trim() !== "") {
+        isAnswered = true;
       }
     });
+
+    // 👇 Skip validation for Q7 (optional comment)
+    const optionalIndexes = [6]; // Zero-based index of optional questions
+    if (!isAnswered && !optionalIndexes.includes(current)) {
+      alert("Please select or enter an answer before continuing.");
+      return;
+    }
+
+    if (current < questions.length - 1) {
+      current++;
+      showQuestion(current);
+    }
   });
+});
+
 
   backBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -319,18 +325,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!stickyBanner || !heroSection) return;
 
-  // Detect current page — adjust if your launch page isn't "/"
   const isHomePage = window.location.pathname === "/" || window.location.pathname === "/index.html";
   const isMobile = window.innerWidth <= 767;
+  const buffer = 100; // Buffer in pixels
 
   function handleStickyBanner() {
-    // Mobile: always show unless launch form or footer is visible
-    if (isMobile) {
-      const launchRect = launchSection?.getBoundingClientRect();
-      const footerRect = footer?.getBoundingClientRect();
-      const launchVisible = launchRect && launchRect.top < window.innerHeight && launchRect.bottom > 0;
-      const footerVisible = footerRect && footerRect.top < window.innerHeight && footerRect.bottom > 0;
+    const launchRect = launchSection?.getBoundingClientRect();
+    const footerRect = footer?.getBoundingClientRect();
 
+    const launchVisible = launchRect &&
+      launchRect.top < window.innerHeight + buffer &&
+      launchRect.bottom > -buffer;
+
+    const footerVisible = footerRect &&
+      footerRect.top < window.innerHeight + buffer &&
+      footerRect.bottom > -buffer;
+
+    if (isMobile) {
       if (launchVisible || footerVisible) {
         stickyBanner.classList.remove('visible');
       } else {
@@ -339,33 +350,27 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Desktop: show only if not on launch page, or scrolled past hero
     if (!isHomePage) {
       stickyBanner.classList.add('visible');
       return;
     }
 
-    const launchRect = launchSection?.getBoundingClientRect();
-    const footerRect = footer?.getBoundingClientRect();
-    const launchVisible = launchRect && launchRect.top < window.innerHeight && launchRect.bottom > 0;
-    const footerVisible = footerRect && footerRect.top < window.innerHeight && footerRect.bottom > 0;
-
     const heroBottom = heroSection.getBoundingClientRect().bottom + window.scrollY;
 
-    if ((window.scrollY > heroBottom - 80) && !launchVisible && !footerVisible) {
+    if ((window.scrollY > heroBottom - 80 - buffer) && !launchVisible && !footerVisible) {
       stickyBanner.classList.add('visible');
     } else {
       stickyBanner.classList.remove('visible');
     }
   }
 
-  // Run after short delay to avoid flash
   setTimeout(() => {
     handleStickyBanner();
     window.addEventListener('scroll', handleStickyBanner);
     window.addEventListener('resize', handleStickyBanner);
   }, 50);
 });
+
 
 // ----------------------------
 // 12. FAQ drop down

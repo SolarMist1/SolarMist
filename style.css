@@ -167,90 +167,41 @@ a:hover {
   height: 48px;
   display: flex;
   align-items: center;
-  padding: 0;
-  flex: 1 1 0%;
-  justify-content: flex-end;   /* Center nav horizontally in header */;
-  min-width: 0;
+  justify-content: flex-end;
+  flex: 1;
+  max-width: 60%; /* Adjust based on your layout */
   margin: 0;
 }
 
 .site-nav ul {
-   font-family: "Inter", sans-serif;
-   font-weight: 600;
-  font-size: 1.15rem;
-  color: #475467;
-  letter-spacing: 0.01rem;
-  -webkit-font-smoothing: antialiased; /* Smoother on Mac */
-  -moz-osx-font-smoothing: grayscale;  /* Smoother on Mac */
   display: flex;
-  flex-wrap: nowrap;
-  gap: 0.5rem;
-  list-style: none;
-  justify-content: flex-end; /* Align items to the right */
   align-items: center;
+  gap: clamp(1.2rem, 2.5vw, 2.6rem); /* Fluid gap */
+  list-style: none;
   margin: 0;
   padding: 0;
   height: 48px;
-  min-width: 0;
-  width: auto; /* Allow nav to shrink */
-  white-space: nowrap; /* Prevent wrapping */
-  margin-right: -5rem;
-  
+  white-space: nowrap;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.85rem, 1.3vw, 1.4rem); /* Fluid font size */
+  color: #475467;
+  margin-right: 3rem;
 }
 
+/* Optional: If you want the last item to push right */
 .site-nav ul li:last-child {
   margin-left: auto;
 }
 
 .site-nav a {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: 0.97rem;
-  height: 48px;
-  color: #535151;
-  text-decoration: none;
   display: flex;
-  transform: scale(1);
-  transition: transform 0.2s ease, font-weight 0.2s ease 0.02s;
-  will-change: transform;
   align-items: center;
-  white-space: nowrap; 
+  text-decoration: none;
+  color: #535151;
+  transition: transform 0.2s ease, font-weight 0.2s ease 0.02s;
+  padding: 0 0.5rem;
   margin-top: 12px;
-  gap: 0;
-}
-
-/* Ultra-smooth nav gap and font-size transitions */
-@media (max-width: 1200px) {
-  .site-nav ul { gap: 0.60rem !important; }
-  .site-nav a { font-size: 0.97rem; }
-}
-@media (max-width: 1150px) {
-  .site-nav ul { gap: 0.54rem !important; }
-  .site-nav a { font-size: 0.93rem; }
-}
-@media (max-width: 1100px) {
-  .site-nav ul { gap: 0.48rem !important; }
-  .site-nav a { font-size: 0.89rem; }
-}
-@media (max-width: 1050px) {
-  .site-nav ul { gap: 0.42rem !important; }
-  .site-nav a { font-size: 0.86rem; }
-}
-@media (max-width: 1000px) {
-  .site-nav ul { gap: 0.34rem !important; }
-  .site-nav a { font-size: 0.83rem; }
-}
-@media (max-width: 950px) {
-  .site-nav ul { gap: 0.22rem !important; }
-  .site-nav a { font-size: 0.8rem; }
-}
-@media (max-width: 925px) {
-  .site-nav ul { gap: 0.12rem !important; }
-  .site-nav a { font-size: 0.77rem; }
-}
-@media (max-width: 900px) {
-  .site-nav ul { gap: 0rem !important; }
-  .site-nav a { font-size: 0.75rem; }
 }
 
 .site-nav a:hover,
@@ -259,36 +210,34 @@ a:hover {
   transform: scale(1.1);
   font-weight: 700;
   color: var(--nav-text);
-  text-decoration: none;
   outline: none;
 }
 
-.site-nav a {
-  padding: 0 0.5rem;
-}
 
 /* ---------------------------
    Hamburger Toggle Button
 --------------------------- */
 .mobile-nav-toggle {
+  position: absolute;
+  top: calc(50% + 6px); /* Align vertically with logo */
+  right: 1.5rem;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: 0;
-  z-index: 10001;
-  position: absolute;
-  right: 0rem;
-  margin-right: -0.7rem;
-  margin-top: -3px; /* Align with logo */
-  transform: translateY(-50%);
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: calc(50% + 8px); /* Add the same offset as the logo's margin-top */
+  z-index: 10001;
+  transform: translateY(-50%);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
 }
+
 
 .mobile-nav-logo {
   width: 100%;
@@ -899,7 +848,7 @@ background: linear-gradient(
   font-size: 1rem;
   cursor: pointer;
   display: inline-block;
-  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-decoration: none;
 }
@@ -1681,39 +1630,153 @@ white-space: nowrap;
 }
 
 
+
+
+/*******************************
+  SECTION WRAPPER
+*******************************/
+.engage-section {
+  padding: 4rem 1.5rem;
+  background: var(--gray-bg);
+}
+
+.engage-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.engage-box {
+  flex: 1 1 480px;
+  background: #ffffff;
+  border-radius: 2rem;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.engage-box {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.engage-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+
+
+.join-box {
+  border: 2px solid var(--yellow);
+}
+
+.survey-box {
+  border: 2px solid var(--blue);
+  justify-content: flex-start;
+}
+
+/*******************************
+  TYPOGRAPHY + HEADINGS
+*******************************/
+.signup-heading {
+  font-size: 2rem;
+  font-weight: 750;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.signup-sub {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.survey-box .signup-sub {
+  margin-bottom: 1rem;
+}
+
+/*******************************
+  FORM STYLING
+*******************************/
+.floating-form,
 .survey-form {
-  max-width: 600px;
-  margin: 40px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-group {
+  position: relative;
+  width: 100%;
+}
+
+.floating-form input,
+.floating-form textarea {
+  width: 100%;
+  padding: 1.25rem 1rem 0.75rem;
+  font-size: 1rem;
+  background: #f9fbfc;
+  border: 1px solid #dce3ec;
+  border-radius: 9999px;
+  outline: none;
+  color: #1f1f1f;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.floating-form textarea {
+  min-height: 80px;
+  resize: vertical;
+  border-radius: 24px;
+}
+
+.floating-form label {
+  position: absolute;
+  left: 1.25rem;
+  top: 1.1rem;
+  font-size: 0.95rem;
+  color: #888;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.floating-form input:focus + label,
+.floating-form input:not(:placeholder-shown) + label,
+.floating-form textarea:focus + label,
+.floating-form textarea:not(:placeholder-shown) + label {
+  top: 0.15rem;
+  font-size: 0.75rem;
+  background: white;
+  padding: 0 6px;
+  left: 1rem;
+  color: #666;
+}
+
+
+
+/*******************************
+  SURVEY STYLING
+*******************************/
+.survey-form {
+  max-width: 100%;
+  margin-top: 0;
   font-family: "Inter", sans-serif;
   font-size: 18px;
-}
-
-.survey-header {
-  text-align: center;
-  margin: 60px auto 0;
-}
-
-.survey-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--blue);
-  background: linear-gradient(90deg, #ffce3d, #0052cc);
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 6px;
-}
-
-.survey-divider {
-  width: 80px;
-  height: 4px;
-  background: var(--yellow);
-  margin: 0 auto 8px;
-  border-radius: 999px;
 }
 
 .question {
   display: none;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   margin-bottom: 20px;
   opacity: 0;
   transform: translateY(10px);
@@ -1727,10 +1790,10 @@ white-space: nowrap;
 }
 
 .question p {
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 0;
-  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
+  line-height: 1.6;
 }
 
 .option {
@@ -1749,51 +1812,40 @@ white-space: nowrap;
   background-color: white;
   cursor: pointer;
   margin-right: 10px;
-  position: relative;
-  top: 2px;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .option input[type="radio"]:checked,
 .option input[type="checkbox"]:checked {
-  background-color: #ffc107;
-  border-color: #ffc107;
+  background-color: var(--yellow);
+  border-color: var(--yellow);
 }
 
 .option label:hover {
-  font-weight: bold;
-  background: #fff7d6;
-  box-shadow: 0 0 0 6px #fff7d6;
-  border-radius: 8px;
-  padding-left: 14px;
-  padding-right: 14px;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  background: #fffbe6; /* softer than #fff7d6 */
+  box-shadow: 0 0 0 4px #fffbe6;
+  border-radius: 999px;
+  padding: 6px 12px;
+  transition: all 0.4s ease;
 }
 
-label {
-  cursor: pointer;
-  font-weight: 400;
-  transition: font-weight 0.2s ease;
-}
 
-input[type="radio"]:checked + label {
-  font-weight: 700;
-}
-
+/*******************************
+  PROGRESS BAR
+*******************************/
 .progress-container {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 6px !important;
-  background: #e0e0e0 !important;
-  z-index: 20000 !important;
-  margin: -1.61rem !important;
-  padding: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 6px;
+  background: #e0e0e0;
+  z-index: 20000;
+  margin: -1.61rem;
+  padding: 0;
   pointer-events: none;
 }
-
-
 
 .progress-bar {
   height: 100%;
@@ -1803,6 +1855,9 @@ input[type="radio"]:checked + label {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+/*******************************
+  BUTTON GROUP + UTILITIES
+*******************************/
 .button-group {
   display: flex;
   justify-content: space-between;
@@ -1818,23 +1873,49 @@ input[type="radio"]:checked + label {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+  color: white;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.back-btn:hover,
+.next-btn:hover,
+[type="submit"]:hover {
+  background-color: #001e3b;
+  transform: scale(1.05);
 }
 
 .back-btn.hidden {
   visibility: hidden;
 }
 
-.back-btn,
-.next-btn,
-[type="submit"] {
-  color: white;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+.form-trust-note {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 1rem;
+  text-align: center;
 }
-.back-btn:hover,
-.next-btn:hover,
-[type="submit"]:hover {
-  background-color: #001e3b;
-  transform: scale(1.05);
+
+.survey-form textarea {
+  width: 100%;
+  padding: 1.25rem 1rem 0.75rem;
+  font-size: 1rem;
+  background: #f9fbfc;
+  border: 1px solid #dce3ec;
+  border-radius: 24px;
+  outline: none;
+  color: #1f1f1f;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+}
+
+
+
+@media (max-width: 768px) {
+  .engage-container {
+    flex-direction: column;
+  }
 }
 
 @keyframes fadeIn {
@@ -1847,204 +1928,6 @@ input[type="radio"]:checked + label {
     transform: translateY(0);
   }
 }
-
-
-/* =============================
-   Join the Pilot Section Styles — Fixed Floating Labels
-============================= */
-
-.pilot-partner-section {
-  background-color: var(--gray-bg);
-  text-align: center;
-  padding: 1rem 1.5rem;
-}
-
-.pilot-partner-section h2 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.pilot-partner-section p {
-  font-size: 1rem;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  color: #1f1f1f;
-  line-height: 1.5;
-}
-
-#mainSubmit {
-  transform: scale(0.95);
-  opacity: 0.8;
-  transition: all 0.4s ease;
-}
-
-#mainSubmit.animate-in {
-  transform: scale(1);
-  opacity: 1;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-
-.centered-section {
-  max-width: 480px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.cta-button {
-  background: linear-gradient(90deg, #05264e, #003d80);
-  color: #fff;
-  padding: 0.75rem 1.75rem;
-  border: none;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  display: inline-block;
-  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  text-decoration: none;
-}
-
-.cta-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(90deg, #001e3b, #003066);
-  color: #fff;
-  text-decoration: none;
-}
-
-/* ===== FORM CONTAINER ===== */
-.floating-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0rem; /* tighter spacing between fields */
-  max-width: 680px;
-  width: 100%;
-  margin-top: -2rem;
-  
-}
-
-/* ===== FORM GROUP WRAPPER ===== */
-.form-group {
-  position: relative;
-  width: 100%;
-  margin-bottom: -3rem;
-}
-
-/* ===== INPUT & TEXTAREA ===== */
-.floating-form input,
-.floating-form textarea {
-  width: 100%;
-  padding: 1.25rem 1rem 0.75rem;
-  font-size: 1rem;
-  background: #f9fbfc;
-  border: 1px solid #dce3ec;
-  border-radius: 9999px;
-  outline: none;
-  color: #1f1f1f;
-  transition: all 0.2s ease;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
-  font-family: inherit;
-  appearance: none;
-}
-
-.floating-form textarea {
-  min-height: 80px;
-  resize: vertical;
-  border-radius: 24px;
-}
-
-/* ===== FLOATING LABEL ===== */
-.floating-form label {
-  position: absolute;
-  left: 1.1rem;
-  top: 2.5rem;
-  font-size: 0.95rem;
-  color: #888;
-  background-color: transparent;
-  pointer-events: none;
-  transition: 0.2s ease all;
-}
-
-
-/* ===== FLOAT LABEL ON FOCUS OR CONTENT ===== */
-.floating-form input:focus + label,
-.floating-form input:not(:placeholder-shown) + label,
-.floating-form textarea:focus + label,
-.floating-form textarea:not(:placeholder-shown) + label {
-  top: 1.7rem;
-  font-size: 0.75rem;
-  color: #999;
-}
-
-/* ===== PREVENT UGLY BLUE BORDER ON FOCUS ===== */
-.floating-form input:focus,
-.floating-form textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.08);
-}
-
-/* ===== SUBMIT BUTTON ===== */
-.floating-form .cta-button {
-  margin-top: 1rem;
-  border-radius: 9999px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: var(--blue);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.floating-form .cta-button:hover {
-  background-color: var(--blue-dark);
-}
-
-/* === Enhanced Signup Section Styling === */
-.signup-section {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fb 100%);
-  padding: 2rem 2rem 1rem;
-  border-radius: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  max-width: 680px;
-  margin: 4rem auto;
-  text-align: center;
-}
-
-.signup-heading {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-}
-
-
-.signup-sub {
-  font-size: 1rem;
-  color: #444;
-  margin-bottom: 0.5rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.form-trust-note {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: 1rem;
-}
-
-.signup-section {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-}
-
-.signup-sub {
-  line-height: 1.6;
-}
-
 
 /* ================================
    FAQ SECTION  — RESPONSIVE LAYOUT
@@ -2286,12 +2169,7 @@ input[type="radio"]:checked + label {
   color: #000;
 }
 
-.survey-embed-wrapper {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  margin-top: 2rem;
-}
+
 
 .ripple {
   position: absolute;
