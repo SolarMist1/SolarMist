@@ -1539,22 +1539,29 @@ white-space: nowrap;
   }
 }
 
+
+/*******************************
+  FEATURES SECTION
+*******************************/
+
 .features-section {
   padding-top: 5rem;
-  padding-bottom: 5rem; /* Adjust as needed: 4rem = 64px */
+  padding-bottom: 5rem; 
 }
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Desktop: 4 columns */
-  gap: 2rem;
+  gap: 1rem;
   padding-top: 2rem;
+  justify-content: center;   /* 👈 Ensures rows are centered even if not full width */
 }
 
 .features-section h2 {
   font-family: "Inter", sans-serif;
   font-size: 2.25rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.1rem;
   text-align: left;
 }
 

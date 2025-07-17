@@ -175,33 +175,37 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 }
 
   // ----------------------------
-  // 7. Privacy Popup
-  // ----------------------------
-  const privacyLink = document.querySelector(".privacy-link");
-  const popupWrapper = document.querySelector(".privacy-popup-wrapper");
-  const closePrivacyBtn = document.querySelector(".close-btn");
-  let hoverTimer;
-  function showPopup() {
-    popupWrapper.style.display = "flex";
+// 7. Privacy Popup (Click Only)
+// ----------------------------
+const privacyLink = document.querySelector(".privacy-link");
+const popupWrapper = document.querySelector(".privacy-popup-wrapper");
+const closePrivacyBtn = document.querySelector(".close-btn");
+
+function showPopup() {
+  popupWrapper.style.display = "flex";
+}
+
+function hidePopup() {
+  popupWrapper.style.display = "none";
+}
+
+if (privacyLink && popupWrapper) {
+  privacyLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    showPopup();
+  });
+
+  if (closePrivacyBtn) {
+    closePrivacyBtn.addEventListener("click", hidePopup);
   }
-  function hidePopup() {
-    popupWrapper.style.display = "none";
-  }
-  if (privacyLink && popupWrapper) {
-    privacyLink.addEventListener("mouseenter", () => {
-      hoverTimer = setTimeout(showPopup, 500);
-    });
-    privacyLink.addEventListener("mouseleave", () => {
-      clearTimeout(hoverTimer);
-    });
-    popupWrapper.addEventListener("mouseenter", () => clearTimeout(hoverTimer));
-    popupWrapper.addEventListener("mouseleave", hidePopup);
-    privacyLink.addEventListener("click", e => {
-      e.preventDefault();
-      showPopup();
-    });
-    if (closePrivacyBtn) closePrivacyBtn.addEventListener("click", hidePopup);
-  }
+
+  // Optional: hide popup when clicking outside the popup box
+  popupWrapper.addEventListener("click", (e) => {
+    if (e.target === popupWrapper) {
+      hidePopup();
+    }
+  });
+}
 
   // ----------------------------
   // 8. Survey Logic
