@@ -1,63 +1,102 @@
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO Meta Tags -->
   <title>SolarMist | Touch-Free Sunscreen Booths</title>
-  <meta name="description" content="SolarMist is Europe's first touch-free sunscreen misting booth, delivering fast, eco-friendly SPF coverage in public spaces. Register interest now.">
-  <meta name="keywords" content="SolarMist, sunscreen booth, hands-free SPF, public sunscreen solution, SPF misting, UK startup, eco sunscreen, touch-free sun protection">
-  <meta name="robots" content="index, follow"> <!-- ✅ Encourages indexing -->
+  <meta name="description" content="SolarMist is Europe's first touch-free sunscreen misting booth, delivering fast, eco-friendly SPF coverage in public spaces. Register interest now." />
+  <meta name="keywords" content="SolarMist, sunscreen booth, hands-free SPF, public sunscreen solution, SPF misting, UK startup, eco sunscreen, touch-free sun protection" />
+  <meta name="robots" content="index, follow" />
 
   <!-- Open Graph / Social Preview -->
   <meta property="og:title" content="SolarMist | Touch-Free Sun Protection" />
   <meta property="og:description" content="A UK-first touch-free sunscreen misting booth. Help launch our public SPF solution." />
-  <meta property="og:image" content="https://solarmist1.github.io/SolarMist/images/solarmist-preview.jpg" />
+  <meta property="og:image" content="https://solarmist.co.uk/images/solarmist-preview.jpg" />
   <meta property="og:url" content="https://solarmist.co.uk" />
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SolarMist | Touch-Free Sun Protection">
-  <meta name="twitter:description" content="Launching the UK's first touch-free sunscreen booth – pilot locations coming soon.">
-  <meta name="twitter:image" content="https://solarmist1.github.io/SolarMist/images/solarmist-preview.jpg">
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SolarMist | Touch-Free Sun Protection" />
+  <meta name="twitter:description" content="Launching the UK's first touch-free sunscreen booth – pilot locations coming soon." />
+  <meta name="twitter:image" content="https://solarmist.co.uk/images/solarmist-preview.jpg" />
 
   <!-- Favicon and App Icons -->
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-  <link rel="manifest" href="images/site.webmanifest">
-  <meta name="theme-color" content="#ffffff">
+<!-- Favicon & App Icons -->
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="SolarMist" />
+<link rel="manifest" href="/images/site.webmanifest" />
 
   <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "SolarMist",
-    "url": "https://solarmist.co.uk",
-    "logo": "https://solarmist1.github.io/SolarMist/images/logo.png",
-    "founders": [
-      { "@type": "Person", "name": "Cormac Neville" },
-      { "@type": "Person", "name": "Dr Hannah Sharpe" }
-    ],
-    "sameAs": ["https://www.linkedin.com/company/solarmist"]
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SolarMist",
+      "url": "https://solarmist.co.uk",
+      "logo": "https://solarmist.co.uk/images/logo.png",
+      "founders": [
+        { "@type": "Person", "name": "Cormac Neville" },
+        { "@type": "Person", "name": "Dr Hannah Sharpe" }
+      ],
+      "sameAs": ["https://www.linkedin.com/company/solarmist"]
+    }
   </script>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900;1000;1100;1200;1300&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://solarmist.co.uk"> <!-- ✅ Prevents duplicate indexing -->
+  <link rel="canonical" href="https://solarmist.co.uk" />
+</head>
 
-   <!-- Main CSS -->
-  <link rel="stylesheet" href="style.css">
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
- 
+<header class="site-header">
+  <div class="container header-content">
+    <div class="logo">
+      <a href="#top" class="logo-link">
+        <img src="images/logo.png" alt="Touch-free sunscreen misting booth concept render" class="logo-img" />
+        <span class="logo-hitbox"></span>
+      </a>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button id="mobileToggle" class="mobile-nav-toggle" aria-label="Open Menu">
+      <span class="hamburger"></span>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="site-nav">
+      <ul>
+        <li><a href="#about">Our Vision</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#get-involved">Survey</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Mobile Navigation Overlay -->
+  <nav class="mobile-nav-overlay" id="mobileMenu">
+    <div class="mobile-nav-bg"></div>
+    <ul>
+      <li><a href="#about">Our Vision <span class="nav-arrow">&#8250;</span></a></li>
+      <li><a href="#how-it-works">How It Works <span class="nav-arrow">&#8250;</span></a></li>
+      <li><a href="#features">Features <span class="nav-arrow">&#8250;</span></a></li>
+      <li><a href="#faq">FAQ <span class="nav-arrow">&#8250;</span></a></li>
+      <li><a href="#get-involved">Survey <span class="nav-arrow">&#8250;</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+
 <body>
   <div class="sticky-cta-banner">
     <a href="#get-involved" class="cta-button">Register Your Interest</a>
@@ -67,51 +106,6 @@
       <div id="progressBar" class="progress-bar"></div>
     </div>
 
-  <header class="site-header">
-    <div class="container header-content">
-   <div class="logo">
-  <a href="#top" class="logo-link">
-    <img src="images/logo.png" alt="Touch-free sunscreen misting booth concept render" class="logo-img">
-    <span class="logo-hitbox"></span>
-  </a>
-</div>
- 
-      <!-- Mobile menu toggle -->
-      <button id="mobileToggle" class="mobile-nav-toggle" aria-label="Open Menu">
-        <span class="hamburger">
-    </span>
-      </button>
- 
-      <!-- Desktop nav -->
-<nav class="site-nav">
-  <ul>
-    <li><a href="#about">Our Vision</a></li>
-    <li><a href="#how-it-works">How It Works</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#get-involved">Survey</a></li>
-  </ul>
-</nav>
-
- 
-<!-- Full-screen Mobile Menu -->
-<nav class="mobile-nav-overlay" id="mobileMenu">
-  <div class="mobile-nav-bg"></div> <!-- This is the sliding background -->
-  <ul>
-    <li><a href="#about">Our Vision <span class="nav-arrow">&#8250;</span></a></li>
-    <li><a href="#how-it-works">How It Works <span class="nav-arrow">&#8250;</span></a></li>
-    <li><a href="#features">Features <span class="nav-arrow">&#8250;</span></a></li>
-    <li><a href="#faq">FAQ <span class="nav-arrow">&#8250;</span></a></li>
-    <li><a href="#get-involved">Survey <span class="nav-arrow">&#8250;</span></a></li>
-  </ul>
-</nav>
-
-
-</header>
-
- 
-  <main>
-  <body id="top"></body>
     <section class="hero">
       <div class="hero-grid">
         <div class="hero-left">
@@ -228,7 +222,7 @@ This is sun safety reimagined and it starts this summer.</p></div>
           <img src="images/stopwatch.png" alt="Full-body coverage icon">
         </figure>
         <div class="feature-content">
-          <h3>Full Coverage in 10s</h3>
+          <h3>Full Coverage in 10</h3>
           <p>Faster and more consistent than manual application.</p>
         </div>
       </div>
@@ -510,9 +504,7 @@ This is sun safety reimagined and it starts this summer.</p></div>
 
   </div>
 </section>
-
-
-  </main>
+</body>
 
 <footer class="site-footer">
   <div class="footer-container">
