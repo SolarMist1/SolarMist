@@ -436,3 +436,21 @@ window.addEventListener("scroll", function () {
       }
     });
   })();
+
+    (function () {
+    const shareBtn = document.getElementById('shareBtn');
+    const shareData = {
+      title: 'SolarMist',
+      text: 'I just joined SolarMist — touch-free sunscreen booths. Join the launch list:',
+      url: 'https://solarmist.co.uk/?ref=thankyou'
+    };
+
+    shareBtn?.addEventListener('click', async () => {
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch(e) {}
+      } else {
+        document.querySelector('.share-links')?.classList.add('open');
+        shareBtn.textContent = 'Choose a share option ↓';
+      }
+    });
+  })();

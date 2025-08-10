@@ -2,40 +2,167 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Thank You | SolarMist</title>
 
-  <!-- Match site branding -->
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
   <meta name="theme-color" content="#ffffff" />
-</head>
+  <meta name="robots" content="noindex,follow" />
 
+  <!-- Social previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://solarmist.co.uk/thanks.html" />
+  <meta property="og:title" content="I just joined SolarMist — touch-free sunscreen booths" />
+  <meta property="og:description" content="Join the launch list and help bring touch-free SPF to beaches and parks." />
+  <meta property="og:image" content="https://solarmist.co.uk/images/preview-v5.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="I just joined SolarMist — touch-free sunscreen booths" />
+  <meta name="twitter:description" content="Join the launch list and help bring touch-free SPF to beaches and parks." />
+  <meta name="twitter:image" content="https://solarmist.co.uk/images/preview-v5.jpg" />
+
+  <style>
+    html, body { height: 100%; }
+    body { min-height: 100%; display: flex; flex-direction: column; }
+    main { flex: 1; }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+    .thankyou-wrap { min-height: 60vh; display: grid; place-items: center; padding: 6rem 1rem 2.5rem; }
+
+    .ty-card {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 22px;
+      padding: 3.2rem 2.2rem;
+      box-shadow: 0 8px 28px rgba(0,0,0,.06);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(12px) scale(.995);
+      animation: card-in .45s ease-out .05s forwards;
+    }
+
+    .ty-icon {
+      width: 72px; height: 72px; margin: 0 auto 1rem;
+      display: grid; place-items: center; border-radius: 999px;
+      background: #eaf7ff; box-shadow: inset 0 0 0 1px rgba(0,0,0,.04);
+      transform: scale(.92); opacity: 0; animation: icon-in .5s .15s both ease-out;
+    }
+    .ty-check { stroke-dasharray: 48; stroke-dashoffset: 48; animation: draw .6s .3s forwards ease-out; }
+
+    .ty-title { font-size: clamp(2rem, 2.2vw, 2.6rem); margin: .25rem 0 .5rem; color:#0b1324; }
+    .ty-text  { color: #485266; max-width: 560px; margin: 0 auto 1.1rem; line-height: 1.62; }
+
+    .action-group { margin-top: .9rem; }
+    .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .cta-button { padding: 12px 18px; border-radius: 999px; font-weight: 700; display:inline-flex; align-items:center; gap:8px; border:0; cursor:pointer; }
+    .btn-primary   { background:#0b3a6f; color:#fff; box-shadow: 0 6px 14px rgba(11,58,111,.22); }
+    .btn-secondary { background:#f3f4f6; color:#0b3a6f; }
+
+    .share-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top: 1.05rem; }
+    .share-chip {
+      font-size:.95rem; padding:8px 12px; border-radius:999px;
+      background:#f8fafc; border:1px solid rgba(0,0,0,.06); text-decoration:none; color:#0b3a6f;
+    }
+    .share-chip:focus-visible, .cta-button:focus-visible { outline: 2px solid #0b3a6f; outline-offset: 2px; }
+
+    .copy-note {
+      font-size:.9rem; color:#065f46; background:#ecfdf5; border:1px solid #a7f3d0;
+      padding:8px 12px; border-radius:10px; display:none; margin:.7rem auto 0; width:fit-content;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .ty-icon, .ty-check, .ty-card { animation: none !important; transform:none !important; opacity:1 !important; }
+    }
+    @keyframes card-in { to { opacity:1; transform: translateY(0) scale(1);} }
+    @keyframes icon-in { from{transform:scale(.92);opacity:0} to{transform:scale(1);opacity:1} }
+    @keyframes draw    { to{ stroke-dashoffset:0 } }
+
+    .site-footer .footer-bottom { text-align:center; padding:2rem 1rem; color:#6b7280; font-size:.95rem; }
+  </style>
+</head>
 <body>
   <header class="site-header">
     <div class="container header-content">
-      <div class="logo">
-        <a href="index.html" class="logo-link">
-          <img src="images/logo.png" alt="SolarMist logo" class="logo-img" />
-        </a>
-      </div>
+      <a href="index.html" class="logo-link"><img src="images/logo.png" alt="SolarMist" class="logo-img" style="height:36px"></a>
     </div>
   </header>
 
-  <main class="thank-you-page" style="text-align:center; padding:5rem 2rem;">
-    <img src="images/logo.png" alt="SolarMist Logo" style="max-width:120px; margin-bottom:2rem;">
-    <h1 style="font-size:2.5rem; margin-bottom:1rem;">Thank You!</h1>
-    <p style="max-width:600px; margin:0 auto; font-size:1.2rem;">
-      Your submission has been received.  
-      We’ll be in touch soon with updates about SolarMist’s launch.
-    </p>
-    <a href="index.html" class="cta-button" style="margin-top:2rem; display:inline-block;">← Back to Home</a>
+  <main class="thankyou-wrap">
+    <section class="ty-card container" aria-labelledby="ty-title">
+      <div class="ty-icon" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path class="ty-check" d="M20 7L9 18l-5-5" stroke="#0b3a6f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <h1 id="ty-title" class="ty-title">Thank you!</h1>
+      <p class="ty-text">Your submission has been received. We’ll be in touch soon with updates about SolarMist’s launch.</p>
+
+      <div class="action-group">
+        <div class="actions">
+          <a href="index.html" class="cta-button btn-secondary" aria-label="Back to Home">← Back to Home</a>
+          <button id="shareBtn" class="cta-button btn-primary" type="button">Share SolarMist</button>
+        </div>
+
+        <div class="share-row" aria-label="Share alternatives">
+          <a class="share-chip" target="_blank" rel="noopener"
+             href="https://twitter.com/intent/tweet?text=I%20just%20joined%20SolarMist%E2%80%94touch-free%20sunscreen%20booths.%20Join%20the%20launch%20list!&url=https%3A%2F%2Fsolarmist.co.uk%2F%3Fref%3Dthankyou">X / Twitter</a>
+          <a class="share-chip" target="_blank" rel="noopener"
+             href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsolarmist.co.uk%2F%3Fref%3Dthankyou">LinkedIn</a>
+          <a class="share-chip" target="_blank" rel="noopener"
+             href="https://wa.me/?text=I%20just%20joined%20SolarMist%E2%80%94touch-free%20sunscreen%20booths.%20Join%20the%20launch%20list!%20https%3A%2F%2Fsolarmist.co.uk%2F%3Fref%3Dthankyou">WhatsApp</a>
+          <a class="share-chip" target="_blank" rel="noopener"
+             href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsolarmist.co.uk%2F%3Fref%3Dthankyou">Facebook</a>
+          <button id="copyLink" class="share-chip" type="button">Copy link</button>
+          <a class="share-chip"
+             href="mailto:?subject=SolarMist%20is%20coming!&body=I%20just%20joined%20SolarMist%E2%80%99s%20launch%20list%20%E2%80%94%20touch-free%20sunscreen%20booths%20for%20beaches%20and%20parks.%0AJoin%20here:%20https://solarmist.co.uk/?ref=thankyou">Email</a>
+        </div>
+
+        <div id="copyNote" class="copy-note" role="status" aria-live="polite">
+          Link copied — thanks for spreading the word!
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="footer-bottom" style="text-align:center; padding:2rem;">
-      <p>© 2025 SolarMist. All rights reserved.</p>
-    </div>
+    <div class="footer-bottom"><p>© 2025 SolarMist. All rights reserved.</p></div>
   </footer>
+
+  <script>
+    const shareUrl = 'https://solarmist.co.uk/?ref=thankyou';
+    const shareData = {
+      title: 'SolarMist — touch-free sunscreen booths',
+      text: 'I just joined SolarMist’s launch list. Touch-free SPF for beaches and parks.',
+      url: shareUrl
+    };
+    const shareBtn = document.getElementById('shareBtn');
+    const copyBtn  = document.getElementById('copyLink');
+    const copyNote = document.getElementById('copyNote');
+
+    shareBtn?.addEventListener('click', async () => {
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch {}
+      } else {
+        copyLink();
+      }
+    });
+
+    copyBtn?.addEventListener('click', copyLink);
+
+    async function copyLink(){
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        copyNote.style.display = 'inline-block';
+        setTimeout(() => copyNote.style.display = 'none', 2200);
+      } catch {
+        prompt('Copy this link:', shareUrl);
+      }
+    }
+  </script>
 </body>
 </html>

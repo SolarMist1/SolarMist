@@ -244,7 +244,6 @@ a:hover {
   transform: translateY(-50%);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
 }
 
 
@@ -2024,3 +2023,29 @@ white-space: nowrap;
     opacity: 0;
   }
 }
+
+
+.share-block { text-align:center; margin: 2.5rem auto 0; max-width: 680px; }
+.share-heading { font-size: 1.25rem; margin-bottom: .75rem; }
+
+.share-primary { margin-bottom: .75rem; }
+
+.share-links {
+  display: none;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.share-links.open { display: flex; }
+
+.share-link {
+  display: inline-block;
+  padding: .55rem .9rem;
+  border-radius: 999px;
+  border: 1px solid #d7dee8;
+  background: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  color: #082447;
+}
+.share-link:hover { background:#f5f8fd; }
