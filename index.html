@@ -8,11 +8,12 @@
   <meta name="keywords" content="SolarMist, sunscreen booth, hands-free SPF, public sunscreen solution, SPF misting, UK startup, eco sunscreen, touch-free sun protection" />
   <meta name="robots" content="index, follow" />
 
+
 <!-- Open Graph / Facebook / LinkedIn / iMessage -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://solarmist.co.uk/" />
 <meta property="og:title" content="SolarMist | Touch-Free Sun Protection" />
-<meta property="og:description" content="A UK-first touch-free sunscreen misting booth. Help launch our public SPF solution." />
+<meta property="og:description" content="Europe's first touch-free sunscreen misting booth. Help launch our public SPF solution." />
 <meta property="og:image" content="https://solarmist.co.uk/images/preview-v5.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -21,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content="https://solarmist.co.uk/" />
 <meta name="twitter:title" content="SolarMist | Touch-Free Sun Protection" />
-<meta name="twitter:description" content="Launching the UK's first touch-free sunscreen booth pilot locations coming soon." />
+<meta name="twitter:description" content="Launching Europe's first touch-free sunscreen booth pilot locations coming soon." />
 <meta name="twitter:image" content="https://solarmist.co.uk/images/preview-v5.jpg" />
 
 
@@ -69,6 +70,8 @@
 </head>
 
 
+
+
 <header class="site-header">
   <div class="container header-content">
     <div class="logo">
@@ -110,81 +113,110 @@
 
 
 <body>
-  <div class="sticky-cta-banner">
-    <a href="#get-involved" class="cta-button">Register Your Interest</a>
-  </div>
- 
- <div class="progress-container">
-      <div id="progressBar" class="progress-bar"></div>
-    </div>
+<div class="sticky-cta-banner">
+  <a href="#get-involved" class="cta-button">Register Your Interest</a>
+</div>
 
-    <section class="hero">
-      <div class="hero-grid">
-        <div class="hero-left">
-          <h1 class="hero-title"> <span class="desktop-only">
-<span>Hands-Free</span><br>
-<span>Sunscreen</span><br>
-<span>Misting</span><br>
-<span>Booth</span></h1>
-<span class="mobile-only">Hands-free sunscreen misting booth</span>
-          </h1>
-<p class="hero-subtitle desktop-only">No greasy hands. No missed spots. A full-body SPF mist in 10 seconds. Designed for beaches, parks, and resorts - choose between 50 or 30 SPF.</p>
- 
-         <form class="inline-email-form" action="#get-involved">
-  <div class="input-wrapper">
-    <input type="email" name="email" required placeholder=" " />
-    <label>Email address</label>
-  </div>
-  <button type="submit">
-    Register Interest <span class="arrow">→</span>
-  </button>
-</form>
+<div class="progress-container">
+  <div id="progressBar" class="progress-bar"></div>
+</div>
 
-        </div>
- 
-        <div class="hero-right">
-         <img src="images/model.png" alt="White sunscreen misting booth render by SolarMist for UK public spaces" class="render-img" />
-          <div id="countdown-timer">Launching in 30 days</div>
-        </div>
-      </div>
-    </section>
- 
- <section id="about" class="about-section" data-animate>
-  <div class="container">
-<h2>Our Vision</h2>
-<div class="about-top">  
-<p>We're building SolarMist to make SPF effortless.
-Our touch-free misting booths deliver fast, full-body sunscreen coverage, without the mess and hassel of traditional suncream.
-Think showers of SPF at beaches, festivals, and resorts worldwide.<br>
-This is sun safety reimagined and it starts this summer.</p></div>
-    <div class="founders" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
-      <div class="founder-card" style="flex: 1; min-width: 280px;">
-    <div class="image-wrapper">
-    <img src="images/cormac.png" alt="Cormac Neville - Finance Lead at SolarMist" class="profile-img cormac-img" />
+<section id="top" class="hero" data-animate>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="text-panel">
+        <h1 class="hero-title">HANDS-FREE SUNSCREEN.<br>MISTING BOOTH</h1>
+        <p class="hero-subtitle">
+          No greasy hands. No missed spots. A full-body SPF mist in 10 seconds.
+          Designed for beaches, parks, and resorts — choose between 50 or 30 SPF.
+        </p>
+
+        <!-- Email Registration Form -->
+        <form id="heroForm"
+      class="inline-email-form"
+      action="https://formspree.io/f/xwpqawqo"
+      method="POST"
+      novalidate>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email address"
+              required
+              autocomplete="email">
+            <label for="email">Email address</label>
+          </div>
+
+          <button type="submit">Register Interest →</button>
+
+          <!-- Redirect to your custom thank-you page -->
+          <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks.html">
+
+          <!-- Email subject line -->
+          <input type="hidden" name="_subject" value="New SolarMist registration">
+
+          <!-- Honeypot field to prevent spam -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
+        </form>
+      </div>
     </div>
-    <div class="founder-role-wrapper">
-<h3 class="founder-name">Cormac Neville</h3></div>
-<p class="founder-role">Co-Founder - Commerical Strategy</p>
-        <div class="quote-with-bar">
-<p>“I’ve seen the same issue at every beach, pool and festival — no one wants to stop and reapply sunscreen. We built SolarMist to make sun protection effortless.”</p>
-</div>
-</div>
 
-      <div class="founder-card" style="flex: 1; min-width: 280px;">
-    <div class="image-wrapper">
-   <img src="images/hannah.png" alt="Dr Hannah Sharpe - Clinical Lead at SolarMist" class="profile-img hannah-img" />
-    </div> <h3 class="founder-name">Dr Hannah Sharpe</h3>
-<p class="founder-role">Co-Founder - Clinical Safety</p>
-        <div class="quote-with-bar"> 
-<p>“As a doctor, I’ve seen firsthand how easily people underestimate UV damage. SolarMist turns protection into a habit — simple, fast, even fun.”</p>
-</div>
-      </div>
-    </div>
-  </div>
+    <div class="hero-image">
+      <img src="../images/modelv5.png" alt="SolarMist Booth">
+    </div>
+  </div>
+
+  <!-- Navy grounding bar -->
+  <div class="hero-divider">
+    Providing Protection from Harmful UV Rays
+  </div>
 </section>
 
- 
-    <section id="how-it-works" class="how-it-works-section" data-animate>
+
+
+
+
+<section id="about" class="about-section" data-animate>
+  <div class="container">
+    <h2>Our Vision</h2>
+    <div class="about-top">
+      <p>
+        We're building SolarMist to make SPF effortless.
+        Our touch-free misting booths deliver fast, full-body sunscreen coverage, without the mess and hassel of traditional suncream.
+        Think showers of SPF at beaches, festivals, and resorts worldwide.<br>
+        This is sun safety reimagined and it starts this summer.
+      </p>
+    </div>
+    <div class="founders" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+      <div class="founder-card" style="flex: 1; min-width: 280px;">
+        <div class="image-wrapper">
+          <img src="images/cormac.png" alt="Cormac Neville - Finance Lead at SolarMist" class="profile-img cormac-img" />
+        </div>
+        <div class="founder-role-wrapper">
+          <h3 class="founder-name">Cormac Neville</h3>
+        </div>
+        <p class="founder-role">Co-Founder - Commerical Strategy</p>
+        <div class="quote-with-bar">
+          <p>“I’ve seen the same issue at every beach, pool and festival — no one wants to stop and reapply sunscreen. We built SolarMist to make sun protection effortless.”</p>
+        </div>
+      </div>
+
+      <div class="founder-card" style="flex: 1; min-width: 280px;">
+        <div class="image-wrapper">
+          <img src="images/hannah.png" alt="Dr Hannah Sharpe - Clinical Lead at SolarMist" class="profile-img hannah-img" />
+        </div>
+        <h3 class="founder-name">Dr Hannah Sharpe</h3>
+        <p class="founder-role">Co-Founder - Clinical Safety</p>
+        <div class="quote-with-bar">
+          <p>“As a doctor, I’ve seen firsthand how easily people underestimate UV damage. SolarMist turns protection into a habit — simple, fast, even fun.”</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="how-it-works-section" data-animate>
       <div class="container">
         <h2 class="hiw-heading">Mist. Rotate. Done.</h2>
    <div class="hiw-wrapper">
@@ -555,9 +587,6 @@ This is sun safety reimagined and it starts this summer.</p></div>
   <a href="https://www.instagram.com/solarmistco?igsh=MXFkeDVpMDNrcndjdA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
   <a href="https://www.linkedin.com/company/solarmist" target="_blank" rel="noopener">LinkedIn</a>
 </div>
-
-
-
   </div>
 
   <div class="footer-bottom">
@@ -565,8 +594,8 @@ This is sun safety reimagined and it starts this summer.</p></div>
   </div>
 </footer>
 
- 
-  <script src="script.js"></script>
+
+ <script src="script.js"></script>
 </body>
- 
+
 </html>

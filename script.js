@@ -398,7 +398,41 @@ document.querySelectorAll('.faq-question').forEach(button => {
 });
 
 
+  document.addEventListener("DOMContentLoaded", function () {
+  const header = document.querySelector(".site-header");
+  header.classList.add("scrolled"); // transparent on load
+});
+
+window.addEventListener("scroll", function () {
+  const header = document.querySelector(".site-header");
+  header.classList.add("scrolled"); // stays transparent on scroll
+});
 
 
 
+  (function () {
+    const form = document.getElementById('heroForm');
+    const THANKS_URL = '/thanks.html'; // make sure thanks.html is in your site root
 
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+
+        if (res.ok) {
+          window.location.href = THANKS_URL;    // client-side redirect
+        } else {
+          // fallback: still go to our thanks (or show a small error)
+          window.location.href = THANKS_URL;
+        }
+      } catch (err) {
+        // network error fallback
+        window.location.href = THANKS_URL;
+      }
+    });
+  })();
