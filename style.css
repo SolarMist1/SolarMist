@@ -834,6 +834,38 @@ body.nav-open {
   }
 }
 
+/* ===== Mobile fixes ===== */
+:root{
+  /* match this to your actual fixed-header height on mobile */
+  --nav-h: 64px; /* try 70–76px if your header is taller */
+}
+
+@media (max-width: 900px){
+  /* 1) Start hero below the fixed header (safe-area aware) */
+  .hero{
+    /* base fallback */
+    padding-top: calc(var(--nav-h) + 12px);
+    /* iOS notch padding (overrides when supported) */
+    padding-top: calc(var(--nav-h) + 12px + env(safe-area-inset-top));
+  }
+
+  /* 2) When stacked, remove the inline email pill */
+  .inline-email-form{ display: none; }
+
+  /* tighten spacing now that the pill is gone */
+  .hero-subtitle{ margin-bottom: .6rem; }
+}
+
+/* Old iOS fallback (rare, but harmless) */
+@supports(padding-top: constant(safe-area-inset-top)){
+  @media (max-width: 900px){
+    .hero{
+      padding-top: calc(var(--nav-h) + 12px + constant(safe-area-inset-top));
+    }
+  }
+}
+
+
 .about-section,
 .features-section,
 .how-it-works-section,

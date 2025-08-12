@@ -137,28 +137,30 @@
       action="https://formspree.io/f/xwpqawqo"
       method="POST"
       novalidate>
-          <div class="input-wrapper">
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email address"
-              required
-              autocomplete="email">
-            <label for="email">Email address</label>
-          </div>
+  <div class="input-wrapper">
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="Email address"
+      aria-label="Email address"
+      required
+      autocomplete="email">
+  </div>
 
-          <button type="submit">Register Interest →</button>
+  <button type="submit">Register Interest →</button>
 
-          <!-- Redirect to your custom thank-you page -->
-          <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks.html">
+  <!-- Redirect to your custom thank-you page -->
+  <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks">
 
-          <!-- Email subject line -->
-          <input type="hidden" name="_subject" value="New SolarMist registration">
+  <!-- Email subject line -->
+  <input type="hidden" name="_subject" value="New SolarMist registration">
 
-          <!-- Honeypot field to prevent spam -->
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
-        </form>
+  <!-- Honeypot field to prevent spam -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+         style="position:absolute;left:-9999px" aria-hidden="true">
+</form>
+
       </div>
     </div>
 
@@ -406,24 +408,34 @@
       <h2 class="signup-heading">Join the SolarMist Launch</h2>
       <p class="signup-sub">Be among the first to try our touch-free SPF misting booth. Resorts, parks, councils — or just curious? Let us know below.</p>
 
-      <form action="https://formspree.io/f/your-form-id" method="POST" class="floating-form">
-        <div class="form-group">
-          <input type="text" name="name" id="name" placeholder=" " required />
-          <label for="name">Name</label>
-        </div>
+<form id="launchForm"
+      action="https://formspree.io/f/xwpqawqo"
+      method="POST"
+      class="floating-form">
 
-        <div class="form-group">
-          <input type="email" name="email" id="email" required placeholder=" " />
-          <label for="email">Email address</label>
-        </div>
+  <input type="hidden" name="form_source" value="Launch Signup (footer)">
+  <input type="hidden" name="_subject" value="SolarMist — New Launch Signup">
+  <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks">
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
 
-        <div class="form-group">
-          <textarea name="message" id="message" placeholder=" "></textarea>
-          <label for="message">Optional message</label>
-        </div>
+  <div class="form-group">
+    <input type="text" name="name" id="launch-name" placeholder=" " required autocomplete="name" />
+    <label for="launch-name">Name</label>
+  </div>
 
-        <button type="submit" class="cta-button">Join the launch</button>
-      </form>
+  <div class="form-group">
+    <input type="email" name="email" id="launch-email" required placeholder=" " autocomplete="email" inputmode="email" />
+    <label for="launch-email">Email address</label>
+  </div>
+
+  <div class="form-group">
+    <textarea name="message" id="launch-message" placeholder=" "></textarea>
+    <label for="launch-message">Optional message</label>
+  </div>
+
+  <button type="submit" class="cta-button">Join the launch</button>
+</form>
+
 
       <p class="form-trust-note">No spam. We’ll only contact you about SolarMist’s launch.</p>
     </div>
@@ -434,7 +446,12 @@
       <p class="signup-sub">Answer a few quick questions to help shape SolarMist’s launch. Your feedback matters.</p>
 
       <form id="surveyForm" class="survey-form" action="https://formspree.io/f/xwpbwepj" method="POST">
-        <input type="hidden" name="utm_source" value="website">
+  <!-- tagging + redirect + honeypot -->
+  <input type="hidden" name="utm_source" value="website">
+  <input type="hidden" name="form_source" value="Survey (get-involved)">
+  <input type="hidden" name="_subject" value="SolarMist — New Survey Response">
+  <input type="hidden" name="_redirect" value="/thanks"> <!-- or /thanks.html -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
 
         <!-- Q1 -->
         <div class="question active">
@@ -495,7 +512,7 @@
           <div class="option"><label><input type="checkbox" name="q5[]" value="Beaches"> Beaches</label></div>
           <div class="option"><label><input type="checkbox" name="q5[]" value="Theme parks"> Theme parks</label></div>
           <div class="option"><label><input type="checkbox" name="q5[]" value="Festivals"> Festivals</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Outdoor races"> Outdoor races</label></div>
+          <div class="option"><label><input type="checkbox" name="q5[]" value="Sports events"> Sports events</label></div>
           <div class="option"><label><input type="checkbox" name="q5[]" value="Holiday villages"> Holiday villages</label></div>
           <div class="option"><label><input type="checkbox" name="q5[]" value="All of the above"> All of the above</label></div>
           <div class="button-group">

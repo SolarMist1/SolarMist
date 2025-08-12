@@ -22,6 +22,9 @@
   <meta name="twitter:image" content="https://solarmist.co.uk/images/preview-v5.jpg" />
 
   <style>
+    /* sanity */
+    *, *::before, *::after { box-sizing: border-box; }
+
     /* Layout + sticky footer */
     html, body { height: 100%; }
     body { min-height: 100%; display: flex; flex-direction: column; }
@@ -45,7 +48,7 @@
       background: #fff;
       border: 1px solid rgba(0,0,0,.06);
       border-radius: 22px;
-      padding: 3.6rem 2.2rem 3rem; /* ↑ extra top padding so icon never clips */
+      padding: 3.8rem 2.2rem 3rem; /* extra top padding so icon never clips */
       box-shadow: 0 8px 28px rgba(0,0,0,.06);
       overflow: hidden;
       opacity: 0;
@@ -59,7 +62,7 @@
 
     .ty-icon {
       width: 72px; height: 72px;
-      margin: 0 0 1rem; /* no negative/auto margins */
+      margin: 0 0 1rem;
       display: flex; align-items: center; justify-content: center;
       border-radius: 999px;
       background: #eaf7ff;
@@ -91,9 +94,9 @@
 
     /* Mobile adjustments */
     @media (max-width: 480px) {
-      .thankyou-wrap { padding-top: calc(8.5rem + env(safe-area-inset-top)); } /* ↑ extra top space on phones */
-      .ty-card { border-radius: 18px; padding-top: 3.8rem; } /* ↑ ensures icon fully visible */
-      .ty-icon { width: 64px; height: 64px; }
+      .thankyou-wrap { padding-top: calc(9rem + env(safe-area-inset-top)); } /* more space from top */
+      .ty-card { border-radius: 18px; padding-top: 5.25rem; } /* big enough to fit icon fully */
+      .ty-icon { width: 56px; height: 56px; } /* slightly smaller for small screens */
 
       .actions { flex-direction: column; align-items: center; gap: .8rem; }
       .share-row { margin-top: 1.25rem; justify-content: center; gap: .6rem; }

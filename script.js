@@ -408,34 +408,27 @@ window.addEventListener("scroll", function () {
   header.classList.add("scrolled"); // stays transparent on scroll
 });
 
+(() => {
+  const THANKS_URL = '/thanks.html'; // or '/thanks.html'
+  ['heroForm','launchForm','surveyForm'].forEach(id => {
+    const form = document.getElementById(id);
+    if (!form) return;
 
-
-  (function () {
-    const form = document.getElementById('heroForm');
-    const THANKS_URL = '/thanks.html'; // make sure thanks.html is in your site root
-
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
+      form.querySelector('[type="submit"]')?.setAttribute('disabled','');
       try {
-        const res = await fetch(form.action, {
+        await fetch(form.action, {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
+          headers: { 'Accept': 'application/json' }, // avoids Formspree HTML page
           body: new FormData(form)
         });
-
-        if (res.ok) {
-          window.location.href = THANKS_URL;    // client-side redirect
-        } else {
-          // fallback: still go to our thanks (or show a small error)
-          window.location.href = THANKS_URL;
-        }
-      } catch (err) {
-        // network error fallback
-        window.location.href = THANKS_URL;
-      }
+      } catch (_) { /* ignore */ }
+      window.location.href = THANKS_URL; // always send to your page
     });
-  })();
+  });
+})();
+
 
     (function () {
     const shareBtn = document.getElementById('shareBtn');
