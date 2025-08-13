@@ -701,7 +701,7 @@ body.nav-open {
 /* ===== Mobile vars ===== */
 :root{
   --nav-h: 65px;          /* your header is 65px high */
-  --hero-extra-top: 6rem; /* drop hero text further; tweak to 7rem if you want */
+  --hero-extra-top: 3rem; /* drop hero text further; tweak to 7rem if you want */
 }
 
 /* ≤900px — stack, true-center, better spacing, redesigned navy pill */
@@ -820,6 +820,34 @@ body.nav-open {
   .desktop-only{ display: block !important; }
   .mobile-only{ display: none !important; }
 }
+
+/* --- HERO center & width fixes --- */
+
+/* 1) Avoid iOS 100vw overflow that shifts content */
+.hero { width: 100%; }
+
+/* 2) Truly center the grid on mobile */
+@media (max-width: 900px){
+  .hero-grid{
+    margin-left: auto;
+    margin-right: auto;
+    justify-items: center;   /* horizontal center */
+  }
+  .hero-left{ justify-content: center !important; }
+}
+
+/* 3) Remove the negative header nudge on small screens */
+@media (max-width: 768px){
+  .logo { margin-left: 0 !important; }
+}
+
+/* 4) Stop the animation nudge from pulling the hero upward */
+.hero[data-animate]{ margin-top: 0 !important; }
+[data-animate].visible{ margin-top: 0; }
+
+/* Optional: if any element still bleeds horizontally, hide it */
+html, body { overflow-x: hidden; }
+
 
 
 
