@@ -701,14 +701,18 @@ body.nav-open {
 /* ===== Mobile vars ===== */
 :root{
   --nav-h: 65px;          /* your header is 65px high */
-  --hero-extra-top: 3rem; /* drop hero text further; tweak to 7rem if you want */
+  --hero-extra-top: 2rem; /* adjust to drop the text more/less */
 }
 
-/* ≤900px — stack, true-center, better spacing, redesigned navy pill */
+/* ≤900px — stack, true-center, spacing, redesigned navy pill */
 @media (max-width: 900px){
   .hero{
+    width: 100%; /* avoid iOS 100vw overflow */
     padding-top: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top));
     padding-bottom: 4.5rem;
+    /* remove double horizontal padding on mobile */
+    padding-left: 1rem;
+    padding-right: 1rem;
     min-height: 88vh;
     background-position: center top;
   }
@@ -716,10 +720,16 @@ body.nav-open {
   .hero-grid{
     grid-template-columns: 1fr;
     gap: 1.25rem;
-    padding: clamp(.75rem, 3vw, 1.5rem);
-    place-items: center;
+    /* kill inner horizontal padding so content can truly center */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: clamp(.75rem, 3vw, 1.5rem);
+    padding-bottom: 1.5rem;
+    place-items: center;            /* center both axes */
     width: 100%;
-    margin: 0 auto;
+    margin-inline: auto;            /* hard center the grid */
+    justify-items: center;          /* extra insurance */
+    max-width: 680px;               /* single-column wrapper cap */
   }
 
   .hero-left{
@@ -729,8 +739,9 @@ body.nav-open {
   }
 
   .text-panel{
-    width: min(680px, calc(100% - 2rem));
-    margin: 0 auto;
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;            /* center the card */
     text-align: center;
     border-radius: 14px;
     padding: 1.1rem 1.2rem;
@@ -755,9 +766,10 @@ body.nav-open {
     padding-bottom: .5rem;
   }
   .hero-image img{
-    width: clamp(340px, 80vw, 620px);
+    /* remove the 340px floor that caused right-drift on small iPhones */
+    width: min(90vw, 560px) !important;
     height: auto;
-    transform: none;
+    transform: none !important;
   }
 
   /* Hide inline email pill on stacked layout */
@@ -797,6 +809,8 @@ body.nav-open {
 /* ≤768px tweaks */
 @media (max-width: 768px){
   .hero-divider{ font-size: .92rem; }
+  /* remove header’s negative nudge just in case */
+  .logo { margin-left: 0 !important; }
 }
 
 /* ≤480px — tiny phones */
@@ -821,34 +835,11 @@ body.nav-open {
   .mobile-only{ display: none !important; }
 }
 
-/* --- HERO center & width fixes --- */
-
-/* 1) Avoid iOS 100vw overflow that shifts content */
-.hero { width: 100%; }
-
-/* 2) Truly center the grid on mobile */
-@media (max-width: 900px){
-  .hero-grid{
-    margin-left: auto;
-    margin-right: auto;
-    justify-items: center;   /* horizontal center */
-  }
-  .hero-left{ justify-content: center !important; }
-}
-
-/* 3) Remove the negative header nudge on small screens */
-@media (max-width: 768px){
-  .logo { margin-left: 0 !important; }
-}
-
-/* 4) Stop the animation nudge from pulling the hero upward */
+/* --- HERO center & width fixes (global) --- */
 .hero[data-animate]{ margin-top: 0 !important; }
 [data-animate].visible{ margin-top: 0; }
-
-/* Optional: if any element still bleeds horizontally, hide it */
+/* optional safety net if any element still bleeds horizontally */
 html, body { overflow-x: hidden; }
-
-
 
 
 
