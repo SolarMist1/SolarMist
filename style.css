@@ -698,62 +698,111 @@ body.nav-open {
   .hero-image img{ width: clamp(340px, 38vw, 560px); }
 }
 
-/* ≤900px — stack; center; larger model; extra bar clearance */
+/* ===== Vars for mobile header clearance ===== */
+:root{
+  /* Adjust to your actual fixed header height on phones */
+  --nav-h: 72px;             /* try 70–76px if your header is taller */
+  --hero-extra-top: 2rem;    /* extra drop so the text panel clears the header */
+}
+
+/* ≤900px — stack, hard-center text panel, lift the navy bar to sit ~1.5rem below model */
 @media (max-width: 900px){
+  .hero{
+    /* Start the hero below the fixed header + safe-area + extra 2rem drop */
+    padding-top: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top));
+    padding-bottom: 4.5rem;             /* was 7rem; reduces tall empty space */
+    min-height: 80vh;
+    background-position: center top;
+  }
+
   .hero-grid{
     grid-template-columns: 1fr;
     gap: 1.25rem;
     padding: clamp(.75rem, 3vw, 1.5rem);
-    padding-bottom: 3rem;                     /* keep off the bar */
-    justify-items: center;                    /* true centering when stacked */
+    place-items: center;                 /* centers BOTH axes regardless of device */
   }
+
+  .hero-left{
+    display: flex;
+    justify-content: center;             /* clamps the text panel to true center */
+    width: 100%;
+  }
+
   .text-panel{
-    margin-inline: auto;
+    margin: 0 auto;                      /* hard center */
     text-align: center;
     max-width: 680px;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
   }
-  .hero-title{ font-size: clamp(2rem, 8.2vw, 3.8rem); letter-spacing: -.03em; }
-  .hero-subtitle{ font-size: clamp(.98rem, 1.9vw, 1.05rem); margin-bottom: clamp(.8rem, 2vw, 1.1rem); }
+
+  .hero-title{
+    font-size: clamp(2rem, 8.2vw, 3.2rem);
+    line-height: 1.03;
+    letter-spacing: -.03em;
+    margin-bottom: .75rem;
+  }
+
+  .hero-subtitle{
+    font-size: .98rem;
+    margin-bottom: .6rem;
+  }
 
   .hero-image{
     order: 2;
-    padding-bottom: .75rem;
+    padding-bottom: .5rem;
     justify-content: center;
   }
   .hero-image img{
-    width: clamp(360px, 74vw, 600px);
+    width: clamp(340px, 80vw, 620px);
     transform: none;
   }
 
-  .inline-email-form{
-    margin-left: auto; margin-right: auto;
-    height: var(--field-h-md);               /* taller pill for touch */
-  }
-  /* Hide floating label on tablet; use placeholder instead */
-  .input-wrapper label{ display: none; }
-  .input-wrapper input::placeholder{ color:#7c8796; opacity:1; }
+  /* Email pill off on stacked layout (keeps things tidy) */
+  .inline-email-form{ display: none; }
 
-  .hero{ padding-bottom: 7rem; }             /* more space for the bar on stack */
+  /* Navy bar: switch from absolute to normal flow so it sits ~1.5rem under model */
+  .hero-divider{
+    position: static;
+    transform: none;
+    width: min(1200px, calc(100% - 2rem));
+    height: 30px;
+    margin: 1.5rem auto 0;               /* ≈1.5rem below the model image */
+    border-radius: 10px;
+  }
 }
 
-/* ≤768px — bar spacing */
+/* Old iOS safe-area fallback (rare, but harmless) */
+@supports(padding-top: constant(safe-area-inset-top)){
+  @media (max-width: 900px){
+    .hero{
+      padding-top: calc(var(--nav-h) + var(--hero-extra-top) + constant(safe-area-inset-top));
+    }
+  }
+}
+
+/* ≤768px — minor tweak to keep spacing cozy */
 @media (max-width: 768px){
-  .hero-divider{ height: 30px; bottom: clamp(110px, 4.5vh, 28px); }
+  .hero-divider{ height: 30px; }
 }
 
 /* ≤480px — small phones */
 @media (max-width: 480px){
   .hero{
-    padding: 3rem 1rem 7.5rem;               /* bottom pad for bar */
-    min-height: 80vh;
-    background-position: center top;         /* nicer crop */
+    /* keep the same top drop; tighten bottom pad a touch */
+    padding: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top)) 1rem 4rem;
   }
-  .text-panel{ padding: 1rem 1.1rem; border-radius: 14px; }
-  .hero-title{ font-size: clamp(1.9rem, 9.6vw, 3rem); line-height: 1.03; }
+
+  .hero-title{ font-size: clamp(1.9rem, 9.6vw, 2.8rem); }
   .hero-subtitle{ font-size: .96rem; }
-  .hero-image img{ width: clamp(340px, 80vw, 620px); }
-  .hero-divider{ width: calc(100% - 2rem); height: 28px; bottom: 14px; }
+
+  .hero-divider{
+    width: calc(100% - 2rem);
+    height: 28px;
+    margin-top: 1.25rem;                 /* keeps it close under the model */
+  }
 }
+
 
 /* Desktop/mobile visibility helpers (if you use them) */
 @media (min-width: 769px){
