@@ -702,16 +702,16 @@ body.nav-open {
 :root{
   /* Adjust to your actual fixed header height on phones */
   --nav-h: 72px;             /* try 70–76px if your header is taller */
-  --hero-extra-top: 2rem;    /* extra drop so the text panel clears the header */
+  --hero-extra-top: 5rem;    /* extra drop so the text panel clears the header (↑ from 2rem) */
 }
 
-/* ≤900px — stack, hard-center text panel, lift the navy bar to sit ~1.5rem below model */
+/* ≤900px — stack, hard-center text panel, lift & redesign the navy bar */
 @media (max-width: 900px){
   .hero{
-    /* Start the hero below the fixed header + safe-area + extra 2rem drop */
+    /* Start the hero below the fixed header + safe-area + extra drop */
     padding-top: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top));
-    padding-bottom: 4.5rem;             /* was 7rem; reduces tall empty space */
-    min-height: 80vh;
+    padding-bottom: 4.5rem;             /* reduces empty space at bottom */
+    min-height: 88vh;
     background-position: center top;
   }
 
@@ -720,6 +720,8 @@ body.nav-open {
     gap: 1.25rem;
     padding: clamp(.75rem, 3vw, 1.5rem);
     place-items: center;                 /* centers BOTH axes regardless of device */
+    width: 100%;
+    margin: 0 auto;
   }
 
   .hero-left{
@@ -732,13 +734,14 @@ body.nav-open {
     margin: 0 auto;                      /* hard center */
     text-align: center;
     max-width: 680px;
+    width: min(680px, calc(100% - 2rem));
     border-radius: 14px;
-    padding: 1rem 1.1rem;
+    padding: 1.1rem 1.2rem;
   }
 
   .hero-title{
     font-size: clamp(2rem, 8.2vw, 3.2rem);
-    line-height: 1.03;
+    line-height: 1.05;
     letter-spacing: -.03em;
     margin-bottom: .75rem;
   }
@@ -752,23 +755,36 @@ body.nav-open {
     order: 2;
     padding-bottom: .5rem;
     justify-content: center;
+    display: flex;
   }
   .hero-image img{
     width: clamp(340px, 80vw, 620px);
+    height: auto;
     transform: none;
   }
 
   /* Email pill off on stacked layout (keeps things tidy) */
   .inline-email-form{ display: none; }
 
-  /* Navy bar: switch from absolute to normal flow so it sits ~1.5rem under model */
+  /* Navy bar: switch from absolute, make compact pill that wraps nicely */
   .hero-divider{
     position: static;
     transform: none;
-    width: min(1200px, calc(100% - 2rem));
-    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem .9rem;
+    font: 600 .92rem/1.15 "Inter", sans-serif;
+    width: fit-content;
+    max-width: calc(100% - 2rem);        /* breathing room from edges */
     margin: 1.5rem auto 0;               /* ≈1.5rem below the model image */
-    border-radius: 10px;
+    border-radius: 999px;
+    background: #082447;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    white-space: normal;                  /* allow 2-line wrap if needed */
+    height: auto;                         /* not a fixed 30px anymore */
   }
 }
 
@@ -783,7 +799,7 @@ body.nav-open {
 
 /* ≤768px — minor tweak to keep spacing cozy */
 @media (max-width: 768px){
-  .hero-divider{ height: 30px; }
+  .hero-divider{ font-size: .92rem; }
 }
 
 /* ≤480px — small phones */
@@ -791,15 +807,17 @@ body.nav-open {
   .hero{
     /* keep the same top drop; tighten bottom pad a touch */
     padding: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top)) 1rem 4rem;
+    min-height: 92vh;
   }
 
   .hero-title{ font-size: clamp(1.9rem, 9.6vw, 2.8rem); }
   .hero-subtitle{ font-size: .96rem; }
 
   .hero-divider{
-    width: calc(100% - 2rem);
-    height: 28px;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
     margin-top: 1.25rem;                 /* keeps it close under the model */
+    padding: .5rem .85rem;
   }
 }
 
