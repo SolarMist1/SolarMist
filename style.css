@@ -698,19 +698,17 @@ body.nav-open {
   .hero-image img{ width: clamp(340px, 38vw, 560px); }
 }
 
-/* ===== Vars for mobile header clearance ===== */
+/* ===== Mobile vars ===== */
 :root{
-  /* Adjust to your actual fixed header height on phones */
-  --nav-h: 72px;             /* try 70–76px if your header is taller */
-  --hero-extra-top: 5rem;    /* extra drop so the text panel clears the header (↑ from 2rem) */
+  --nav-h: 65px;          /* your header is 65px high */
+  --hero-extra-top: 6rem; /* drop hero text further; tweak to 7rem if you want */
 }
 
-/* ≤900px — stack, hard-center text panel, lift & redesign the navy bar */
+/* ≤900px — stack, true-center, better spacing, redesigned navy pill */
 @media (max-width: 900px){
   .hero{
-    /* Start the hero below the fixed header + safe-area + extra drop */
     padding-top: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top));
-    padding-bottom: 4.5rem;             /* reduces empty space at bottom */
+    padding-bottom: 4.5rem;
     min-height: 88vh;
     background-position: center top;
   }
@@ -719,22 +717,21 @@ body.nav-open {
     grid-template-columns: 1fr;
     gap: 1.25rem;
     padding: clamp(.75rem, 3vw, 1.5rem);
-    place-items: center;                 /* centers BOTH axes regardless of device */
+    place-items: center;
     width: 100%;
     margin: 0 auto;
   }
 
   .hero-left{
     display: flex;
-    justify-content: center;             /* clamps the text panel to true center */
+    justify-content: center;
     width: 100%;
   }
 
   .text-panel{
-    margin: 0 auto;                      /* hard center */
-    text-align: center;
-    max-width: 680px;
     width: min(680px, calc(100% - 2rem));
+    margin: 0 auto;
+    text-align: center;
     border-radius: 14px;
     padding: 1.1rem 1.2rem;
   }
@@ -753,9 +750,9 @@ body.nav-open {
 
   .hero-image{
     order: 2;
-    padding-bottom: .5rem;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    padding-bottom: .5rem;
   }
   .hero-image img{
     width: clamp(340px, 80vw, 620px);
@@ -763,10 +760,10 @@ body.nav-open {
     transform: none;
   }
 
-  /* Email pill off on stacked layout (keeps things tidy) */
+  /* Hide inline email pill on stacked layout */
   .inline-email-form{ display: none; }
 
-  /* Navy bar: switch from absolute, make compact pill that wraps nicely */
+  /* Navy bar → compact, wrapping pill ~1.5rem under model */
   .hero-divider{
     position: static;
     transform: none;
@@ -776,19 +773,19 @@ body.nav-open {
     padding: .55rem .9rem;
     font: 600 .92rem/1.15 "Inter", sans-serif;
     width: fit-content;
-    max-width: calc(100% - 2rem);        /* breathing room from edges */
-    margin: 1.5rem auto 0;               /* ≈1.5rem below the model image */
+    max-width: calc(100% - 2rem);
+    margin: 1.5rem auto 0;
     border-radius: 999px;
     background: #082447;
     color: #fff;
     text-align: center;
     box-shadow: 0 6px 18px rgba(0,0,0,.12);
-    white-space: normal;                  /* allow 2-line wrap if needed */
-    height: auto;                         /* not a fixed 30px anymore */
+    white-space: normal;
+    height: auto;
   }
 }
 
-/* Old iOS safe-area fallback (rare, but harmless) */
+/* Old iOS safe-area fallback */
 @supports(padding-top: constant(safe-area-inset-top)){
   @media (max-width: 900px){
     .hero{
@@ -797,30 +794,26 @@ body.nav-open {
   }
 }
 
-/* ≤768px — minor tweak to keep spacing cozy */
+/* ≤768px tweaks */
 @media (max-width: 768px){
   .hero-divider{ font-size: .92rem; }
 }
 
-/* ≤480px — small phones */
+/* ≤480px — tiny phones */
 @media (max-width: 480px){
   .hero{
-    /* keep the same top drop; tighten bottom pad a touch */
     padding: calc(var(--nav-h) + var(--hero-extra-top) + env(safe-area-inset-top)) 1rem 4rem;
     min-height: 92vh;
   }
-
   .hero-title{ font-size: clamp(1.9rem, 9.6vw, 2.8rem); }
   .hero-subtitle{ font-size: .96rem; }
-
   .hero-divider{
     width: fit-content;
     max-width: calc(100% - 2rem);
-    margin-top: 1.25rem;                 /* keeps it close under the model */
+    margin-top: 1.25rem;
     padding: .5rem .85rem;
   }
 }
-
 
 /* Desktop/mobile visibility helpers (if you use them) */
 @media (min-width: 769px){
@@ -900,38 +893,6 @@ body.nav-open {
     font-size: 0.95rem;
   }
 }
-
-/* ===== Mobile fixes ===== */
-:root{
-  /* match this to your actual fixed-header height on mobile */
-  --nav-h: 64px; /* try 70–76px if your header is taller */
-}
-
-@media (max-width: 900px){
-  /* 1) Start hero below the fixed header (safe-area aware) */
-  .hero{
-    /* base fallback */
-    padding-top: calc(var(--nav-h) + 12px);
-    /* iOS notch padding (overrides when supported) */
-    padding-top: calc(var(--nav-h) + 12px + env(safe-area-inset-top));
-  }
-
-  /* 2) When stacked, remove the inline email pill */
-  .inline-email-form{ display: none; }
-
-  /* tighten spacing now that the pill is gone */
-  .hero-subtitle{ margin-bottom: .6rem; }
-}
-
-/* Old iOS fallback (rare, but harmless) */
-@supports(padding-top: constant(safe-area-inset-top)){
-  @media (max-width: 900px){
-    .hero{
-      padding-top: calc(var(--nav-h) + 12px + constant(safe-area-inset-top));
-    }
-  }
-}
-
 
 .about-section,
 .features-section,
