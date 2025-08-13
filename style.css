@@ -1310,6 +1310,105 @@ text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 
+/*******************************
+  FEATURES SECTION
+*******************************/
+
+.features-section {
+  padding-top: 5rem;
+  padding-bottom: 5rem; 
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Desktop: 4 columns */
+  gap: 1rem;
+  padding-top: 2rem;
+  justify-content: center;   /* 👈 Ensures rows are centered even if not full width */
+}
+
+.features-section h2 {
+  font-family: "Inter", sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+  text-align: left;
+}
+
+.feature {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+
+.feature:hover {
+  transform: translateY(-4px);
+}
+
+.feature-image {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.feature-content h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1c1c1c;
+}
+
+.feature h3 {
+  min-height: 3rem; /* or adjust based on tallest title */
+}
+
+.feature-content p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature {
+    padding: 1.5rem;
+  }
+
+  .feature-image {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
+
+
 
 /*******************************
   SECTION WRAPPER
