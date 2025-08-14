@@ -1126,9 +1126,6 @@ html, body { overflow-x: hidden; }
 }
 
 
-
-
-
 /* ================================
    ABOUT / FOUNDERS — Wrapper + Lede
 ================================== */
@@ -1637,6 +1634,35 @@ html, body { overflow-x: hidden; }
   }
 }
 
+/* === Join + Survey cards: loosen text width on mobile === */
+@media (max-width: 600px){
+  /* shrink section side padding so the border rails sit wider */
+  .engage-section{
+    padding: 2rem 1rem;          /* was 4rem 1.5rem */
+  }
+
+  /* a little less gap between the two cards when stacked */
+  .engage-container{
+    gap: 1rem;                    /* was 2rem */
+  }
+
+  /* key change: reduce inner horizontal padding of the cards */
+  .engage-box{
+    padding: 1.25rem 1rem !important;   /* was 2.5rem 3rem */
+    border-radius: 1.25rem;             /* optional: slightly tighter corners */
+  }
+
+  /* optional: tiny tighten on headings/subcopy inside cards */
+  .signup-heading{ margin-bottom: .6rem; }
+  .signup-sub{ margin-bottom: 1rem; }
+}
+
+/* ultra-small phones */
+@media (max-width: 380px){
+  .engage-box{ padding: 1rem .75rem !important; }
+}
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1672,14 +1698,16 @@ html, body { overflow-x: hidden; }
 }
 
 /* Inner white box */
+/* Align FAQ box with the H2 container on desktop */
 .faq-container {
   background: #ffffff;
-  max-width: 1100px;
+  max-width: 1150px;          /* match .container */
   margin: 0 auto;
   border-radius: 16px;
-  padding: 2rem 2rem 2rem;
+  padding: 2rem;              /* keep your inner padding */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
+
 
 /* Individual items */
 .faq-item {
@@ -2008,3 +2036,47 @@ html, body{ overflow-x: hidden; }
   .hero{ width: 100dvw; }
 }
 
+/* === Section spacing trim (desktop only) — paste at END of style.css === */
+@media (min-width: 1025px){
+
+  /* Hero: reserve a little less space above the navy pill */
+  .hero{ padding-bottom: 5rem; }           /* was 6.5rem */
+
+  /* HIW section */
+  .how-it-works-section{
+    padding-block: 3.5rem !important;      /* from clamp(3rem,6vw,5rem) */
+  }
+  .how-it-works-section .hiw-heading{
+    margin-bottom: 1rem !important;        /* small tighten */
+  }
+
+  /* Features */
+  .features-section{
+    padding-top: 4rem;                      /* was 5rem */
+    padding-bottom: 4rem;                   /* was 5rem */
+  }
+  .features-grid{ padding-top: 1rem; }      /* was 2rem */
+
+  /* About / Founders */
+  .about-section{
+    padding: 2rem 2rem 2rem 5.9rem;         /* bottom was 3rem */
+  }
+  .founders{ margin-bottom: 2rem; }         /* was 3rem */
+
+  /* Engage (form cards) */
+  .engage-section{ padding: 3rem 1.5rem; }  /* was 4rem 1.5rem */
+
+  /* FAQ */
+  .faq-section{ padding: 4rem 1.5rem 2.5rem; }  /* was 6rem 1.5rem 3rem */
+  .faq-section h2{ margin-bottom: 1.25rem; }    /* was 2rem */
+
+  /* Footer (optional, keep if you want slightly tighter end) */
+  .site-footer{ padding-top: 2.5rem; }      /* was 3rem */
+}
+
+/* Clean-up: this legacy rule adds a big left indent + extra vertical padding.
+   You can remove it entirely, or keep this override to neutralize it. */
+.features-section,
+.survey-section{
+  padding-left: 2rem !important;            /* instead of 5.9rem */
+}
