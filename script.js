@@ -565,49 +565,51 @@
   const cards = Array.from(track.querySelectorAll('.feature'));
   if (!cards.length) return;
 
-  // Build dots
   dotsWrap.innerHTML = cards.map((_, i) =>
     `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
   ).join('');
   const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
 
-  const setActive = (idx) => {
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  };
+  const setActive = (idx) => dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
   setActive(0);
 
-  // Determine which card is centered in the viewport of the track
   const getCenteredIndex = () => {
     const t = track.getBoundingClientRect();
-    const centerX = t.left + t.width / 2;
-    let best = 0, bestDist = Infinity;
-    cards.forEach((card, i) => {
-      const r = card.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const dist = Math.abs(cx - centerX);
-      if (dist < bestDist) { best = i; bestDist = dist; }
+    const centerX = t.left + t.width/2;
+    let best=0, bestDist=Infinity;
+    cards.forEach((c,i)=>{
+      const r = c.getBoundingClientRect();
+      const cx = r.left + r.width/2;
+      const d = Math.abs(cx - centerX);
+      if (d < bestDist){ best=i; bestDist=d; }
     });
     return best;
   };
 
-  // Throttle helper
-  const throttle = (fn, wait = 80) => {
-    let t = 0;
-    return (...args) => {
-      const now = Date.now();
-      if (now - t >= wait) { t = now; fn(...args); }
-    };
-  };
+  const throttle = (fn, wait=80)=>{ let t=0; return (...a)=>{ const n=Date.now(); if(n-t>=wait){ t=n; fn(...a);} }; };
+  const syncActive = throttle(()=> setActive(getCenteredIndex()), 80);
 
-  const syncActive = throttle(() => setActive(getCenteredIndex()), 80);
-
-  // Keep active dot in sync
-  track.addEventListener('scroll', syncActive, { passive: true });
+  track.addEventListener('scroll', syncActive, { passive:true });
   window.addEventListener('resize', syncActive);
-  syncActive();
 
-  // Click a dot → scroll that card into view (respect scroll-padding)
+  // --- Force start at first card on mobile ---
   const spLeft = parseFloat(getComputedStyle(track).scrollPaddingLeft || '0');
+  const snapFirst = () => {
+    if (window.matchMedia('(max-width: 900px)').matches){
+      // align the first card taking scroll-padding into account
+      track.scrollTo({ left: cards[0].offsetLeft - spLeft, behavior: 'auto' });
+      setActive(0);
+    } else {
+      track.scrollLeft = 0;
+      setActive(0);
+    }
+  };
+  // initial + iOS back-forward cache + orientation
+  requestAnimationFrame(snapFirst);
+  window.addEventListener('pageshow', snapFirst);
+  window.addEventListener('orientationchange', () => setTimeout(snapFirst, 150));
+
+  // Click a dot → scroll to that card
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
       const left = cards[i].offsetLeft - spLeft;

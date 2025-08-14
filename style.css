@@ -1251,13 +1251,13 @@ html, body { overflow-x: hidden; }
 /*******************************
   FEATURES SECTION (grid → slider ≤900px)
 *******************************/
-.features-section {
+.features-section{
   padding-top: 5rem;
   padding-bottom: 5rem;
   background: var(--gray-bg);
 }
 
-.features-section h2 {
+.features-section h2{
   font-family: "Inter", sans-serif;
   font-size: 2.25rem;
   font-weight: 700;
@@ -1266,7 +1266,7 @@ html, body { overflow-x: hidden; }
 }
 
 /* Desktop / large tablets: 4-up grid */
-.features-grid {
+.features-grid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -1275,7 +1275,7 @@ html, body { overflow-x: hidden; }
 }
 
 /* Card */
-.feature {
+.feature{
   background-color: #fff;
   border-radius: 20px;
   padding: 2rem;
@@ -1285,99 +1285,68 @@ html, body { overflow-x: hidden; }
   flex-direction: column;
   text-align: left;
 }
-.feature:hover { transform: translateY(-4px); }
+.feature:hover{ transform: translateY(-4px); }
 
-.feature-image {
+.feature-image{
   width: 64px; height: 64px;
   margin-bottom: 1.25rem;
   display: flex; align-items: center; justify-content: center;
 }
-.feature-image img { width: 100%; height: auto; object-fit: contain; }
+.feature-image img{ width: 100%; height: auto; object-fit: contain; }
 
-.feature-content h3 {
+.feature-content h3{
   font-size: 1.125rem; font-weight: 700;
   margin-bottom: .5rem; color: #1c1c1c;
 }
-.feature h3 { min-height: 3rem; }
-.feature-content p { font-size: 1rem; color: #444; line-height: 1.5; }
+.feature h3{ min-height: 3rem; }
+.feature-content p{ font-size: 1rem; color: #444; line-height: 1.5; }
 
 /* Tablet grid */
-@media (max-width: 1024px) {
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1024px){
+  .features-grid{ grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Phones & small tablets: horizontal slider */
-@media (max-width: 900px) {
+@media (max-width: 900px){
   .features-grid{
-    --gutter: 16px;               /* side padding + snap offset */
+    --gutter: 16px;                 /* side padding + snap offset */
     display: flex;
     overflow-x: auto;
     gap: 12px;
-    padding: 16px var(--gutter) 40px; /* bottom space for dots */
+    /* ↓ tighter gap under card (was 40px) */
+    padding: 12px var(--gutter) 16px;
     margin: 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    scroll-padding-inline: var(--gutter); /* first card starts fully visible */
+    scroll-padding-inline: var(--gutter);  /* first card starts fully visible */
   }
-  .features-grid::-webkit-scrollbar { display: none; }
+  .features-grid::-webkit-scrollbar{ display: none; }
 
-  /* ensure no old edge-spacer rules interfere */
-  .features-grid::before,
-  .features-grid::after { content: none !important; }
-
-  .feature {
-    flex: 0 0 100%;               /* one card per “page” */
+  .feature{
+    flex: 0 0 100%;                 /* one card per “page” */
     scroll-snap-align: start;
     padding: 1.5rem;
   }
-  .feature-image { width: 56px; height: 56px; }
+  .feature-image{ width: 56px; height: 56px; }
 
-  /* Dots visible on mobile */
-  .features-dots { display: flex; }
-}
-
-/* Hollow dots */
-.features-dots {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 6px;
-}
-.features-dots button {
-  width: 10px; height: 10px;
-  border-radius: 999px;
-  border: 2px solid #cfd6e3;   /* hollow ring */
-  background: transparent;
-  transform: scale(1);
-  transition: transform .18s ease, border-color .18s ease, background .18s ease;
-  padding: 0;
-  cursor: pointer;
-}
-.features-dots button.active {
-  border-color: var(--blue);
-  transform: scale(1.4);
-}
-.features-dots button:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-/* --- Features: pagination dots (mobile) --- */
-@media (max-width: 900px){
+  /* Dots bar */
   .features-dots{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
-    /* full-bleed so they never get clipped by container padding */
-    width: 100vw;
+    width: 100vw;                          /* full-bleed so not clipped */
     margin-left: calc(50% - 50vw);
-    padding: 6px 0 18px;
+    /* ↓ tuck closer to the cards */
+    margin-top: 2px;
+    padding: 0 0 10px;
     position: relative;
     z-index: 2;
   }
 }
+
+/* Dots (hidden by default; shown in mobile block above) */
+.features-dots{ display: none; }
 
 /* Base dot: small, hollow */
 .features-dots .features-dot{
@@ -1394,20 +1363,20 @@ html, body { overflow-x: hidden; }
     background-color .22s ease,
     border-color .22s ease,
     opacity .2s ease;
-  padding: 0;                   /* keep the visual tiny */
+  padding: 0;
   cursor: pointer;
   outline: none;
   touch-action: manipulation;
 }
 
-/* Active: grow + fill yellow (no neighbour scaling) */
+/* Active: grow + fill yellow */
 .features-dots .features-dot.active{
   background: var(--yellow);
   border-color: var(--yellow);
-  transform: scale(1.9);       /* elegant pop, tune 1.7–2.1 */
+  transform: scale(1.9);
 }
 
-/* Focus (keyboard) */
+/* Keyboard focus */
 .features-dots .features-dot:focus-visible{
   outline: 2px solid #003d80;
   outline-offset: 3px;
