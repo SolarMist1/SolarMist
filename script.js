@@ -201,38 +201,28 @@
   };
 
   /* -----------------------------
-     06) Responsive Features grid (mobile swipe)
-  ----------------------------- */
-  const applyFeatureGridLayout = () => {
-    const g = DOM.featuresGrid;
-    if (!g) return;
-    const cards = $$('.feature', g);
+   06) Responsive Features grid (mobile swipe)
+----------------------------- */
+const initFeaturesGrid = () => {
+  const g = DOM.featuresGrid;
+  if (!g) return;
 
-    if (window.innerWidth <= CONFIG.MOBILE_MAX) {
-      g.style.overflowX = 'auto';
-      g.style.display = 'flex';
-      g.style.flexWrap = 'nowrap';
-      g.style.scrollSnapType = 'x mandatory';
-      cards.forEach(c => {
-        c.style.flex = '0 0 80%';
-        c.style.scrollSnapAlign = 'start';
-      });
-    } else {
-      g.style.display = '';
-      g.style.overflowX = '';
-      g.style.flexWrap = '';
-      g.style.scrollSnapType = '';
-      cards.forEach(c => {
-        c.style.flex = '';
-        c.style.scrollSnapAlign = '';
-      });
-    }
+  const cards = $$('.feature', g);
+  const mq = window.matchMedia('(max-width: 900px)');
+
+  const sync = () => {
+    const slider = mq.matches;
+    // Let CSS control the container; only ensure card flex basis matches CSS.
+    cards.forEach(c => {
+      c.style.flex = slider ? '0 0 100%' : '';
+      c.style.scrollSnapAlign = slider ? 'start' : '';
+    });
   };
 
-  const initFeaturesGrid = () => {
-    applyFeatureGridLayout();
-    on(window, 'resize', throttle(applyFeatureGridLayout, 150));
-  };
+  sync();
+  mq.addEventListener('change', sync);
+};
+
 
   /* -----------------------------
      07) Privacy popup
@@ -499,6 +489,60 @@
       }
     });
   };
+
+/* -----------------------------
+     16) Feature slider dots
+  ----------------------------- */
+  
+/* Features slider dots: build, sync on scroll, and allow click-to-jump */
+(function () {
+  const track = document.getElementById('featuresTrack');
+  const dotsWrap = document.getElementById('featuresDots');
+  if (!track || !dotsWrap) return;
+
+  const cards = Array.from(track.querySelectorAll('.feature'));
+  if (!cards.length) return;
+
+  // Build dots based on card count
+  dotsWrap.innerHTML = cards.map((_, i) =>
+    `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
+  ).join('');
+  const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
+
+  const setActive = (idx) => {
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  setActive(0);
+
+  // Observe which card is centered in the track
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const idx = cards.indexOf(entry.target);
+        if (idx > -1) setActive(idx);
+      }
+    });
+  }, {
+    root: track,
+    threshold: 0.55   // "mostly in view"
+  });
+
+  cards.forEach(card => io.observe(card));
+
+  // Clicking a dot scrolls to that card
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    });
+  });
+
+  // Defensive: update on resize to keep observer accurate
+  window.addEventListener('resize', () => {
+    cards.forEach(c => { io.unobserve(c); io.observe(c); });
+  });
+})();
+
+
 
   /* -----------------------------
      Init on DOM ready

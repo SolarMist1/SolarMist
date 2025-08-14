@@ -1249,20 +1249,12 @@ html, body { overflow-x: hidden; }
 
 
 /*******************************
-  FEATURES SECTION
+  FEATURES SECTION (grid → slider ≤900px)
 *******************************/
-
 .features-section {
   padding-top: 5rem;
-  padding-bottom: 5rem; 
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Desktop: 4 columns */
-  gap: 1rem;
-  padding-top: 2rem;
-  justify-content: center;   /* 👈 Ensures rows are centered even if not full width */
+  padding-bottom: 5rem;
+  background: var(--gray-bg);
 }
 
 .features-section h2 {
@@ -1273,78 +1265,103 @@ html, body { overflow-x: hidden; }
   text-align: left;
 }
 
+/* Desktop / large tablets: 4-up grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 2rem;
+  justify-content: center;
+}
+
+/* Card */
 .feature {
   background-color: #fff;
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,.05);
+  transition: transform .3s ease;
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: left;
 }
-
-.feature:hover {
-  transform: translateY(-4px);
-}
+.feature:hover { transform: translateY(-4px); }
 
 .feature-image {
-  width: 64px;
-  height: 64px;
+  width: 64px; height: 64px;
   margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
 }
-
-.feature-image img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
+.feature-image img { width: 100%; height: auto; object-fit: contain; }
 
 .feature-content h3 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #1c1c1c;
+  font-size: 1.125rem; font-weight: 700;
+  margin-bottom: .5rem; color: #1c1c1c;
 }
+.feature h3 { min-height: 3rem; }
+.feature-content p { font-size: 1rem; color: #444; line-height: 1.5; }
 
-.feature h3 {
-  min-height: 3rem; /* or adjust based on tallest title */
-}
-
-.feature-content p {
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.5;
-}
-
-/* Tablet */
+/* Tablet grid */
 @media (max-width: 1024px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-  .features-grid {
-    grid-template-columns: 1fr;
+/* Phones & small tablets: horizontal slider */
+@media (max-width: 900px) {
+  .features-grid{
+    --gutter: 16px;               /* side padding + snap offset */
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 16px var(--gutter) 40px; /* bottom space for dots */
+    margin: 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-inline: var(--gutter); /* first card starts fully visible */
   }
+  .features-grid::-webkit-scrollbar { display: none; }
+
+  /* ensure no old edge-spacer rules interfere */
+  .features-grid::before,
+  .features-grid::after { content: none !important; }
 
   .feature {
+    flex: 0 0 100%;               /* one card per “page” */
+    scroll-snap-align: start;
     padding: 1.5rem;
   }
+  .feature-image { width: 56px; height: 56px; }
 
-  .feature-image {
-    width: 56px;
-    height: 56px;
-  }
+  /* Dots visible on mobile */
+  .features-dots { display: flex; }
 }
 
-
+/* Hollow dots */
+.features-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.features-dots button {
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  border: 2px solid #cfd6e3;   /* hollow ring */
+  background: transparent;
+  transform: scale(1);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  padding: 0;
+  cursor: pointer;
+}
+.features-dots button.active {
+  border-color: var(--blue);
+  transform: scale(1.4);
+}
+.features-dots button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
 
 
 
@@ -1678,6 +1695,10 @@ html, body { overflow-x: hidden; }
    FAQ SECTION  — RESPONSIVE LAYOUT
 ================================== */
 
+/* ================================
+   FAQ SECTION — left-align on mobile
+================================== */
+
 .faq-section {
   background-color: var(--gray-bg);
   padding: 6rem 1.5rem 3rem;
@@ -1686,7 +1707,7 @@ html, body { overflow-x: hidden; }
 .faq-section .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2.1rem;
+  padding: 0 2rem; /* desktop gutter */
 }
 
 .faq-section h2 {
@@ -1695,6 +1716,12 @@ html, body { overflow-x: hidden; }
   font-weight: 700;
   margin-bottom: 2rem;
   text-align: left;
+}
+
+/* Mobile: match other sections’ 1rem gutter */
+@media (max-width: 768px) {
+  .faq-section { padding: 4.5rem 1rem 1.5rem !important; }
+  .faq-section .container { padding: 0 1rem !important; }
 }
 
 /* Inner white box */
@@ -2079,4 +2106,34 @@ html, body{ overflow-x: hidden; }
 .features-section,
 .survey-section{
   padding-left: 2rem !important;            /* instead of 5.9rem */
+}
+
+/* === Mobile spacing trim (extra −1.5rem) === */
+@media (max-width: 768px){
+
+  /* Hero */
+  .hero{ padding-bottom: 3rem !important; }              /* was ~4.5rem */
+
+  /* How it works */
+  .how-it-works-section{ padding: 1.5rem 1rem !important; }  /* was ~3rem 2rem */
+  .how-it-works-section .hiw-heading{ margin-bottom: .5rem !important; }
+
+  /* Features */
+  .features-section{ padding: .5rem 1rem 0 !important; }     /* was 2rem 1.5rem 1rem */
+  .features-grid{ padding-top: .5rem !important; }           /* was 2rem */
+
+  /* About / Founders */
+  .about-section{ padding: .5rem 1rem .5rem !important; }    /* was 2rem 1.5rem 2rem */
+  .founders{ margin-bottom: 1rem !important; }               /* was ~2.5rem */
+
+  /* Engage (Join + Survey cards) */
+  .engage-section{ padding: .5rem 1rem !important; }         /* was 2rem 1rem */
+  .engage-container{ gap: .5rem !important; }                /* was 1rem–2rem */
+
+  /* FAQ */
+  .faq-section{ padding: 4.5rem 1rem 1.5rem !important; }    /* was 6rem 1.5rem 3rem */
+  .faq-section h2{ margin-bottom: .75rem !important; }
+
+  /* Footer */
+  .site-footer{ padding-top: 1.5rem !important; }            /* was 3rem */
 }
