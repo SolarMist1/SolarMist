@@ -1363,6 +1363,57 @@ html, body { overflow-x: hidden; }
   outline-offset: 2px;
 }
 
+/* --- Features: pagination dots (mobile) --- */
+@media (max-width: 900px){
+  .features-dots{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+    /* full-bleed so they never get clipped by container padding */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 6px 0 18px;
+    position: relative;
+    z-index: 2;
+  }
+}
+
+/* Base dot: small, hollow */
+.features-dots .features-dot{
+  --size: 6px;                 /* tiny default */
+  --ring: 2px;                 /* ring thickness */
+  width: var(--size);
+  height: var(--size);
+  border-radius: 999px;
+  border: var(--ring) solid #cfd6e3;
+  background: transparent;
+  transform: scale(1);
+  transition:
+    transform .22s cubic-bezier(.22,.9,.24,1),
+    background-color .22s ease,
+    border-color .22s ease,
+    opacity .2s ease;
+  padding: 0;                   /* keep the visual tiny */
+  cursor: pointer;
+  outline: none;
+  touch-action: manipulation;
+}
+
+/* Active: grow + fill yellow (no neighbour scaling) */
+.features-dots .features-dot.active{
+  background: var(--yellow);
+  border-color: var(--yellow);
+  transform: scale(1.9);       /* elegant pop, tune 1.7–2.1 */
+}
+
+/* Focus (keyboard) */
+.features-dots .features-dot:focus-visible{
+  outline: 2px solid #003d80;
+  outline-offset: 3px;
+}
+
+
 
 
 /*******************************
@@ -2108,19 +2159,21 @@ html, body{ overflow-x: hidden; }
   padding-left: 2rem !important;            /* instead of 5.9rem */
 }
 
-/* === Mobile spacing trim (extra −1.5rem) === */
+/* === Mobile spacing trim (+0.7rem gaps between sections) === */
 @media (max-width: 768px){
+
+
 
   /* Hero */
   .hero{ padding-bottom: 3rem !important; }              /* was ~4.5rem */
 
   /* How it works */
   .how-it-works-section{ padding: 1.5rem 1rem !important; }  /* was ~3rem 2rem */
-  .how-it-works-section .hiw-heading{ margin-bottom: .5rem !important; }
+  .how-it-works-section .hiw-heading{ margin-bottom: 1rem !important; }
 
   /* Features */
   .features-section{ padding: .5rem 1rem 0 !important; }     /* was 2rem 1.5rem 1rem */
-  .features-grid{ padding-top: .5rem !important; }           /* was 2rem */
+  .features-grid{ margin-bottom: 1rem !important; }           /* was 2rem */
 
   /* About / Founders */
   .about-section{ padding: .5rem 1rem .5rem !important; }    /* was 2rem 1.5rem 2rem */
@@ -2128,11 +2181,11 @@ html, body{ overflow-x: hidden; }
 
   /* Engage (Join + Survey cards) */
   .engage-section{ padding: .5rem 1rem !important; }         /* was 2rem 1rem */
-  .engage-container{ gap: .5rem !important; }                /* was 1rem–2rem */
+  .engage-container{ gap: 1rem !important; }                /* was 1rem–2rem */
 
   /* FAQ */
   .faq-section{ padding: 4.5rem 1rem 1.5rem !important; }    /* was 6rem 1.5rem 3rem */
-  .faq-section h2{ margin-bottom: .75rem !important; }
+  .faq-section h2{ margin-bottom: 1rem !important; }
 
   /* Footer */
   .site-footer{ padding-top: 1.5rem !important; }            /* was 3rem */

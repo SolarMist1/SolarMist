@@ -200,28 +200,93 @@
     });
   };
 
-  /* -----------------------------
-   06) Responsive Features grid (mobile swipe)
------------------------------ */
-const initFeaturesGrid = () => {
-  const g = DOM.featuresGrid;
-  if (!g) return;
+  /* 16) Feature slider dots — build + sync (with iOS scroll fallback) */
+(function () {
+  const track = document.getElementById('featuresTrack');
+  const dotsWrap = document.getElementById('featuresDots');
+  if (!track || !dotsWrap) return;
 
-  const cards = $$('.feature', g);
   const mq = window.matchMedia('(max-width: 900px)');
+  const cards = Array.from(track.querySelectorAll('.feature'));
+  if (!cards.length) return;
 
-  const sync = () => {
-    const slider = mq.matches;
-    // Let CSS control the container; only ensure card flex basis matches CSS.
-    cards.forEach(c => {
-      c.style.flex = slider ? '0 0 100%' : '';
-      c.style.scrollSnapAlign = slider ? 'start' : '';
-    });
+  // Build dots
+  dotsWrap.innerHTML = cards.map((_, i) =>
+    `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
+  ).join('');
+  const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
+
+  const setActive = (idx) => {
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  setActive(0);
+
+  // Prefer IO inside the scroller; if it misbehaves, we’ll fall back to scroll math
+  let usedFallback = false;
+  let io;
+
+  const enableObserver = () => {
+    try {
+      io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const i = cards.indexOf(entry.target);
+          if (i > -1) setActive(i);
+        });
+      }, { root: track, threshold: 0.55 });
+      cards.forEach(c => io.observe(c));
+    } catch {
+      usedFallback = true;
+    }
   };
 
-  sync();
-  mq.addEventListener('change', sync);
-};
+  const throttle = (fn, wait = 80) => {
+    let t = 0; return (...a) => { const n = Date.now(); if (n - t >= wait){ t = n; fn(...a);} };
+  };
+
+  const updateFromScroll = throttle(() => {
+    // card width + gap
+    const cs = getComputedStyle(track);
+    const gap = parseFloat(cs.gap) || 0;
+    const cardW = cards[0].getBoundingClientRect().width;
+    const step = cardW + gap;
+    const idx = Math.round(track.scrollLeft / step);
+    setActive(Math.max(0, Math.min(idx, cards.length - 1)));
+  });
+
+  const enableFallback = () => {
+    usedFallback = true;
+    track.addEventListener('scroll', updateFromScroll, { passive: true });
+    window.addEventListener('resize', updateFromScroll);
+    updateFromScroll();
+  };
+
+  const setup = () => {
+    // Show dots only on mobile
+    dotsWrap.style.display = mq.matches ? 'flex' : 'none';
+
+    if (mq.matches) {
+      enableObserver();
+      // Some iOS Safari builds don’t fire IO reliably for horizontal scrollers
+      // Kick the fallback if we don’t see an update quickly
+      setTimeout(() => { if (!dots.some(d => d.classList.contains('active'))) enableFallback(); }, 120);
+    } else {
+      if (io) { cards.forEach(c => io.unobserve(c)); io.disconnect(); }
+      track.removeEventListener('scroll', updateFromScroll);
+    }
+  };
+
+  // Dot click-to-jump
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      setActive(i);
+    });
+  });
+
+  setup();
+  mq.addEventListener('change', setup);
+})();
 
 
   /* -----------------------------
@@ -490,11 +555,8 @@ const initFeaturesGrid = () => {
     });
   };
 
-/* -----------------------------
-     16) Feature slider dots
-  ----------------------------- */
-  
-/* Features slider dots: build, sync on scroll, and allow click-to-jump */
+/* 16) Feature slider dots — build + sync */
+/* Features slider dots: build, center-based activation, click-to-jump */
 (function () {
   const track = document.getElementById('featuresTrack');
   const dotsWrap = document.getElementById('featuresDots');
@@ -503,7 +565,7 @@ const initFeaturesGrid = () => {
   const cards = Array.from(track.querySelectorAll('.feature'));
   if (!cards.length) return;
 
-  // Build dots based on card count
+  // Build dots
   dotsWrap.innerHTML = cards.map((_, i) =>
     `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
   ).join('');
@@ -514,33 +576,46 @@ const initFeaturesGrid = () => {
   };
   setActive(0);
 
-  // Observe which card is centered in the track
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const idx = cards.indexOf(entry.target);
-        if (idx > -1) setActive(idx);
-      }
+  // Determine which card is centered in the viewport of the track
+  const getCenteredIndex = () => {
+    const t = track.getBoundingClientRect();
+    const centerX = t.left + t.width / 2;
+    let best = 0, bestDist = Infinity;
+    cards.forEach((card, i) => {
+      const r = card.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const dist = Math.abs(cx - centerX);
+      if (dist < bestDist) { best = i; bestDist = dist; }
     });
-  }, {
-    root: track,
-    threshold: 0.55   // "mostly in view"
-  });
+    return best;
+  };
 
-  cards.forEach(card => io.observe(card));
+  // Throttle helper
+  const throttle = (fn, wait = 80) => {
+    let t = 0;
+    return (...args) => {
+      const now = Date.now();
+      if (now - t >= wait) { t = now; fn(...args); }
+    };
+  };
 
-  // Clicking a dot scrolls to that card
+  const syncActive = throttle(() => setActive(getCenteredIndex()), 80);
+
+  // Keep active dot in sync
+  track.addEventListener('scroll', syncActive, { passive: true });
+  window.addEventListener('resize', syncActive);
+  syncActive();
+
+  // Click a dot → scroll that card into view (respect scroll-padding)
+  const spLeft = parseFloat(getComputedStyle(track).scrollPaddingLeft || '0');
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      const left = cards[i].offsetLeft - spLeft;
+      track.scrollTo({ left, behavior: 'smooth' });
     });
   });
-
-  // Defensive: update on resize to keep observer accurate
-  window.addEventListener('resize', () => {
-    cards.forEach(c => { io.unobserve(c); io.observe(c); });
-  });
 })();
+
 
 
 
