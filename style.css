@@ -913,15 +913,12 @@ html, body { overflow-x: hidden; }
 }
 
 .features-section,
-.how-it-works-section,
 .survey-section {
   font-family: "Inter", sans-serif;
   background-color: var(--gray-bg);
   padding: 2rem 2rem 1rem 5.9rem;
   scroll-margin-top: 48px; /* 👈 add this here */
 }
-
-
 
 .features-section h2,
 .hiw-heading h2,
@@ -941,282 +938,196 @@ html, body { overflow-x: hidden; }
   }
 }
 
-.how-it-works-section {
-  background-color: var(--gray-bg);
+/* ================================
+   HOW IT WORKS — consolidated styles (with mobile gutter)
+   Replace your existing HIW section with this block
+================================== */
+
+/* Section shell — cancels shared left indent */
+.how-it-works-section{
+  background: var(--gray-bg);
+  padding: clamp(3rem, 6vw, 5rem) 2rem !important;
   position: relative;
   z-index: 1;
-  overflow: visible;
-  padding-bottom: 3rem;
 }
 
-@media (max-width: 1024px) {
-  .how-it-works-section {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .hiw-wrapper {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .hiw-cards {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    scroll-padding-left: 1rem; /* optional smooth first snap */
-  }
-
-  .hiw-card {
-    margin-left: 0.1rem;
-    margin-right: 0.1rem;
-  }
-}
-
-
-.hiw-heading {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 0rem;
-  color: #1c1c1c;
-  -webkit-background-clip: text;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  font-family: "Inter", sans-serif;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-left: -3rem;
-}
-
-@media (max-width: 768px) {
-  .hiw-heading {
-      text-align: left !important;
-      justify-content: flex-start !important;
-      margin-left: 0.5rem !important;
-  }
-}
-
-/* NEW WRAPPER */
-.hiw-wrapper {
+/* Wrapper */
+.hiw-wrapper{
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0; /* ❌ remove horizontal padding */
+  padding: 0;
 }
 
-.hiw-cards::-webkit-scrollbar {
-  display: none;
+/* Heading */
+.how-it-works-section .hiw-heading{
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.8vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  text-align: center !important;
+  margin: 0 0 1.25rem 0 !important;
+}
+@media (max-width: 768px){
+  .how-it-works-section .hiw-heading{ text-align: left !important; }
 }
 
-
-/* Scroll container */
-.hiw-cards {
-  display: flex;
-  gap: 1rem;
-  margin-top: -1.3rem; /* Align with heading */
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  padding-bottom: 2rem;
-  scrollbar-width: none;
-  margin-left: -3.6rem; /* Align with heading */
-  
+/* ---------- Desktop (≥1025px): tidy 3-up grid ---------- */
+@media (min-width: 1025px){
+  .hiw-cards{
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: 1rem 0 0 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    justify-items: center;
+  }
+  .hiw-card{
+    width: 100%;
+    max-width: 370px;
+    height: 520px;
+  }
+  .hiw-nav-arrows{ display: none !important; }
 }
 
+/* ---------- Tablet & mobile (≤1024px): full-bleed scroll + edge gutter ---------- */
+@media (max-width: 1024px){
+  .how-it-works-section{
+    padding-bottom: clamp(4rem, 8vh, 5.5rem) !important; /* extra breathing room */
+  }
+  .how-it-works-section .hiw-heading{
+    margin-bottom: 1.5rem !important;
+  }
 
-.hiw-cards::-webkit-scrollbar {
-  display: none;
+  .hiw-cards{
+    /* width + bleed so cards can slide fully off-screen */
+    width: 100vw;
+    display: flex !important;
+    gap: 1.25rem !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    /* no inner padding (we add gutter via pseudo elements instead) */
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative;
+    left: 50%; right: 50%;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+
+    /* edge gutter size (first/last gap) */
+    --hiw-gutter: clamp(12px, 4vw, 20px);
+
+    /* snap to the gutter */
+    scroll-padding-inline: var(--hiw-gutter) !important;
+
+    scrollbar-width: none;
+  }
+  .hiw-cards::-webkit-scrollbar{ display: none; }
+
+  /* edge spacers create the initial/end gap without padding the row */
+  .hiw-cards::before,
+  .hiw-cards::after{
+    content:"";
+    flex: 0 0 var(--hiw-gutter);
+  }
+
+  .hiw-card{
+    flex: 0 0 300px;   /* tweak 290–320px to taste */
+    height: 460px;
+    scroll-snap-align: start;
+  }
+
+  /* arrows BELOW the cards */
+  .hiw-nav-arrows{
+    position: static !important;
+    transform: none !important;
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    margin: .5rem auto 0 !important;
+    z-index: 1;
+  }
 }
 
-/* Individual card */
-.hiw-card {
-  flex: 0 0 200px;          /* lock card width for flex layout */
-  max-width: 200px;         /* match to flex-basis */
-  min-width: 280px;         /* fallback for narrow scroll */
-  min-height: 500px;
-  background: #000;
-  color: white;
-  border-radius: 20px;
-  overflow: hidden;
+/* Cards (shared) */
+.hiw-card{
   position: relative;
+  border-radius: 20px;
+  background: #000;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding: 1.25rem;
   background-size: cover;
   background-position: center;
-  padding: 1.5rem;
-  scroll-snap-align: start;
-  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 160ms ease;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14),
-              0 4px 8px rgba(0, 0, 0, 0.06);
-  will-change: transform, box-shadow;
-  z-index: 1;
+  transition: transform .16s cubic-bezier(.23,1,.32,1), box-shadow .16s ease;
+}
+@media (hover: hover) and (pointer: fine){
+  .hiw-card:hover{ transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0,0,0,.14); }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .hiw-heading {
-    margin-left: 0.5rem !important;
-  }
-
-  .hiw-cards {
-    margin-left: 0 !important;         /* 💥 overrides -2.8rem */
-    padding-left: 0rem !important;     /* 💥 adds left spacing */
-  }
-
-  .hiw-card:first-child {
-    margin-left: 0 !important;         /* prevent double spacing */
-  }
+/* Strong readability overlay */
+.hiw-card::before{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.62) 0%,
+    rgba(0,0,0,.40) 35%,
+    rgba(0,0,0,.15) 60%,
+    rgba(0,0,0,0) 100%
+  );
+  z-index: 0;
 }
 
-
-
-/* Apple-style hover — desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .hiw-card:hover {
-    transform: scale(1.0125);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16), 0 20px 40px rgba(0, 0, 0, 0.08);
-    z-index: 10;
-    transition: transform 120ms ease-out, box-shadow 120ms ease-out;
-  }
-}
-
-/* Content inside card */
-.hiw-icon {
-  font-size: 0.95rem;
-  color: white;
-  margin-bottom: 0.05rem;
-  z-index: 2;
-}
-.hiw-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.05rem;
-  font-weight: 700;
-  color: white;
-  z-index: 2;
-  color: white;
-text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-
-}
-.hiw-card p {
-  font-size: 1rem;
-  color: white;
-  line-height: 1.5;
-  z-index: 2;
-  color: white;
-text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.hiw-card h3,
-.hiw-card p {
+/* Force text white above photos */
+.how-it-works-section .hiw-card h3,
+.how-it-works-section .hiw-card p{
   position: relative;
-  z-index: 2;
-}
-
-.hiw-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0,0,0,0.05));
   z-index: 1;
+  color: #fff !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,.45);
+  margin-left: .25rem;
+  margin-right: .25rem;
 }
-
+.how-it-works-section .hiw-card h3{
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: .25rem;
+}
 
 /* Background images */
-.hiw-card:nth-child(1) {
-  background-image: url("/images/step1.png");
-}
-.hiw-card:nth-child(2) {
-  background-image: url("/images/step2.png");
-}
-.hiw-card:nth-child(3) {
-  background-image: url("/images/step3.png");
-}
+.hiw-card:nth-child(1){ background-image: url("/images/step1.png"); }
+.hiw-card:nth-child(2){ background-image: url("/images/step2.png"); }
+.hiw-card:nth-child(3){ background-image: url("/images/step3.png"); }
 
-/* Arrows (mobile only) */
-.hiw-nav-arrows {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 3rem; /* ⬅️ Adjust this depending on spacing below cards */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.2rem;
-  z-index: 3;
-  margin-left: -0.2rem; /* Align with cards */
+/* Arrow buttons */
+.hiw-arrow-btn{
+  width: 38px; height: 38px; border-radius: 50%;
+  background: #f4f4f4; border: none; font-size: 1.2rem; color:#444;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,.1);
+  transition: transform .2s, background .2s;
 }
+.hiw-arrow-btn:hover{ transform: scale(1.05); background: var(--yellow); }
 
-.hiw-arrow-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #f4f4f4;
-  color: #444;
-  border: none;
-  font-size: 1.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease, transform 0.2s ease;
-}
-.hiw-arrow-btn:hover {
-  background: var(--yellow);
-  transform: scale(1.05);
-}
-
-/* Desktop layout (≥1025px) */
-@media (min-width: 1025px) {
-  .hiw-cards {
-    justify-content: center;
-    overflow-x: visible;
-  }
-
-  .hiw-card {
-    flex: 0 0 30%;
-    max-width: none;
-  }
-
-  .hiw-nav-arrows {
-    display: none;
+/* HIW cards — no shadow on mobile/tablet */
+@media (max-width: 1024px){
+  .hiw-card{
+    box-shadow: none !important;      /* remove the drop shadow */
+    background-color: transparent;    /* no faint card “plate” look */
   }
 }
 
-/* Tablet & Mobile: show arrows and enable horizontal scroll */
-@media (max-width: 1024px) {
-  .hiw-cards {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    margin-left: 0.5rem;
-  }
 
-  .hiw-card {
-    flex: 0 0 320px;
-    max-width: 320px;
-  }
 
-  .hiw-nav-arrows {
-    display: flex;
-  }
-}
 
-/* Mobile-only arrows */
-@media (max-width: 768px) {
-  .hiw-nav-arrows {
-    display: flex;
-  }
-}
-
-/* ================================
-   ABOUT / FOUNDERS — BUGFIXED LAYOUT
-   (No oscillation; stacks only < 769px)
-================================== */
 
 /* ================================
    ABOUT / FOUNDERS — Wrapper + Lede
@@ -2021,3 +1932,79 @@ text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   color: #082447;
 }
 .share-link:hover { background:#f5f8fd; }
+
+/* === SolarMist minimal stability shim (append at end) === */
+
+/* 1) Survey / progress bar jump (remove negative layout nudges) */
+.progress-container{
+  margin: 0 !important;   /* prevents top jitter on load/resize */
+  top: 0;                  /* stays pinned to the very top */
+}
+
+/* 2) HIW cards: make widths consistent across rules (no conflict) */
+.hiw-card{
+  /* You had flex:0 0 200px + max:200 + min:280 (conflicts).
+     Use one consistent width that still matches your look. */
+  flex: 0 0 320px !important;
+  max-width: 320px !important;
+  min-width: 320px !important;
+}
+@media (min-width: 1025px){
+  /* Keep your desktop layout that shows 3 cards nicely */
+  .hiw-card{ flex: 0 0 30% !important; max-width: none !important; min-width: 0 !important; }
+}
+
+/* --- HIW fix patch (append at end of style.css) --- */
+
+/* A) Correct the heading selector + keep consistent spacing */
+.features-section h2,
+.hiw-heading,            /* was .hiw-heading h2 (didn't match) */
+.survey-section h2 {
+  font-family: "Inter", sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+/* 3) Buttons in the survey: fix contrast (white text on #eee was unreadable) */
+.back-btn,
+.next-btn,
+[type="submit"]{
+  background: #082447 !important;
+  color: #fff !important;
+  border-radius: 999px; /* keeps your pill look */
+}
+.back-btn:hover,
+.next-btn:hover,
+[type="submit"]:hover{
+  background: #001e3b !important;
+}
+
+/* 4) Focus states (keyboard users) — subtle but helpful */
+:focus-visible{
+  outline: 2px solid #0052cc;
+  outline-offset: 2px;
+}
+
+/* 5) Mobile menu overlay: ensure it always fills and scrolls without trapping content */
+.mobile-nav-overlay{
+  height: 100vh !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 6) Sticky CTA: ensure it layers above sections but below the mobile menu */
+.sticky-cta-banner{
+  z-index: 9990 !important; /* your menu uses 10000+ */
+}
+
+/* 7) Defensive: prevent accidental horizontal scroll on narrow iOS devices */
+html, body{ overflow-x: hidden; }
+
+/* 8) Hero: keep your current layout but guard against occasional 100vw side scrollbars */
+@supports (width: 100dvw){
+  /* Only modern browsers: map 100vw quirks to viewport dynamic width if you ever switch */
+  .hero{ width: 100dvw; }
+}
+
