@@ -541,6 +541,10 @@ body.nav-open { overflow: hidden; }
 /* ==================================
    07) FEATURES (grid → slider ≤900px)
 ================================== */
+/* ==================================
+   07) FEATURES (grid → slider ≤900px)
+   — centered content on ALL sizes
+================================== */
 .features-section,
 .survey-section{
   font-family:"Inter",sans-serif;
@@ -564,53 +568,75 @@ body.nav-open { overflow: hidden; }
   gap:1rem;
   padding-top:2rem;
   justify-content:center;
+  align-items:stretch;
 }
+
+/* Card — centered everywhere */
 .feature{
-  background-color:#fff;
+  background:#fff;
   border-radius:20px;
   padding:2rem;
   box-shadow:0 8px 20px rgba(0,0,0,.05);
   transition:transform .3s ease;
   display:flex;
   flex-direction:column;
-  text-align:left;
+  align-items:center;     /* ← center icon + text */
+  text-align:center;      /* ← center copy */
+  height:100%;
 }
 .feature:hover{ transform:translateY(-4px); }
-.feature-image{ width:64px; height:64px; margin-bottom:1.25rem; display:flex; align-items:center; justify-content:center; }
+
+.feature-image{
+  width:64px; height:64px;
+  margin-bottom:1rem;
+  display:flex; align-items:center; justify-content:center;
+}
 .feature-image img{ width:100%; height:auto; object-fit:contain; }
-.feature-content h3{ font-size:1.125rem; font-weight:700; margin-bottom:.5rem; color:#1c1c1c; }
-.feature h3{ min-height:3rem; }
-.feature-content p{ font-size:1rem; color:#444; line-height:1.5; }
+
+.feature-content h3{
+  font-size:1.125rem; font-weight:700;
+  margin-bottom:.5rem; color:#1c1c1c;
+  min-height:0; /* let title size naturally when centered */
+}
+.feature-content p{
+  font-size:1rem; color:#444; line-height:1.5;
+  max-width:44ch;            /* nicer measure on wide screens */
+  margin:0 auto;             /* keep centered */
+}
 
 /* Tablet */
 @media (max-width:1024px){
   .features-grid{ grid-template-columns:repeat(2,1fr); }
 }
 
-/* Mobile slider */
+/* Mobile slider — centered cards */
 @media (max-width:900px){
   .features-grid{
-    --gutter:16px;
+    --card-w: clamp(280px, 88vw, 520px);
+    --gutter: 16px;
     display:flex;
-    overflow-x:auto;
     gap:12px;
-    padding:12px var(--gutter) 16px;
+    overflow-x:auto;
+    padding:12px max(var(--gutter), calc((100vw - var(--card-w))/2)) 18px;
     margin:0;
     scroll-snap-type:x mandatory;
+    scroll-padding-inline:max(var(--gutter), calc((100vw - var(--card-w))/2));
     -webkit-overflow-scrolling:touch;
-    scroll-padding-inline:var(--gutter);
-    transform:translateZ(0); /* iOS seam fix */
+    transform:translateZ(0);
   }
   .features-grid::-webkit-scrollbar{ display:none; }
+
   .feature{
-    flex:0 0 100%;
-    scroll-snap-align:start;
-    padding:1.5rem;
+    flex:0 0 var(--card-w);
+    scroll-snap-align:center;
+    padding:1.6rem;
+    border-radius:18px;
+    box-shadow:0 10px 22px rgba(0,0,0,.08);
   }
-  .feature-image{ width:56px; height:56px; }
+  .feature-image{ width:56px; height:56px; margin-bottom:.9rem; }
 }
 
-/* Pagination dots (default hidden) */
+/* Pagination dots */
 .features-dots{ display:none; }
 .features-dots .features-dot{
   --size:6px; --ring:2px;
@@ -620,24 +646,25 @@ body.nav-open { overflow: hidden; }
   background:transparent;
   transform:scale(1);
   transition:transform .22s cubic-bezier(.22,.9,.24,1),
-             background-color .22s ease,
-             border-color .22s ease,
-             opacity .2s ease;
+             background-color .22s ease, border-color .22s ease, opacity .2s ease;
   padding:0; cursor:pointer; outline:none; touch-action:manipulation;
 }
 .features-dots .features-dot.active{
-  background:var(--yellow); border-color:var(--yellow); transform:scale(1.9);
+  background:var(--yellow);
+  border-color:var(--yellow);
+  transform:scale(1.9);
 }
-.features-dots .features-dot:focus-visible{ outline:2px solid #003d80; outline-offset:3px; }
+.features-dots .features-dot:focus-visible{
+  outline:2px solid #003d80; outline-offset:3px;
+}
 
-/* Show dots on mobile (force override in case of later rules) */
+/* Show dots on mobile (force if overridden later) */
 @media (max-width:900px){
   .features-dots{
     display:flex !important;
     justify-content:center; align-items:center; gap:10px;
     width:100vw; margin-left:calc(50% - 50vw);
-    margin-top:0; /* avoids tiny seam on iOS */
-    padding:0 0 10px;
+    margin-top:0; padding:0 0 10px;
     position:relative; z-index:2;
     background:var(--gray-bg);
   }
@@ -702,6 +729,7 @@ body.nav-open { overflow: hidden; }
     bottom:-1px; width:100dvw; height:1px; background:var(--gray-bg); pointer-events:none;
   }
 }
+
 
 
 /* ==================================
