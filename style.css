@@ -22,7 +22,6 @@
    12) FOOTER
    13) PRIVACY POPUP
    14) SHARE BLOCK
-   15) STABILITY SHIMS & SPACING TRIMS (leave at end)
 ------------------------------------------------------- */
 
 /* ==================================
@@ -95,6 +94,19 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
 /* accessibility */
 :focus-visible { outline: 2px solid #0052cc; outline-offset: 2px; }
 
+/* ---- Section 15 fixes merged here (Base) ---- */
+html { scroll-padding-top: calc(var(--nav-h) + 12px); }
+[id] { scroll-margin-top: calc(var(--nav-h) + 12px) !important; }
+
+/* Global sr-only helper (used by #form-status, etc.) */
+.sr-only{
+  position: absolute !important;
+  width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important;
+  overflow: hidden !important; clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important; border: 0 !important;
+}
+
 
 /* ==================================
    02) HELPERS & GLOBAL ANIMATIONS
@@ -116,6 +128,28 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
 /* button ripple utility (used in CTA) */
 .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-animation 0.6s linear; background-color: rgba(255,255,255,0.4); pointer-events: none; z-index: 1; }
 @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
+
+/* ---- Section 15 fixes merged here (Animations / motion) ---- */
+/* Kill animate-on-scroll layout shift (no margin tween) + promote layer */
+[data-animate]{
+  margin-top: 0 !important;
+  transform: translate3d(0,30px,0);
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+[data-animate].visible{
+  transform: translate3d(0,0,0);
+  opacity: 1;
+}
+
+/* Respect reduced motion everywhere */
+@media (prefers-reduced-motion: reduce){
+  * { scroll-behavior: auto !important; }
+  [data-animate], .progress-bar, .mobile-nav-overlay, .sticky-cta-banner {
+    transition: none !important; animation: none !important;
+  }
+}
 
 
 /* ==================================
@@ -289,6 +323,39 @@ body.nav-open { overflow: hidden; }
 @media (max-width: 800px){ .site-nav { display: none; } }
 @media (min-width: 800px){ .mobile-nav-toggle { display: none !important; } }
 
+/* ---- Section 15 fixes merged here (Header/Mobile nav) ---- */
+/* Ensure overlay always fills and scrolls */
+.mobile-nav-overlay { height: 100vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+
+/* keep the overlay itself snug to the top/safe-area */
+.mobile-nav-overlay{
+  padding-top: calc(8px + env(safe-area-inset-top, 0px)) !important;
+}
+
+/* give the list a modest top offset that scales with screen height */
+.mobile-nav-overlay ul{
+  /* ~44px button + a little breathing room; scales between 28–52px */
+  padding: clamp(28px, 8.5vh, 52px) 0 1rem 0 !important;
+  gap: 1.25rem; /* keep your nice spacing */
+}
+
+/* very short screens: tiny tighten so the bottom item doesn’t get clipped */
+@media (max-height: 700px){
+  .mobile-nav-overlay ul{
+    padding-top: clamp(16px, 4vh, 28px) !important;
+    gap: 1rem !important;
+  }
+  .mobile-nav-overlay li{ padding: 0.95rem 0 !important; }
+}
+
+/* Mobile menu: real viewport units + bottom safe-area; keep above progress bar */
+.mobile-nav-overlay{
+  height: auto !important;
+  min-height: 100dvh !important;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 20010 !important; /* > progress (20001) */
+}
+
 
 /* ==================================
    04) HERO (incl. inline email form)
@@ -300,6 +367,9 @@ body.nav-open { overflow: hidden; }
   padding: 4rem 2rem; padding-bottom: 6.5rem; overflow: hidden;
 }
 .hero > * { position: relative; z-index: 1; }
+
+/* ---- Section 15 fix merged here (Hero background path) ---- */
+.hero { background: url('/images/backgroundv10.png') center 48% / cover no-repeat !important; }
 
 /* grid */
 .hero-grid {
@@ -382,6 +452,14 @@ body.nav-open { overflow: hidden; }
 }
 @supports (width: 100dvw){ .hero { width: 100dvw; } }
 
+/* ---- Section 15 fixes merged here (spacing trims) ---- */
+@media (min-width: 1025px){
+  .hero { padding-bottom: 5rem; } /* was 6.5rem */
+}
+@media (max-width: 768px){
+  .hero { padding-bottom: 3rem !important; }
+}
+
 
 /* ==================================
    05) CTA BUTTON & STICKY BANNER
@@ -395,6 +473,16 @@ body.nav-open { overflow: hidden; }
 .sticky-cta-banner.visible { transform: translateY(0); opacity: 1; pointer-events: auto; animation: slideUpFadeIn 0.5s ease-out; }
 @keyframes slideUpFadeIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0%); opacity: 1; } }
 @media (max-width: 480px){ .sticky-cta-banner { padding: 10px; } .sticky-cta-banner .cta-button { padding: 10px 20px; font-size: 0.95rem; } }
+
+/* ---- Section 15 fixes merged here (CTA/sticky) ---- */
+/* Sticky CTA layering (menu uses 10000+) */
+.sticky-cta-banner { z-index: 9990 !important; }
+
+/* Safe-area padding + prevent anchors being hidden behind it */
+.sticky-cta-banner{ padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+@supports(selector(:has(*))){
+  body:has(.sticky-cta-banner.visible){ scroll-padding-bottom: 72px; }
+}
 
 
 /* ==================================
@@ -436,6 +524,19 @@ body.nav-open { overflow: hidden; }
 .hiw-arrow-btn:hover { transform: scale(1.05); background: var(--yellow); }
 @media (max-width: 1024px){ .hiw-card { box-shadow: none !important; background-color: transparent; } }
 
+/* ---- Section 15 fixes merged here (HIW) ---- */
+@media (min-width: 1025px){
+  .how-it-works-section { padding-block: 3.5rem !important; }
+  .how-it-works-section .hiw-heading { margin-bottom: 1rem !important; }
+}
+@media (max-width: 768px){
+  .how-it-works-section { padding: 1.5rem 1rem !important; }
+  .how-it-works-section .hiw-heading { margin-bottom: 2rem !important; }
+}
+/* Horizontal scrollers: snap stability + stop rubber-banding */
+.hiw-cards{ overscroll-behavior-x: contain; scroll-snap-stop: always; }
+@media (max-width: 1024px){ .hiw-cards{ scroll-snap-type: x mandatory; } }
+
 
 /* ==================================
    07) FEATURES (grid → slider ≤900px)
@@ -467,6 +568,79 @@ body.nav-open { overflow: hidden; }
 
 @media (max-width: 768px){ .features-section, .how-it-works-section, .survey-section { padding: 2rem 1.5rem 1rem; } }
 
+/* ---- Section 15 fixes merged here (Features & Survey) ---- */
+/* Desktop spacing trim */
+@media (min-width: 1025px){
+  .features-section { padding-top: 4rem; padding-bottom: 4rem; }
+  .features-grid { padding-top: 1rem; }
+}
+/* Neutralise legacy left indent on some sections */
+.features-section, .survey-section { padding-left: 2rem !important; }
+
+/* Mobile spacing trim specific to features block */
+@media (max-width: 768px){
+  .features-section { padding: 1.5rem 1rem 0 !important; }
+  .features-grid { margin-bottom: 1rem !important; }
+}
+
+/* Horizontal scroller stability (features) */
+.features-grid{ overscroll-behavior-x: contain; scroll-snap-stop: always; }
+@media (max-width: 900px){ .features-grid{ scroll-snap-type: x mandatory; } }
+
+/* Gentle parallax only on desktop (iOS ignores fixed anyway) */
+@media (min-width: 1025px){
+  .parallax-mist{ background-attachment: fixed; }
+}
+
+/* ===== Restore mist “bubbles” and kill mobile seam ===== */
+
+/* 1) Bring back the soft bubbles behind the cards */
+.features-section{
+  position: relative;
+  /* fallback */
+  background-color: var(--gray-bg);
+  /* layered radial gradients = bubbles */
+  background-image:
+    radial-gradient(160px 140px at 12% -40px, rgba(255,255,255,.92), rgba(255,255,255,0) 65%),
+    radial-gradient(220px 180px at 90% -30px, rgba(255,255,255,.88), rgba(255,255,255,0) 65%),
+    radial-gradient(160px 140px at -40px 60%, rgba(255,255,255,.80), rgba(255,255,255,0) 65%);
+  background-repeat: no-repeat;
+  background-position: left top, right top, left 0 bottom 40%;
+  background-size: auto, auto, auto;
+  isolation: isolate; /* keep gradients behind content */
+}
+
+/* Slightly larger/less cramped on wider screens */
+@media (min-width: 901px){
+  .features-section{
+    background-image:
+      radial-gradient(220px 180px at 14% -50px, rgba(255,255,255,.92), rgba(255,255,255,0) 65%),
+      radial-gradient(300px 220px at 88% -60px, rgba(255,255,255,.88), rgba(255,255,255,0) 65%),
+      radial-gradient(200px 160px at -60px 60%, rgba(255,255,255,.80), rgba(255,255,255,0) 65%);
+  }
+}
+
+/* 2) iOS hairline fix where full-bleed elements meet the section edge */
+@media (max-width: 900px){
+  .features-grid{
+    /* render on its own layer to avoid sub-pixel seam */
+    transform: translateZ(0);
+  }
+  .features-dots{
+    /* avoid a visible 1–2px gap above the dots on some devices */
+    margin-top: 0;
+    background: var(--gray-bg);
+  }
+  /* In case a seam still shows, paint a 1px cover strip using the section bg */
+  .features-section::after{
+    content:"";
+    position:absolute; left:50%; transform:translateX(-50%);
+    bottom:-1px; width:100dvw; height:1px;
+    background: var(--gray-bg);
+    pointer-events:none;
+  }
+}
+
 
 /* ==================================
    08) ABOUT & FOUNDERS
@@ -496,6 +670,15 @@ body.nav-open { overflow: hidden; }
 .founder-quote { margin: 0; color: #2f3338; line-height: 1.55; font-size: 1.05rem; }
 @media (max-width: 768px){ .founders { gap: 1rem; transform: none; margin-bottom: 2.5rem; } .founder-card { padding: 1.1rem; border-radius: 20px; } .image-wrapper, .profile-img { border-radius: 18px; } .founder-quote { font-size: 1rem; line-height: 1.5; } .founder-card:last-child { margin-bottom: 2rem; } }
 .about-section, .founders, .founder-card { max-width: 100%; overflow-x: hidden; }
+
+/* ---- Section 15 fixes merged here (About spacing) ---- */
+@media (min-width: 1025px){
+  .about-section { padding: 2rem 2rem 2rem 5.9rem; }
+  .founders { margin-bottom: 2rem; }
+}
+@media (max-width: 768px){
+  .about-section { padding: 1.5rem 1rem 1rem !important; }
+}
 
 
 /* ==================================
@@ -592,6 +775,15 @@ body.nav-open { overflow: hidden; }
 @media (max-width: 600px){ .engage-section { padding: 2rem 1rem; } .engage-container { gap: 1rem; } .engage-box { padding: 1.25rem 1rem !important; border-radius: 1.25rem; } .signup-heading { margin-bottom: .6rem; } .signup-sub { margin-bottom: 1rem; } }
 @media (max-width: 380px){ .engage-box { padding: 1rem .75rem !important; } }
 
+/* ---- Section 15 fixes merged here (Engage spacing) ---- */
+@media (min-width: 1025px){
+  .engage-section { padding: 3rem 1.5rem; }
+}
+@media (max-width: 768px){
+  .engage-section { padding: 1.5rem 1rem !important; }
+  .engage-container { gap: 1rem !important; }
+}
+
 
 /* ==================================
    10) SURVEY UX (questions, options, progress, buttons)
@@ -632,7 +824,6 @@ body.nav-open { overflow: hidden; }
 .progress-container{ opacity:0; pointer-events:none; transition:opacity .25s }
 .progress-container.survey-active{ opacity:1; pointer-events:auto }
 
-
 /* Buttons */
 .button-group { display: flex; justify-content: space-between; margin-top: 20px; }
 .back-btn, .next-btn, [type="submit"] { padding: 10px 20px; background: #082447; border: none; border-radius: 999px; cursor: pointer; font-weight: 600; color: white; transition: transform 0.2s ease, background-color 0.3s ease; }
@@ -640,6 +831,17 @@ body.nav-open { overflow: hidden; }
 .back-btn.hidden { visibility: hidden; }
 .form-trust-note { font-size: 0.85rem; color: #888; margin-top: 1rem; text-align: center; }
 .survey-form textarea { width: 100%; padding: 1.25rem 1rem 0.75rem; font-size: 1rem; background: #f9fbfc; border: 1px solid #dce3ec; border-radius: 24px; outline: none; color: #1f1f1f; transition: all 0.2s ease; font-family: inherit; resize: vertical; min-height: 100px; }
+
+/* ---- Section 15 fixes merged here (Survey) ---- */
+/* Custom radios/checkboxes: visible keyboard focus ring */
+.option input[type="radio"]:focus-visible,
+.option input[type="checkbox"]:focus-visible{
+  outline: 2px solid #003d80;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #eaf0ff;
+}
+/* Progress bar perf hint */
+.progress-bar{ will-change: width; }
 
 
 /* ==================================
@@ -659,6 +861,16 @@ body.nav-open { overflow: hidden; }
 .faq-answer { max-height: 0; overflow: hidden; padding: 0; transform-origin: top; transition: max-height 0.4s ease, padding 0.4s ease; font-size: 1rem; line-height: 1.6; color: #444; }
 .faq-item.active .faq-answer { max-height: 300px; padding: 0.5rem 0 0.8rem; }
 
+/* ---- Section 15 fixes merged here (FAQ spacing) ---- */
+@media (min-width: 1025px){
+  .faq-section { padding: 4rem 1.5rem 2.5rem; }
+  .faq-section h2 { margin-bottom: 1.25rem; }
+}
+@media (max-width: 768px){
+  .faq-section { padding: 4.5rem 1rem 1.5rem !important; }
+  .faq-section h2 { margin-bottom: 1rem !important; }
+}
+
 
 /* ==================================
    12) FOOTER
@@ -673,6 +885,14 @@ body.nav-open { overflow: hidden; }
 .footer-tagline { font-size: 0.95rem; color: #555; line-height: 1.4; margin: 0; }
 .footer-bottom { text-align: center; font-size: 0.75rem; color: #888; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; }
 @media (max-width: 768px){ .footer-container { grid-template-columns: 1fr; gap: 2rem; } .footer-bottom { text-align: left; padding-left: 1rem; } }
+
+/* ---- Section 15 fixes merged here (Footer spacing) ---- */
+@media (min-width: 1025px){
+  .site-footer { padding-top: 2.5rem; }
+}
+@media (max-width: 768px){
+  .site-footer { padding-top: 1.5rem !important; }
+}
 
 
 /* ==================================
@@ -696,76 +916,3 @@ body.nav-open { overflow: hidden; }
 .share-links.open { display: flex; }
 .share-link { display: inline-block; padding: .55rem .9rem; border-radius: 999px; border: 1px solid #d7dee8; background: #fff; font-weight: 600; text-decoration: none; color: #082447; }
 .share-link:hover { background:#f5f8fd; }
-
-
-/* ==================================
-   15) STABILITY SHIMS & SPACING TRIMS
-   (append-only overrides — keep at end)
-================================== */
-/* Mobile menu overlay: ensure it always fills and scrolls */
-.mobile-nav-overlay { height: 100vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
-
-/* Sticky CTA layering (menu uses 10000+) */
-.sticky-cta-banner { z-index: 9990 !important; }
-
-/* Section spacing trim (desktop only) */
-@media (min-width: 1025px){
-  .hero { padding-bottom: 5rem; }                   /* was 6.5rem */
-  .how-it-works-section { padding-block: 3.5rem !important; }
-  .how-it-works-section .hiw-heading { margin-bottom: 1rem !important; }
-  .features-section { padding-top: 4rem; padding-bottom: 4rem; }
-  .features-grid { padding-top: 1rem; }
-  .about-section { padding: 2rem 2rem 2rem 5.9rem; }
-  .founders { margin-bottom: 2rem; }
-  .engage-section { padding: 3rem 1.5rem; }
-  .faq-section { padding: 4rem 1.5rem 2.5rem; }
-  .faq-section h2 { margin-bottom: 1.25rem; }
-  .site-footer { padding-top: 2.5rem; }
-}
-
-/* Neutralise legacy left indent on some sections */
-.features-section, .survey-section { padding-left: 2rem !important; }
-
-/* Mobile spacing trim */
-@media (max-width: 768px){
-  .hero { padding-bottom: 3rem !important; }
-  .how-it-works-section { padding: 1.5rem 1rem !important; }
-  .how-it-works-section .hiw-heading { margin-bottom: 2rem !important; }
-  .features-section { padding: 1.5rem 1rem 0 !important; }
-  .features-grid { margin-bottom: 1rem !important; }
-  .about-section { padding: 1.5rem 1rem 1rem !important; }
-  .engage-section { padding: 1.5rem 1rem !important; }
-  .engage-container { gap: 1rem !important; }
-  .faq-section { padding: 4.5rem 1rem 1.5rem !important; }
-  .faq-section h2 { margin-bottom: 1rem !important; }
-  .site-footer { padding-top: 1.5rem !important; }
-}
-
-/* ----- Mobile menu: sit list just below the close (X), but keep all items visible ----- */
-
-/* keep the overlay itself snug to the top/safe-area */
-.mobile-nav-overlay{
-  padding-top: calc(8px + env(safe-area-inset-top, 0px)) !important;
-}
-
-/* give the list a modest top offset that scales with screen height */
-.mobile-nav-overlay ul{
-  /* ~44px button + a little breathing room; scales between 28–52px */
-  padding: clamp(28px, 8.5vh, 52px) 0 1rem 0 !important;
-  gap: 1.25rem; /* keep your nice spacing */
-}
-
-/* very short screens: tiny tighten so the bottom item doesn’t get clipped */
-@media (max-height: 700px){
-  .mobile-nav-overlay ul{
-    padding-top: clamp(16px, 4vh, 28px) !important;
-    gap: 1rem !important;
-  }
-  .mobile-nav-overlay li{ padding: 0.95rem 0 !important; }
-}
-
-
-
-
-
-
