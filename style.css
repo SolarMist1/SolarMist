@@ -2138,18 +2138,24 @@ html, body{ overflow-x: hidden; }
 
   /* How it works */
   .how-it-works-section{ padding: 1.5rem 1rem !important; }  /* was ~3rem 2rem */
-  .how-it-works-section .hiw-heading{ margin-bottom: 1rem !important; }
+  .how-it-works-section .hiw-heading{ margin-bottom: 2rem !important; }
+  .how-it-works-section { margin-top: 1rem !important; }
 
   /* Features */
   .features-section{ padding: .5rem 1rem 0 !important; }     /* was 2rem 1.5rem 1rem */
+  .features-section { margin-top: 1rem !important; }        /* was 2rem 1.5rem 1rem */
+  .features-section { margin-bottom: 1rem !important; }        /* was 2rem 1.5rem 1rem */
   .features-grid{ margin-bottom: 1rem !important; }           /* was 2rem */
 
   /* About / Founders */
-  .about-section{ padding: .5rem 1rem .5rem !important; }    /* was 2rem 1.5rem 2rem */
+  .about-section{ padding: .5rem 1rem .5rem !important; } 
+  .about-section{ margin-top: 1rem !important; }   /* was 2rem 1.5rem 2rem */
   .founders{ margin-bottom: 1rem !important; }               /* was ~2.5rem */
 
   /* Engage (Join + Survey cards) */
   .engage-section{ padding: .5rem 1rem !important; }         /* was 2rem 1rem */
+  .engage-section{ margin-top: 1rem !important; }   /* was 2rem 1.5rem 2rem */
+   .engage-section{ margin-bottom: 1rem !important; }   /* was 2rem 1.5rem 2rem */
   .engage-container{ gap: 1rem !important; }                /* was 1rem–2rem */
 
   /* FAQ */
