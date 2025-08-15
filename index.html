@@ -2,38 +2,34 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-
-  <head>
-  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <!-- Google tag (gtag.js) + Consent Mode v2 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FWDYN8QL3B"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FWDYN8QL3B"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
     // Consent Mode defaults (UK/EU)
     gtag('consent', 'default', {
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'ad_storage': 'denied',
-      'analytics_storage': 'denied',
-      'functionality_storage': 'granted',
-      'security_storage': 'granted'
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted'
     });
 
     gtag('js', new Date());
     gtag('config', 'G-FWDYN8QL3B');
+    // Optional: call this later from a banner to enable analytics when user accepts
+    window.grantAnalytics = () => gtag('consent', 'update', { analytics_storage: 'granted' });
   </script>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <title>Touch-Free Sunscreen Booths for Beaches, Parks & Resorts | SolarMist</title>
   <meta name="description" content="Hands-free sunscreen in 10 seconds. A full-body SPF misting booth for beaches, parks, waterparks and resorts. UK pilots from Summer 2026 — register interest." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="color-scheme" content="light only" />
-
-  <!-- Canonical (prefer trailing slash) -->
   <link rel="canonical" href="https://solarmist.co.uk/" />
 
   <!-- Open Graph -->
@@ -47,8 +43,6 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="SolarMist touch-free sunscreen misting booth" />
   <meta property="og:locale" content="en_GB" />
-  <!-- Remove fb:app_id unless you have a real ID -->
-  <!-- <meta property="fb:app_id" content="1234567890" /> -->
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -70,16 +64,16 @@
   <meta name="theme-color" content="#ffffff" />
 
   <!-- Performance: preconnect fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Preload above-the-fold images -->
-  <link rel="preload" as="image" href="/images/backgroundv10.png" />
-  <link rel="preload" as="image" href="/images/modelv5.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/backgroundv10.png">
+  <link rel="preload" as="image" href="/images/modelv5.png" fetchpriority="high">
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Main Stylesheet (versioned for GitHub Pages cache) -->
+  <link rel="stylesheet" href="/style.css?v=2025-08-15-1">
 
   <!-- Keep animated sections visible when JS is off -->
   <noscript>
@@ -92,40 +86,41 @@
 
   <!-- Structured Data -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "name": "SolarMist",
-      "url": "https://solarmist.co.uk/",
-      "logo": "https://solarmist.co.uk/images/logo.png",
-      "founder": [
-        {"@type": "Person", "name": "Cormac Neville"},
-        {"@type": "Person", "name": "Dr Hannah Sharpe"}
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/company/solarmist",
-        "https://www.instagram.com/solarmistco"
-      ],
-      "contactPoint": [{
-        "@type": "ContactPoint",
-        "contactType": "General inquiries",
-        "email": "info@solarmist.co.uk",
-        "areaServed": "GB",
-        "availableLanguage": "en-GB"
-      }]
-    },
-    {
-      "@type": "WebSite",
-      "name": "SolarMist",
-      "url": "https://solarmist.co.uk/",
-      "inLanguage": "en-GB"
-    }
-  ]
-}
-</script>
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "SolarMist",
+        "url": "https://solarmist.co.uk/",
+        "logo": "https://solarmist.co.uk/images/logo.png",
+        "founder": [
+          {"@type": "Person", "name": "Cormac Neville"},
+          {"@type": "Person", "name": "Dr Hannah Sharpe"}
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/company/solarmist",
+          "https://www.instagram.com/solarmistco"
+        ],
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "General inquiries",
+          "email": "info@solarmist.co.uk",
+          "areaServed": "GB",
+          "availableLanguage": "en-GB"
+        }]
+      },
+      {
+        "@type": "WebSite",
+        "name": "SolarMist",
+        "url": "https://solarmist.co.uk/",
+        "inLanguage": "en-GB"
+      }
+    ]
+  }
+  </script>
 </head>
+
 
 <body>
   <header class="site-header">
