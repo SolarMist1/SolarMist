@@ -122,32 +122,39 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
    03) HEADER & NAVIGATION
 ================================== */
 .site-header {
-  background: rgba(255, 255, 255, 0);
+  /* was rgba(255,255,255,0) → transparent (lets hero blue show through) */
+  background: rgba(255,255,255,.64);
   border-bottom: none;
   padding: 0;
   position: fixed;
   top: 0; left: 0; width: 100%;
-  z-index: 100; min-height: 65px; max-height: 65px;
+  z-index: 100;
+  min-height: 65px; max-height: 65px;
   display: flex; align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.06);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
-/* make the scrolled state identical (so the toggle does nothing visually) */
-.site-header.scrolled{
+
+/* keep identical so the JS toggle changes nothing visually */
+.site-header.scrolled {
   background: rgba(255,255,255,.64);
   box-shadow: 0 1px 0 rgba(0,0,0,.06);
 }
 
 .header-content {
-  position: relative; display: flex; align-items: center; justify-content: space-between; gap: 0rem;
-  flex-wrap: nowrap; width: 100%; padding: 0.5rem 2rem; min-height: 65px;
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between; gap: 0rem;
+  flex-wrap: nowrap; width: 100%;
+  padding: 0.5rem 2rem; min-height: 65px;
 }
 
 .logo { margin-left: 0; margin-right: auto; display: flex; align-items: center; }
 .logo-img {
   height: 45px; max-height: 45px; width: auto; display: block;
-  position: static; left: 0; top: 0; object-fit: contain; object-position: left center;
+  position: static; left: 0; top: 0;
+  object-fit: contain; object-position: left center;
   border-radius: 6px; transition: height 0.3s; margin-top: 8px;
 }
 .logo-link { display: inline-block; position: relative; }
@@ -158,7 +165,11 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
   .logo { margin-right: auto; margin-left: -2rem; }
 }
 
-.site-nav { position: relative; height: 48px; display: flex; align-items: center; justify-content: flex-end; flex: 1; max-width: 60%; margin: 0; }
+.site-nav {
+  position: relative; height: 48px;
+  display: flex; align-items: center; justify-content: flex-end;
+  flex: 1; max-width: 60%; margin: 0;
+}
 .site-nav ul {
   display: flex; align-items: center; gap: clamp(1.2rem, 2.5vw, 2.6rem);
   list-style: none; margin: 0; padding: 0; height: 48px; white-space: nowrap;
@@ -166,8 +177,14 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
   margin-right: 3rem;
 }
 .site-nav ul li:last-child { margin-left: auto; }
-.site-nav a { display: flex; align-items: center; text-decoration: none; color: #535151; transition: transform 0.2s ease, font-weight 0.2s ease 0.02s; padding: 0 0.5rem; margin-top: 12px; }
-.site-nav a:hover, .site-nav a:focus, .site-nav a:active { transform: scale(1.1); font-weight: 700; color: var(--nav-text); outline: none; }
+.site-nav a {
+  display: flex; align-items: center; text-decoration: none; color: #535151;
+  transition: transform 0.2s ease, font-weight 0.2s ease 0.02s;
+  padding: 0 0.5rem; margin-top: 12px;
+}
+.site-nav a:hover, .site-nav a:focus, .site-nav a:active {
+  transform: scale(1.1); font-weight: 700; color: var(--nav-text); outline: none;
+}
 
 /* Hamburger */
 .mobile-nav-toggle {
@@ -178,8 +195,12 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
   touch-action: manipulation; -webkit-tap-highlight-color: transparent;
 }
 body.nav-open { overflow: hidden; }
-.mobile-nav-toggle .hamburger, .mobile-nav-toggle .hamburger::before, .mobile-nav-toggle .hamburger::after {
-  background-color: var(--text-color); height: 2.45px; width: 100%; border-radius: 2px; transition: transform 0.3s, opacity 0.3s; display: block; position: absolute;
+.mobile-nav-toggle .hamburger,
+.mobile-nav-toggle .hamburger::before,
+.mobile-nav-toggle .hamburger::after {
+  background-color: var(--text-color);
+  height: 2.45px; width: 100%; border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s; display: block; position: absolute;
 }
 .mobile-nav-toggle .hamburger::before { content: ""; top: -10px; }
 .mobile-nav-toggle .hamburger::after  { content: ""; top: 10px; }
@@ -190,54 +211,70 @@ body.nav-open { overflow: hidden; }
 /* Mobile overlay */
 .mobile-nav-overlay {
   display: flex;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  position: fixed; inset: 0;
   background: white;
   z-index: 10000;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  flex-direction: column; justify-content: flex-start; align-items: stretch;
   gap: 0.5rem;
-  transform: translateY(-20px);
-  opacity: 0;
+  transform: translateY(-20px); opacity: 0;
   transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-  pointer-events: none;
-  overflow-y: auto;
-  visibility: hidden;
+  pointer-events: none; overflow-y: auto; visibility: hidden;
   height: 100vh;
   padding-top: calc(var(--nav-h) + env(safe-area-inset-top) + 8px);
 }
-.mobile-nav-overlay.open { transform: translateY(0); opacity: 1; pointer-events: auto; visibility: visible; height: 100vh; }
-.mobile-nav-bg { position: absolute; inset: 0 0 auto 0; width: 100%; height: 0; background: linear-gradient(to bottom, #ffffff 0%, #f8f9fb 100%); transition: height 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s ease, opacity 0.6s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+.mobile-nav-overlay.open {
+  transform: translateY(0); opacity: 1; pointer-events: auto; visibility: visible; height: 100vh;
+}
+.mobile-nav-bg {
+  position: absolute; inset: 0 0 auto 0; width: 100%; height: 0;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fb 100%);
+  transition: height 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s ease, opacity 0.6s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
 .mobile-nav-overlay.open .mobile-nav-bg { height: 100%; opacity: 1; }
-.mobile-nav-logo { width: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 1.2rem 1.5rem 0.5rem; box-sizing: border-box; border-bottom: 1px dashed #e0e0e0; background: transparent; margin-bottom: 0.5rem; }
+.mobile-nav-logo {
+  width: 100%; display: flex; align-items: center; justify-content: flex-start;
+  padding: 1.2rem 1.5rem 0.5rem; box-sizing: border-box;
+  border-bottom: 1px dashed #e0e0e0; background: transparent; margin-bottom: 0.5rem;
+}
 .mobile-nav-logo img { height: 40px; max-width: 160px; object-fit: contain; display: block; }
 @media (min-width: 800px){ .mobile-nav-logo { display: none !important; } }
 
 .mobile-nav-overlay ul {
-  list-style: none;
-  width: 100%;
-  margin: 0;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1.3rem;
-  z-index: 1;
-  position: relative;
+  list-style: none; width: 100%; margin: 0; text-align: left;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+  gap: 1.3rem; z-index: 1; position: relative;
   padding: calc(var(--nav-h) + env(safe-area-inset-top) + 8px) 0 1rem 0; /* ensure first item is fully visible */
 }
-.mobile-nav-overlay .nav-arrow { flex: 0 0 auto; font-size: 1.4rem; color: #475467; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin-left: 1rem; margin-right: 1.5rem; transition: color 0.2s; }
-.mobile-nav-overlay li { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 0; border-bottom: 1px dashed #f0f0f0; opacity: 0; transform: translateY(20px) scale(0.98); }
+.mobile-nav-overlay .nav-arrow {
+  flex: 0 0 auto; font-size: 1.4rem; color: #475467;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  margin-left: 1rem; margin-right: 1.5rem; transition: color 0.2s;
+}
+.mobile-nav-overlay li {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 0; border-bottom: 1px dashed #f0f0f0;
+  opacity: 0; transform: translateY(20px) scale(0.98);
+}
 .mobile-nav-overlay.open li { animation: fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
 .mobile-nav-overlay.open li:nth-child(1){ animation-delay: 0.4s; }
 .mobile-nav-overlay.open li:nth-child(2){ animation-delay: 0.5s; }
 .mobile-nav-overlay.open li:nth-child(3){ animation-delay: 0.6s; }
 .mobile-nav-overlay.open li:nth-child(4){ animation-delay: 0.7s; }
 .mobile-nav-overlay.open li:nth-child(5){ animation-delay: 0.8s; }
-.mobile-nav-overlay a { flex: 1 1 auto; display: flex; align-items: center; justify-content: space-between; color: #475467; font-family: "Inter", sans-serif; font-weight: 700; font-size: 1.15rem; background: none; border: none; outline: none; text-align: left; padding: 0 1.5rem; text-decoration: none !important; transition: color 0.2s, background 0.2s; cursor: pointer; min-height: 48px; width: 100%; }
-.mobile-nav-overlay a:active, .mobile-nav-overlay a:focus, .mobile-nav-overlay a:hover, .nav-arrow { color: #b0b0b0 !important; text-decoration: none !important; outline: none; }
+.mobile-nav-overlay a {
+  flex: 1 1 auto; display: flex; align-items: center; justify-content: space-between;
+  color: #475467; font-family: "Inter", sans-serif; font-weight: 700; font-size: 1.15rem;
+  background: none; border: none; outline: none; text-align: left;
+  padding: 0 1.5rem; text-decoration: none !important;
+  transition: color 0.2s, background 0.2s; cursor: pointer; min-height: 48px; width: 100%;
+}
+.mobile-nav-overlay a:active,
+.mobile-nav-overlay a:focus,
+.mobile-nav-overlay a:hover,
+.nav-arrow {
+  color: #b0b0b0 !important; text-decoration: none !important; outline: none;
+}
 
 /* responsive visibility */
 @media (max-width: 800px){ .site-nav { display: none; } }
@@ -473,10 +510,74 @@ body.nav-open { overflow: hidden; }
 .floating-form input, .floating-form textarea { width: 100%; padding: 1.25rem 1rem 0.75rem; font-size: 1rem; background: #f9fbfc; border: 1px solid #dce3ec; border-radius: 9999px; outline: none; color: #1f1f1f; transition: all 0.2s ease; font-family: inherit; }
 .floating-form textarea { min-height: 80px; resize: vertical; border-radius: 24px; }
 .floating-form label { position: absolute; left: 1.25rem; top: 1.1rem; font-size: 0.95rem; color: #888; pointer-events: none; transition: 0.2s ease all; }
-.floating-form input:focus + label,
-.floating-form input:not(:placeholder-shown) + label,
-.floating-form textarea:focus + label,
-.floating-form textarea:not(:placeholder-shown) + label { top: 0.15rem; font-size: 0.75rem; background: white; padding: 0 6px; left: 1rem; color: #666; }
+
+/* ===== Floating form: labels disappear instead of floating ===== */
+.floating-form .form-group { position: relative; }
+
+/* keep the label sitting inside the field like a placeholder */
+.floating-form .form-group label{
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-52%);
+  font-size: 1rem;
+  color: #888;
+  pointer-events: none;
+  background: transparent;
+  padding: 0;
+  transition: opacity .18s ease; /* only fade, no movement */
+}
+
+/* hide label when user focuses or field has any content (incl. autofill) */
+.floating-form .form-group input:focus + label,
+.floating-form .form-group input:not(:placeholder-shown) + label,
+.floating-form .form-group textarea:focus + label,
+.floating-form .form-group textarea:not(:placeholder-shown) + label{
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* --- Footer launch form: use placeholders, no floating labels --- */
+#launchForm .form-group label.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* soften vertical padding now that label isn't inside the field */
+#launchForm input,
+#launchForm textarea {
+  padding: 1rem 1rem !important;
+}
+
+/* placeholder look (like the hero form) */
+#launchForm input::placeholder,
+#launchForm textarea::placeholder {
+  color: #888;
+  opacity: 1; /* ensure consistent across browsers */
+}
+
+/* kill any float/shrink rules that might still target labels in this form */
+#launchForm input:focus + label,
+#launchForm input:not(:placeholder-shown) + label,
+#launchForm textarea:focus + label,
+#launchForm textarea:not(:placeholder-shown) + label {
+  all: unset !important; /* nothing happens to the label */
+}
+
+
+/* Safari/Chrome autofill safety */
+.floating-form .form-group input:-webkit-autofill + label{
+  opacity: 0;
+  visibility: hidden;
+}
+
 
 @media (max-width: 768px){ .engage-container { flex-direction: column; } }
 @media (max-width: 600px){ .engage-section { padding: 2rem 1rem; } .engage-container { gap: 1rem; } .engage-box { padding: 1.25rem 1rem !important; border-radius: 1.25rem; } .signup-heading { margin-bottom: .6rem; } .signup-sub { margin-bottom: 1rem; } }
@@ -496,8 +597,28 @@ body.nav-open { overflow: hidden; }
 .option label:hover { font-weight: 600; background: #fffbe6; box-shadow: 0 0 0 4px #fffbe6; border-radius: 999px; padding: 6px 12px; transition: all 0.4s ease; }
 
 /* Progress */
-.progress-container { position: fixed; top: 0; left: 0; width: 100vw; height: 6px; background: #e0e0e0; z-index: 20000; margin: -1.61rem; padding: 0; pointer-events: none; }
-.progress-bar { height: 100%; width: 0%; transition: width 0.3s ease; background: linear-gradient(90deg, #ffce3d, #f8b600); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+/* Survey / page progress (fixed at very top) */
+.progress-container {
+  position: fixed;
+  top: env(safe-area-inset-top, 0);
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  z-index: 20001;           /* above header z-index 100 */
+  margin: 0;                /* <-- remove negative margin */
+  padding: 0;
+  pointer-events: none;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+  background: linear-gradient(90deg, #ffce3d, #f8b600);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
 
 /* Buttons */
 .button-group { display: flex; justify-content: space-between; margin-top: 20px; }
@@ -605,4 +726,30 @@ body.nav-open { overflow: hidden; }
   .faq-section { padding: 4.5rem 1rem 1.5rem !important; }
   .faq-section h2 { margin-bottom: 1rem !important; }
   .site-footer { padding-top: 1.5rem !important; }
+}
+
+/* --- THANK-YOU PAGE TWEAKS --- */
+
+/* 1) Sit the card lower, accounting for fixed header + safe areas */
+.thankyou-wrap{
+  /* header (var(--nav-h)) + extra breathing room */
+  padding-top: calc(var(--nav-h) + 5.5rem + env(safe-area-inset-top));
+  padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
+}
+
+/* 2) Make the card a bit wider */
+.ty-card{
+  max-width: 960px; /* was 860px */
+}
+
+/* Loosen the paragraph measure slightly so lines don't feel narrow */
+.ty-text{
+  max-width: 640px; /* was 560px */
+}
+
+/* Keep comfortable spacing on small phones */
+@media (max-width: 480px){
+  .thankyou-wrap{
+    padding-top: calc(var(--nav-h) + 7rem + env(safe-area-inset-top));
+  }
 }

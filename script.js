@@ -308,77 +308,83 @@
      08) Survey (multi-step + shared progress bar)
      - Claims the top progress bar for survey while active
   ----------------------------- */
-  const initSurvey = () => {
-    const form = DOM.surveyForm;
-    const bar = DOM.pageProgress;
-    if (!form || !bar) return;
+const initSurvey = () => {
+  const form = DOM.surveyForm;
+  const bar  = DOM.pageProgress;
+  const container = bar?.parentElement;     // <-- progress track wrapper
+  if (!form || !bar || !container) return;
 
-    const questions = $$('.question', form);
-    if (!questions.length) return;
+  const questions = $$('.question', form);
+  if (!questions.length) return;
 
-    let current = 0;
-    const OPTIONAL_INDEXES = new Set([6]); // Q7 is optional (0-based index)
+  let current = 0;
+  const OPTIONAL_INDEXES = new Set([6]); // Q7 is optional (0-based index)
 
-    // Mark the bar as survey-controlled to avoid conflict with scroll progress
-    bar.classList.add(CONFIG.SURVEY_PROGRESS_CLASS);
+  // Claim the bar for survey + raise its container above the header
+  bar.classList.add(CONFIG.SURVEY_PROGRESS_CLASS);
+  container.classList.add('survey-active');
 
-    const showQuestion = (idx) => {
-      questions.forEach((q, i) => q.classList.toggle('active', i === idx));
-      const pct = (idx / questions.length) * 100;
-      bar.style.width = `${pct}%`;
-    };
-
-    showQuestion(current);
-
-    // Auto-advance on radio select
-    $$('input[type="radio"]', form).forEach(input => {
-      on(input, 'change', () => {
-        const parent = input.closest('.question');
-        const options = $$("input[type='radio']", parent);
-        const answered = options.some(r => r.checked);
-        if (answered && current < questions.length - 1) {
-          current++;
-          showQuestion(current);
-        }
-      });
-    });
-
-    // Next buttons with validation
-    $$('.next-btn', form).forEach(btn => {
-      on(btn, 'click', (e) => {
-        e.preventDefault();
-        const q = questions[current];
-        const inputs = $$('input, textarea', q);
-
-        let answered = false;
-        inputs.forEach(inp => {
-          if ((inp.type === 'radio' || inp.type === 'checkbox') && inp.checked) answered = true;
-          if (inp.tagName === 'TEXTAREA' && inp.value.trim() !== '') answered = true;
-          if (inp.type === 'email' && inp.value.trim() !== '') answered = true;
-        });
-
-        if (!answered && !OPTIONAL_INDEXES.has(current)) {
-          alert('Please select or enter an answer before continuing.');
-          return;
-        }
-        if (current < questions.length - 1) {
-          current++;
-          showQuestion(current);
-        }
-      });
-    });
-
-    // Back buttons
-    $$('.back-btn', form).forEach(btn => {
-      on(btn, 'click', (e) => {
-        e.preventDefault();
-        if (current > 0) {
-          current--;
-          showQuestion(current);
-        }
-      });
-    });
+  const showQuestion = (idx) => {
+    questions.forEach((q, i) => q.classList.toggle('active', i === idx));
+    const pct = (idx / questions.length) * 100;
+    bar.style.width = `${pct}%`;
   };
+
+  showQuestion(current);
+
+  // Auto-advance on radio select
+  $$('input[type="radio"]', form).forEach(input => {
+    on(input, 'change', () => {
+      const parent = input.closest('.question');
+      const options = $$("input[type='radio']", parent);
+      const answered = options.some(r => r.checked);
+      if (answered && current < questions.length - 1) {
+        current++;
+        showQuestion(current);
+      }
+    });
+  });
+
+  // Next buttons with validation
+  $$('.next-btn', form).forEach(btn => {
+    on(btn, 'click', (e) => {
+      e.preventDefault();
+      const q = questions[current];
+      const inputs = $$('input, textarea', q);
+
+      let answered = false;
+      inputs.forEach(inp => {
+        if ((inp.type === 'radio' || inp.type === 'checkbox') && inp.checked) answered = true;
+        if (inp.tagName === 'TEXTAREA' && inp.value.trim() !== '') answered = true;
+        if (inp.type === 'email' && inp.value.trim() !== '') answered = true;
+      });
+
+      if (!answered && !OPTIONAL_INDEXES.has(current)) {
+        alert('Please select or enter an answer before continuing.');
+        return;
+      }
+      if (current < questions.length - 1) {
+        current++;
+        showQuestion(current);
+      }
+    });
+  });
+
+  // Back buttons
+  $$('.back-btn', form).forEach(btn => {
+    on(btn, 'click', (e) => {
+      e.preventDefault();
+      if (current > 0) {
+        current--;
+        showQuestion(current);
+      }
+    });
+  });
+
+  // Optional: drop the elevated z-index once the form submits (redirect follows)
+  on(form, 'submit', () => container.classList.remove('survey-active'));
+};
+
 
   /* -----------------------------
      09) Page scroll progress bar

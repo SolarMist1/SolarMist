@@ -147,7 +147,7 @@
                    aria-label="Email address" required autocomplete="email">
           </div>
           <button type="submit">Register Interest →</button>
-          <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks.html">
+          <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
           <input type="hidden" name="_subject" value="New SolarMist registration">
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
                  style="position:absolute;left:-9999px" aria-hidden="true">
@@ -490,23 +490,24 @@
 
   <input type="hidden" name="form_source" value="Launch Signup (footer)">
   <input type="hidden" name="_subject" value="SolarMist — New Launch Signup">
-  <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks.htm;">
+  <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
 
-  <div class="form-group">
-    <input type="text" name="name" id="launch-name" placeholder=" " required autocomplete="name" />
-    <label for="launch-name">Name</label>
-  </div>
+<div class="form-group">
+  <input type="text" name="name" id="launch-name" placeholder="Name" required autocomplete="name" />
+  <label for="launch-name" class="sr-only">Name</label>
+</div>
 
-  <div class="form-group">
-    <input type="email" name="email" id="launch-email" required placeholder=" " autocomplete="email" inputmode="email" />
-    <label for="launch-email">Email address</label>
-  </div>
+<div class="form-group">
+  <input type="email" name="email" id="launch-email" placeholder="Email address" required autocomplete="email" inputmode="email" />
+  <label for="launch-email" class="sr-only">Email address</label>
+</div>
 
-  <div class="form-group">
-    <textarea name="message" id="launch-message" placeholder=" "></textarea>
-    <label for="launch-message">Optional message</label>
-  </div>
+<div class="form-group">
+  <textarea name="message" id="launch-message" placeholder="Optional message"></textarea>
+  <label for="launch-message" class="sr-only">Optional message</label>
+</div>
+
 
   <button type="submit" class="cta-button">Join the launch</button>
 </form>
@@ -525,7 +526,7 @@
   <input type="hidden" name="utm_source" value="website">
   <input type="hidden" name="form_source" value="Survey (get-involved)">
   <input type="hidden" name="_subject" value="SolarMist — New Survey Response">
-  <input type="hidden" name="_redirect" value="/thanks.html"> <!-- or /thanks.html -->
+  <input type="hidden" name="_redirect" value="/thanks/"> <!-- or /thanks.html -->
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
 
         <!-- Q1 -->
