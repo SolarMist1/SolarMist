@@ -10,12 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Shared site CSS + icons (root-relative paths) -->
+  <!-- Shared site CSS + icons (root-relative) -->
   <link rel="stylesheet" href="/style.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
   <link rel="manifest" href="/images/site.webmanifest" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="robots" content="noindex,follow" />
@@ -54,12 +52,12 @@
     .ty-card {
       position: relative;
       width: 100%;
-      max-width: 960px;               /* a touch wider */
+      max-width: 960px;                 /* a touch wider on desktop */
       text-align: center;
       background: #fff;
       border: 1px solid rgba(0,0,0,.06);
       border-radius: 22px;
-      padding: 3.8rem 2.2rem 3rem;     /* extra top padding so icon never clips */
+      padding: 3.8rem 2.2rem 3rem;       /* extra top padding so icon never clips */
       box-shadow: 0 8px 28px rgba(0,0,0,.06);
       overflow: hidden;
 
@@ -107,9 +105,18 @@
 
     /* Mobile adjustments */
     @media (max-width: 480px) {
-      .thankyou-wrap { padding-top: calc(9rem + env(safe-area-inset-top)); } /* more space from top */
-      .ty-card { border-radius: 18px; padding-top: 5.25rem; } /* fit icon fully */
-      .ty-icon { width: 56px; height: 56px; }
+      /* more drop from the fixed header on small screens */
+      .thankyou-wrap { padding-top: calc(11rem + env(safe-area-inset-top)); }
+
+      /* let the card use more of the screen */
+      .ty-card {
+        margin-left: max(12px, env(safe-area-inset-left));
+        margin-right: max(12px, env(safe-area-inset-right));
+        padding-top: 5.75rem;            /* extra headroom for the tick */
+        border-radius: 18px;
+      }
+
+      .ty-icon { width: 60px; height: 60px; }
 
       .actions { flex-direction: column; align-items: center; gap: .8rem; }
       .share-row { margin-top: 1.25rem; justify-content: center; gap: .6rem; }
@@ -143,7 +150,8 @@
   </header>
 
   <main class="thankyou-wrap">
-    <section class="ty-card container" aria-labelledby="ty-title">
+    <!-- Removed extra .container class here so the card can be wider on mobile -->
+    <section class="ty-card" aria-labelledby="ty-title">
       <div class="ty-icon" aria-hidden="true">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
           <path class="ty-check" d="M20 7L9 18l-5-5" stroke="#0b3a6f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
