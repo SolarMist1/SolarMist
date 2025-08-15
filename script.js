@@ -384,22 +384,23 @@
      09) Page scroll progress bar
      - Auto-disables when survey is controlling it
   ----------------------------- */
-  const initPageProgress = () => {
-    const bar = DOM.pageProgress;
-    if (!bar) return;
+const initPageProgress = () => {
+  const bar = DOM.pageProgress;
+  const container = bar?.parentElement;
+  if (!bar || !container) return;
 
-    const update = throttle(() => {
-      // If survey has claimed the bar, don't overwrite it
-      if (bar.classList.contains(CONFIG.SURVEY_PROGRESS_CLASS)) return;
-      const scrolled = DOM.docEl.scrollTop || document.body.scrollTop;
-      const height = DOM.docEl.scrollHeight - DOM.docEl.clientHeight;
-      const pct = height > 0 ? (scrolled / height) * 100 : 0;
-      bar.style.width = pct + '%';
-    }, 50);
+  const update = throttle(() => {
+    // Survey owns the bar; keep hidden otherwise
+    if (!bar.classList.contains(CONFIG.SURVEY_PROGRESS_CLASS)) {
+      container.classList.remove('active');
+      bar.style.width = '0%';
+    }
+  }, 50);
 
-    on(window, 'scroll', update, { passive: true });
-    update();
-  };
+  on(window, 'scroll', update, { passive: true });
+  update();
+};
+
 
   /* -----------------------------
      10) HIW arrows (horizontal scroll)
@@ -624,6 +625,9 @@
   /* -----------------------------
      Init on DOM ready
   ----------------------------- */
+// TEMP stub so init chain doesn't die (features handled by IIFE below)
+const initFeaturesGrid = () => {};
+
   document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initMobileNav();
