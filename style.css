@@ -541,77 +541,153 @@ body.nav-open { overflow: hidden; }
 /* ==================================
    07) FEATURES (grid → slider ≤900px)
 ================================== */
-.features-section, .survey-section { font-family: "Inter", sans-serif; background-color: var(--gray-bg); padding: 2rem 2rem 1rem 5.9rem; scroll-margin-top: 48px; }
-.features-section h2 { font-family: "Inter", sans-serif; font-size: 2.25rem; font-weight: 700; margin-bottom: 0.1rem; text-align: left; }
-
-.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding-top: 2rem; justify-content: center; }
-.feature { background-color: #fff; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 20px rgba(0,0,0,.05); transition: transform .3s ease; display: flex; flex-direction: column; text-align: left; }
-.feature:hover { transform: translateY(-4px); }
-.feature-image { width: 64px; height: 64px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: center; }
-.feature-image img { width: 100%; height: auto; object-fit: contain; }
-.feature-content h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: .5rem; color: #1c1c1c; }
-.feature h3 { min-height: 3rem; }
-.feature-content p { font-size: 1rem; color: #444; line-height: 1.5; }
-
-@media (max-width: 1024px){ .features-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 900px){
-  .features-grid { --gutter: 16px; display: flex; overflow-x: auto; gap: 12px; padding: 12px var(--gutter) 16px; margin: 0; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-padding-inline: var(--gutter); }
-  .features-grid::-webkit-scrollbar { display: none; }
-  .feature { flex: 0 0 100%; scroll-snap-align: start; padding: 1.5rem; }
-  .feature-image { width: 56px; height: 56px; }
-  .features-dots { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100vw; margin-left: calc(50% - 50vw); margin-top: 2px; padding: 0 0 10px; position: relative; z-index: 2; }
-}
-.features-dots { display: none; }
-.features-dots .features-dot { --size: 6px; --ring: 2px; width: var(--size); height: var(--size); border-radius: 999px; border: var(--ring) solid #cfd6e3; background: transparent; transform: scale(1); transition: transform .22s cubic-bezier(.22,.9,.24,1), background-color .22s ease, border-color .22s ease, opacity .2s ease; padding: 0; cursor: pointer; outline: none; touch-action: manipulation; }
-.features-dots .features-dot.active { background: var(--yellow); border-color: var(--yellow); transform: scale(1.9); }
-.features-dots .features-dot:focus-visible { outline: 2px solid #003d80; outline-offset: 3px; }
-
-@media (max-width: 768px){ .features-section, .how-it-works-section, .survey-section { padding: 2rem 1.5rem 1rem; } }
-
-/* ---- Section 15 fixes merged here (Features & Survey) ---- */
-/* Desktop spacing trim */
-@media (min-width: 1025px){
-  .features-section { padding-top: 4rem; padding-bottom: 4rem; }
-  .features-grid { padding-top: 1rem; }
-}
-/* Neutralise legacy left indent on some sections */
-.features-section, .survey-section { padding-left: 2rem !important; }
-
-/* Mobile spacing trim specific to features block */
-@media (max-width: 768px){
-  .features-section { padding: 1.5rem 1rem 0 !important; }
-  .features-grid { margin-bottom: 1rem !important; }
+.features-section,
+.survey-section{
+  font-family:"Inter",sans-serif;
+  background-color:var(--gray-bg);
+  padding:2rem 2rem 1rem 5.9rem;
+  scroll-margin-top:48px;
 }
 
-/* Horizontal scroller stability (features) */
-.features-grid{ overscroll-behavior-x: contain; scroll-snap-stop: always; }
-@media (max-width: 900px){ .features-grid{ scroll-snap-type: x mandatory; } }
-
-/* Gentle parallax only on desktop (iOS ignores fixed anyway) */
-@media (min-width: 1025px){
-  .parallax-mist{ background-attachment: fixed; }
+.features-section h2{
+  font-family:"Inter",sans-serif;
+  font-size:2.25rem;
+  font-weight:700;
+  margin-bottom:0.1rem;
+  text-align:left;
 }
 
-/* ===== Restore mist “bubbles” and kill mobile seam ===== */
+/* Desktop grid */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+  padding-top:2rem;
+  justify-content:center;
+}
+.feature{
+  background-color:#fff;
+  border-radius:20px;
+  padding:2rem;
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+  transition:transform .3s ease;
+  display:flex;
+  flex-direction:column;
+  text-align:left;
+}
+.feature:hover{ transform:translateY(-4px); }
+.feature-image{ width:64px; height:64px; margin-bottom:1.25rem; display:flex; align-items:center; justify-content:center; }
+.feature-image img{ width:100%; height:auto; object-fit:contain; }
+.feature-content h3{ font-size:1.125rem; font-weight:700; margin-bottom:.5rem; color:#1c1c1c; }
+.feature h3{ min-height:3rem; }
+.feature-content p{ font-size:1rem; color:#444; line-height:1.5; }
 
-/* 1) Bring back the soft bubbles behind the cards */
+/* Tablet */
+@media (max-width:1024px){
+  .features-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* Mobile slider */
+@media (max-width:900px){
+  .features-grid{
+    --gutter:16px;
+    display:flex;
+    overflow-x:auto;
+    gap:12px;
+    padding:12px var(--gutter) 16px;
+    margin:0;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-padding-inline:var(--gutter);
+    transform:translateZ(0); /* iOS seam fix */
+  }
+  .features-grid::-webkit-scrollbar{ display:none; }
+  .feature{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    padding:1.5rem;
+  }
+  .feature-image{ width:56px; height:56px; }
+}
+
+/* Pagination dots (default hidden) */
+.features-dots{ display:none; }
+.features-dots .features-dot{
+  --size:6px; --ring:2px;
+  width:var(--size); height:var(--size);
+  border-radius:999px;
+  border:var(--ring) solid #cfd6e3;
+  background:transparent;
+  transform:scale(1);
+  transition:transform .22s cubic-bezier(.22,.9,.24,1),
+             background-color .22s ease,
+             border-color .22s ease,
+             opacity .2s ease;
+  padding:0; cursor:pointer; outline:none; touch-action:manipulation;
+}
+.features-dots .features-dot.active{
+  background:var(--yellow); border-color:var(--yellow); transform:scale(1.9);
+}
+.features-dots .features-dot:focus-visible{ outline:2px solid #003d80; outline-offset:3px; }
+
+/* Show dots on mobile (force override in case of later rules) */
+@media (max-width:900px){
+  .features-dots{
+    display:flex !important;
+    justify-content:center; align-items:center; gap:10px;
+    width:100vw; margin-left:calc(50% - 50vw);
+    margin-top:0; /* avoids tiny seam on iOS */
+    padding:0 0 10px;
+    position:relative; z-index:2;
+    background:var(--gray-bg);
+  }
+}
+
+/* Compact padding on small screens */
+@media (max-width:768px){
+  .features-section,
+  .how-it-works-section,
+  .survey-section{ padding:2rem 1.5rem 1rem; }
+}
+
+/* ---- Spacing trims / stability ---- */
+@media (min-width:1025px){
+  .features-section{ padding-top:4rem; padding-bottom:4rem; }
+  .features-grid{ padding-top:1rem; }
+}
+/* Neutralise legacy left indent */
+.features-section,
+.survey-section{ padding-left:2rem !important; }
+
+/* Mobile spacing for block */
+@media (max-width:768px){
+  .features-section{ padding:1.5rem 1rem 0 !important; }
+  .features-grid{ margin-bottom:1rem !important; }
+}
+
+/* Scroller stability */
+.features-grid{ overscroll-behavior-x:contain; scroll-snap-stop:always; }
+@media (max-width:900px){ .features-grid{ scroll-snap-type:x mandatory; } }
+
+/* Gentle parallax only on desktop */
+@media (min-width:1025px){
+  .parallax-mist{ background-attachment:fixed; }
+}
+
+/* Bubbly background */
 .features-section{
-  position: relative;
-  /* fallback */
-  background-color: var(--gray-bg);
-  /* layered radial gradients = bubbles */
+  position:relative;
+  background-color:var(--gray-bg);
   background-image:
     radial-gradient(160px 140px at 12% -40px, rgba(255,255,255,.92), rgba(255,255,255,0) 65%),
     radial-gradient(220px 180px at 90% -30px, rgba(255,255,255,.88), rgba(255,255,255,0) 65%),
     radial-gradient(160px 140px at -40px 60%, rgba(255,255,255,.80), rgba(255,255,255,0) 65%);
-  background-repeat: no-repeat;
-  background-position: left top, right top, left 0 bottom 40%;
-  background-size: auto, auto, auto;
-  isolation: isolate; /* keep gradients behind content */
+  background-repeat:no-repeat;
+  background-position:left top, right top, left 0 bottom 40%;
+  background-size:auto, auto, auto;
+  isolation:isolate;
 }
-
-/* Slightly larger/less cramped on wider screens */
-@media (min-width: 901px){
+@media (min-width:901px){
   .features-section{
     background-image:
       radial-gradient(220px 180px at 14% -50px, rgba(255,255,255,.92), rgba(255,255,255,0) 65%),
@@ -619,25 +695,11 @@ body.nav-open { overflow: hidden; }
       radial-gradient(200px 160px at -60px 60%, rgba(255,255,255,.80), rgba(255,255,255,0) 65%);
   }
 }
-
-/* 2) iOS hairline fix where full-bleed elements meet the section edge */
-@media (max-width: 900px){
-  .features-grid{
-    /* render on its own layer to avoid sub-pixel seam */
-    transform: translateZ(0);
-  }
-  .features-dots{
-    /* avoid a visible 1–2px gap above the dots on some devices */
-    margin-top: 0;
-    background: var(--gray-bg);
-  }
-  /* In case a seam still shows, paint a 1px cover strip using the section bg */
+/* 1px hairline cover for some iOS combos */
+@media (max-width:900px){
   .features-section::after{
-    content:"";
-    position:absolute; left:50%; transform:translateX(-50%);
-    bottom:-1px; width:100dvw; height:1px;
-    background: var(--gray-bg);
-    pointer-events:none;
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    bottom:-1px; width:100dvw; height:1px; background:var(--gray-bg); pointer-events:none;
   }
 }
 
