@@ -737,24 +737,29 @@ body.nav-open { overflow: hidden; }
   .site-footer { padding-top: 1.5rem !important; }
 }
 
-/* ----- Mobile menu: bring the first item higher & keep all items visible ----- */
+/* ----- Mobile menu: sit list just below the close (X), but keep all items visible ----- */
 
-/* 1) The overlay itself only needs a tiny top pad (not nav height again) */
+/* keep the overlay itself snug to the top/safe-area */
 .mobile-nav-overlay{
-  padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important;
+  padding-top: calc(8px + env(safe-area-inset-top, 0px)) !important;
 }
 
-/* 2) Remove the extra big top padding on the list */
+/* give the list a modest top offset that scales with screen height */
 .mobile-nav-overlay ul{
-  padding: 0.25rem 0 1rem 0 !important; /* was calc(var(--nav-h)+...) */
+  /* ~44px button + a little breathing room; scales between 28–52px */
+  padding: clamp(28px, 7vh, 52px) 0 1rem 0 !important;
+  gap: 1.25rem; /* keep your nice spacing */
 }
 
-/* 3) Very short screens: subtly tighten vertical rhythm so all 5 fit */
-@media (max-height: 680px){
-  .mobile-nav-overlay ul{ gap: 1rem !important; }
-  .mobile-nav-overlay li{ padding: 0.9rem 0 !important; }
-  .mobile-nav-overlay a{ font-size: 1.08rem !important; }
+/* very short screens: tiny tighten so the bottom item doesn’t get clipped */
+@media (max-height: 700px){
+  .mobile-nav-overlay ul{
+    padding-top: clamp(16px, 4vh, 28px) !important;
+    gap: 1rem !important;
+  }
+  .mobile-nav-overlay li{ padding: 0.95rem 0 !important; }
 }
+
 
 
 
