@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <title>SolarMist | Touch-Free Sunscreen Booths</title>
   <meta name="description" content="Touch-free sunscreen in 10 seconds. Full-body SPF mist, zero mess. Built for beaches, parks, and resorts. Pilot installs Summer 2026 — register interest." />
@@ -23,6 +23,7 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="SolarMist touch-free sunscreen misting booth" />
+  <meta property="og:locale" content="en_GB" />
   <!-- Remove fb:app_id unless you have a real ID -->
   <!-- <meta property="fb:app_id" content="1234567890" /> -->
 
@@ -50,8 +51,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Preload above-the-fold images -->
+  <link rel="preload" as="image" href="/images/backgroundv10.png" />
+  <link rel="preload" as="image" href="/images/modelv5.png" fetchpriority="high" />
+
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Keep animated sections visible when JS is off -->
+  <noscript>
+    <style>
+      [data-animate]{opacity:1 !important; transform:none !important;}
+      .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+      .skip-link:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;overflow:visible;background:#fff;padding:.5rem .75rem;border-radius:.5rem;z-index:100000}
+    </style>
+  </noscript>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -81,6 +95,9 @@
 </head>
 
 <body>
+  <!-- Skip to content -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="container header-content">
       <div class="logo">
@@ -91,7 +108,7 @@
       </div>
 
       <!-- Mobile menu toggle -->
-      <button id="mobileToggle" class="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+      <button type="button" id="mobileToggle" class="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
         <span class="hamburger"></span>
       </button>
 
@@ -120,575 +137,573 @@
     </nav>
   </header>
 
-<div class="sticky-cta-banner">
-  <a href="#get-involved" class="cta-button">Register Your Interest</a>
-</div>
+  <main id="main">
+    <div class="sticky-cta-banner">
+      <a href="#get-involved" class="cta-button">Register Your Interest</a>
+    </div>
 
-<div class="progress-container">
-  <div id="progressBar" class="progress-bar"></div>
-</div>
+    <div class="progress-container" aria-hidden="true">
+      <div
+        id="progressBar"
+        class="progress-bar"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0">
+      </div>
+    </div>
 
-<section id="top" class="hero" data-animate>
-  <div class="hero-grid">
-    <div class="hero-left">
-      <div class="text-panel">
-        <h1 class="hero-title">HANDS-FREE SUNSCREEN.<br>MISTING BOOTH</h1>
-        <p class="hero-subtitle">
-          No greasy hands. No missed spots. A full-body SPF mist in 10 seconds.
-          Designed for beaches, parks, and resorts — choose between SPF 30 or 50.
-          <strong>Pilot installs Summer 2026.</strong>
-        </p>
+    <section id="top" class="hero" data-animate>
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="text-panel">
+            <h1 class="hero-title">HANDS-FREE SUNSCREEN.<br>MISTING BOOTH</h1>
+            <p class="hero-subtitle">
+              No greasy hands. No missed spots. A full-body SPF mist in 10 seconds.
+              Designed for beaches, parks, and resorts — choose between SPF 30 or 50.
+              <strong>Pilot installs Summer 2026.</strong>
+            </p>
 
-        <!-- Email Registration Form -->
-        <form id="heroForm" class="inline-email-form"
-              action="https://formspree.io/f/xwpqawqo" method="POST" novalidate>
-          <div class="input-wrapper">
-            <input type="email" id="email" name="email" placeholder="Email address"
-                   aria-label="Email address" required autocomplete="email">
+            <!-- Email Registration Form -->
+            <form id="heroForm" class="inline-email-form"
+                  action="https://formspree.io/f/xwpqawqo" method="POST" novalidate>
+              <div class="input-wrapper">
+                <input type="email" id="email" name="email" placeholder="Email address"
+                       aria-label="Email address" required autocomplete="email">
+              </div>
+              <button type="submit">Register Interest →</button>
+              <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
+              <input type="hidden" name="_subject" value="New SolarMist registration">
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+                     style="position:absolute;left:-9999px" aria-hidden="true">
+            </form>
           </div>
-          <button type="submit">Register Interest →</button>
-          <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
-          <input type="hidden" name="_subject" value="New SolarMist registration">
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-                 style="position:absolute;left:-9999px" aria-hidden="true">
-        </form>
-      </div>
-    </div>
-
-    <div class="hero-image">
-      <img src="images/modelv5.png" alt="SolarMist touch-free sunscreen misting booth concept render" fetchpriority="high" />
-    </div>
-  </div>
-  <!-- Navy grounding bar -->
-  <div class="hero-divider">
-    Providing Protection from Harmful UV Rays
-  </div>
-</section>
-
-<section id="about" class="about-section" data-animate>
-  <div class="container">
-    <h2>Our Vision</h2>
-
-    <div class="about-top">
-      <!-- Desktop/tablet lede -->
-      <p class="about-lede lede-desktop">
-  We're building SolarMist to make SPF effortless. Our touch-free misting
-  booths deliver fast, full-body sunscreen coverage, without the mess and
-  hassle of traditional suncream. Think showers of SPF at beaches,
-  festivals, and resorts worldwide. This is sun safety reimagined —
-  pilot installs Summer 2026.
-</p>
-<p class="about-lede lede-mobile">
-  Touch-free SPF in 10 seconds. Full-body coverage, no mess — pilot installs Summer 2026.
-</p>
-
-    </div>
-
-    <div class="founders">
-      <article class="founder-card">
-        <div class="image-wrapper">
-          <img src="images/cormac.png" alt="Cormac Neville — Co-Founder, Commercial Strategy" loading="lazy" decoding="async" class="profile-img cormac-img"/>
-        </div>
-        <h3 class="founder-name">Cormac Neville</h3>
-        <p class="founder-role">Co-Founder – Commercial Strategy</p>
-        <div class="quote-with-bar">
-          <p class="founder-quote">“I’ve seen the same issue at every beach, pool and festival — no one wants to stop and reapply sunscreen. We built SolarMist to make sun protection effortless.”</p>
-        </div>
-      </article>
-
-      <article class="founder-card">
-        <div class="image-wrapper">
-          <img src="images/hannah.png" alt="Dr Hannah Sharpe — Co-Founder, Clinical Safety" loading="lazy" decoding="async" class="profile-img hannah-img" />
-
-        </div>
-        <h3 class="founder-name">Dr Hannah Sharpe</h3>
-        <p class="founder-role">Co-Founder – Clinical Safety</p>
-        <div class="quote-with-bar">
-          <p class="founder-quote">“As a doctor, I’ve seen firsthand how easily people underestimate UV damage. SolarMist turns protection into a habit — simple, fast, even fun.”</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-
-
-
-<section id="how-it-works" class="how-it-works-section" data-animate>
-  <div class="container">
-    <h2 class="hiw-heading">Mist. Rotate. Done.</h2>
-
-    <div class="hiw-wrapper">
-      <div class="hiw-cards">
-        <div class="hiw-card">
-          <h3>Step In</h3>
-          <p>The booth senses you and starts the mist.</p>
         </div>
 
-        <div class="hiw-card">
-          <h3>Rotate</h3>
-          <p>Rotate slowly for full body 360° coverage.</p>
-        </div>
-
-        <div class="hiw-card">
-          <h3>Done</h3>
-          <p>Fully protected. No rubbing, no residue.</p>
+        <div class="hero-image">
+          <img src="images/modelv5.png" alt="SolarMist touch-free sunscreen misting booth concept render" fetchpriority="high" decoding="async" />
         </div>
       </div>
-
-      <!-- Arrows go outside hiw-cards -->
-      <div class="hiw-nav-arrows">
-        <button class="hiw-arrow-btn hiw-arrow-left">‹</button>
-        <button class="hiw-arrow-btn hiw-arrow-right">›</button>
+      <!-- Navy grounding bar -->
+      <div class="hero-divider">
+        Providing Protection from Harmful UV Rays
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="features" class="features-section parallax-mist" data-animate>
-  <div class="container">
-    <h2>Features</h2>
+    <section id="about" class="about-section" data-animate>
+      <div class="container">
+        <h2>Our Vision</h2>
 
-    <!-- Track -->
-    <div class="features-grid" id="featuresTrack" role="list" aria-label="Feature cards">
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/handicon.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Touchless Application</h3>
-          <p>No rubbing. A clean mist delivers SPF hands-free.</p>
+        <div class="about-top">
+          <!-- Desktop/tablet lede -->
+          <p class="about-lede lede-desktop">
+            We're building SolarMist to make SPF effortless. Our touch-free misting
+            booths deliver fast, full-body sunscreen coverage, without the mess and
+            hassle of traditional suncream. Think showers of SPF at beaches,
+            festivals, and resorts worldwide. This is sun safety reimagined —
+            pilot installs Summer 2026.
+          </p>
+          <p class="about-lede lede-mobile">
+            Touch-free SPF in 10 seconds. Full-body coverage, no mess — pilot installs Summer 2026.
+          </p>
+
         </div>
-      </article>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/stopwatch.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Full Coverage in 10</h3>
-          <p>Faster and more consistent than manual application.</p>
+        <div class="founders">
+          <article class="founder-card">
+            <div class="image-wrapper">
+              <img src="images/cormac.png" alt="Cormac Neville — Co-Founder, Commercial Strategy" loading="lazy" decoding="async" class="profile-img cormac-img"/>
+            </div>
+            <h3 class="founder-name">Cormac Neville</h3>
+            <p class="founder-role">Co-Founder – Commercial Strategy</p>
+            <div class="quote-with-bar">
+              <p class="founder-quote">“I’ve seen the same issue at every beach, pool and festival — no one wants to stop and reapply sunscreen. We built SolarMist to make sun protection effortless.”</p>
+            </div>
+          </article>
+
+          <article class="founder-card">
+            <div class="image-wrapper">
+              <img src="images/hannah.png" alt="Dr Hannah Sharpe — Co-Founder, Clinical Safety" loading="lazy" decoding="async" class="profile-img hannah-img" />
+            </div>
+            <h3 class="founder-name">Dr Hannah Sharpe</h3>
+            <p class="founder-role">Co-Founder – Clinical Safety</p>
+            <div class="quote-with-bar">
+              <p class="founder-quote">“As a doctor, I’ve seen firsthand how easily people underestimate UV damage. SolarMist turns protection into a habit — simple, fast, even fun.”</p>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/family.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Kid & Family Friendly</h3>
-          <p>Designed for family use.</p>
+    <section id="how-it-works" class="how-it-works-section" data-animate>
+      <div class="container">
+        <h2 class="hiw-heading">Mist. Rotate. Done.</h2>
+
+        <div class="hiw-wrapper">
+          <div class="hiw-cards">
+            <div class="hiw-card">
+              <h3>Step In</h3>
+              <p>The booth senses you and starts the mist.</p>
+            </div>
+
+            <div class="hiw-card">
+              <h3>Rotate</h3>
+              <p>Rotate slowly for full body 360° coverage.</p>
+            </div>
+
+            <div class="hiw-card">
+              <h3>Done</h3>
+              <p>Fully protected. No rubbing, no residue.</p>
+            </div>
+          </div>
+
+          <!-- Arrows go outside hiw-cards -->
+          <div class="hiw-nav-arrows">
+            <button class="hiw-arrow-btn hiw-arrow-left">‹</button>
+            <button class="hiw-arrow-btn hiw-arrow-right">›</button>
+          </div>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/leaf.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Eco-Smart Design</h3>
-          <p>Refillable canisters, no single-use plastics.</p>
+    <section id="features" class="features-section parallax-mist" data-animate>
+      <div class="container">
+        <h2>Features</h2>
+
+        <!-- Track -->
+        <div class="features-grid" id="featuresTrack" role="list" aria-label="Feature cards">
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/handicon.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Touchless Application</h3>
+              <p>No rubbing. A clean mist delivers SPF hands-free.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/stopwatch.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Full Coverage in 10</h3>
+              <p>Faster and more consistent than manual application.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/family.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Kid & Family Friendly</h3>
+              <p>Designed for family use.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/leaf.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Eco-Smart Design</h3>
+              <p>Refillable canisters, no single-use plastics.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/recycle.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Refillable SPF Formulas</h3>
+              <p>Multiple SPF levels, dermatologically tested.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/umbrella.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Indoor & Outdoor Options</h3>
+              <p>Flexible booth sizes for any venue type.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/clean.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Self-Cleaning Design</h3>
+              <p>Contact-free use with between-use sanitisation features planned for pilots.</p>
+            </div>
+          </article>
+
+          <article class="feature" role="listitem">
+            <figure class="feature-image embed-box" aria-hidden="true">
+              <img src="images/handshake.png" alt="" loading="lazy" decoding="async" width="64" height="64">
+            </figure>
+            <div class="feature-content">
+              <h3>Partner Analytics</h3>
+              <p>Get real usage stats for insights and ROI.</p>
+            </div>
+          </article>
         </div>
-      </article>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/recycle.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Refillable SPF Formulas</h3>
-          <p>Multiple SPF levels, dermatologically tested.</p>
+        <!-- Dots -->
+        <div class="features-dots" id="featuresDots" aria-label="Slide position"></div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq-section" data-animate>
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq1" aria-controls="a-faq1" aria-expanded="false">Is SolarMist safe for children?</button>
+          <div class="faq-answer" id="a-faq1" role="region" aria-labelledby="q-faq1">
+            <p>SolarMist is being developed for family use. Our SPF formulas will undergo dermatological review prior to pilot installations, and on-booth guidance will help parents use it appropriately for children.</p>
+          </div>
         </div>
-      </article>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/umbrella.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Indoor & Outdoor Options</h3>
-          <p>Flexible booth sizes for any venue type.</p>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq2" aria-controls="a-faq2" aria-expanded="false">Will it mess up hair or makeup?</button>
+          <div class="faq-answer" id="a-faq2" role="region" aria-labelledby="q-faq2">
+            <p>We’re engineering an ultra-fine mist intended to apply evenly with a light finish. As with any sunscreen, we’ll publish usage tips (e.g., quick face shielding) ahead of pilots for best results.</p>
+          </div>
         </div>
-      </article>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/clean.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Self-Cleaning Design</h3>
-          <p>Contact-free use with between-use sanitisation features planned for pilots.</p>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq3" aria-controls="a-faq3" aria-expanded="false">What if I have sensitive skin?</button>
+          <div class="faq-answer" id="a-faq3" role="region" aria-labelledby="q-faq3">
+            <p>Formulations will be dermatologically reviewed and avoid common irritants. We’ll share full ingredient lists and guidance so users with sensitivities can make an informed choice.</p>
+          </div>
         </div>
-      </article>
 
-      <article class="feature" role="listitem">
-        <figure class="feature-image embed-box" aria-hidden="true">
-          <img src="images/handshake.png" alt="" loading="lazy" decoding="async" width="64" height="64">
-        </figure>
-        <div class="feature-content">
-          <h3>Partner Analytics</h3>
-          <p>Get real usage stats for insights and ROI.</p>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq4" aria-controls="a-faq4" aria-expanded="false">Is it hygienic between users?</button>
+          <div class="faq-answer" id="a-faq4" role="region" aria-labelledby="q-faq4">
+            <p>Yes — the booth is contact-free. Between-use sanitisation features and daily cleaning protocols are part of the pilot design, and we’ll publish the validated process before trials.</p>
+          </div>
         </div>
-      </article>
-    </div>
 
-    <!-- Dots -->
-    <div class="features-dots" id="featuresDots" aria-label="Slide position"></div>
-  </div>
-</section>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq5" aria-controls="a-faq5" aria-expanded="false">Can I buy one for home use?</button>
+          <div class="faq-answer" id="a-faq5" role="region" aria-labelledby="q-faq5">
+            <p>We’re focused on high-footfall public locations first. A compact home unit is under exploration — you can register interest to be notified.</p>
+          </div>
+        </div>
 
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq6" aria-controls="a-faq6" aria-expanded="false">How long does the protection last?</button>
+          <div class="faq-answer" id="a-faq6" role="region" aria-labelledby="q-faq6">
+            <p>As with traditional sunscreen, reapply at least every 2 hours and after swimming or sweating. SolarMist aims to make topping up quick and consistent.</p>
+          </div>
+        </div>
 
-<section id="faq" class="faq-section" data-animate>
-    <div class="container">
-  <h2>Frequently Asked Questions</h2>
-</div>
-  <div class="faq-container">
-  <div class="faq-item">
-  <button class="faq-question">Is SolarMist safe for children?</button>
-  <div class="faq-answer">
-    <p>SolarMist is being developed for family use. Our SPF formulas will undergo dermatological review prior to pilot installations, and on-booth guidance will help parents use it appropriately for children.</p>
-  </div>
-</div>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq7" aria-controls="a-faq7" aria-expanded="false">Where will booths be located?</button>
+          <div class="faq-answer" id="a-faq7" role="region" aria-labelledby="q-faq7">
+            <p>We’re targeting pilot installs at UK beaches, waterparks, resorts, and councils from Summer 2026. Tell us where you’d like to see one.</p>
+          </div>
+        </div>
 
-<div class="faq-item">
-  <button class="faq-question">Will it mess up hair or makeup?</button>
-  <div class="faq-answer">
-    <p>We’re engineering an ultra-fine mist intended to apply evenly with a light finish. As with any sunscreen, we’ll publish usage tips (e.g., quick face shielding) ahead of pilots for best results.</p>
-  </div>
-</div>
+        <div class="faq-item">
+          <button class="faq-question" id="q-faq8" aria-controls="a-faq8" aria-expanded="false">Can I invest or collaborate?</button>
+          <div class="faq-answer" id="a-faq8" role="region" aria-labelledby="q-faq8">
+            <p>Yes — we’re speaking with venues, councils, and investors. Use the form below to discuss pilots, collaboration, or funding.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="faq-item">
-  <button class="faq-question">What if I have sensitive skin?</button>
-  <div class="faq-answer">
-    <p>Formulations will be dermatologically reviewed and avoid common irritants. We’ll share full ingredient lists and guidance so users with sensitivities can make an informed choice.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">Is it hygienic between users?</button>
-  <div class="faq-answer">
-    <p>Yes — the booth is contact-free. Between-use sanitisation features and daily cleaning protocols are part of the pilot design, and we’ll publish the validated process before trials.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">Can I buy one for home use?</button>
-  <div class="faq-answer">
-    <p>We’re focused on high-footfall public locations first. A compact home unit is under exploration — you can register interest to be notified.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">How long does the protection last?</button>
-  <div class="faq-answer">
-    <p>As with traditional sunscreen, reapply at least every 2 hours and after swimming or sweating. SolarMist aims to make topping up quick and consistent.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">Where will booths be located?</button>
-  <div class="faq-answer">
-    <p>We’re targeting pilot installs at UK beaches, waterparks, resorts, and councils from Summer 2026. Tell us where you’d like to see one.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">Can I invest or collaborate?</button>
-  <div class="faq-answer">
-    <p>Yes — we’re speaking with venues, councils, and investors. Use the form below to discuss pilots, collaboration, or funding.</p>
-  </div>
-</div>
-</div>
-</section>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+    <script type="application/ld+json">
     {
-      "@type": "Question",
-      "name": "Is SolarMist safe for children?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "SolarMist is being developed for family use. Our SPF formulas will undergo dermatological review prior to pilot installations, and on-booth guidance will help parents use it appropriately for children."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will it mess up hair or makeup?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We’re engineering an ultra-fine mist intended to apply evenly with a light finish. As with any sunscreen, we’ll publish usage tips (e.g., quick face shielding) ahead of pilots for best results."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What if I have sensitive skin?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Formulations will be dermatologically reviewed and avoid common irritants. We’ll share full ingredient lists and guidance so users with sensitivities can make an informed choice."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is it hygienic between users?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes — the booth is contact-free. Between-use sanitisation features and daily cleaning protocols are part of the pilot design, and we’ll publish the validated process before trials."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I buy one for home use?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We’re focused on high-footfall public locations first. A compact home unit is under exploration — you can register interest to be notified."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does the protection last?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "As with traditional sunscreen, reapply at least every 2 hours and after swimming or sweating. SolarMist aims to make topping up quick and consistent."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Where will booths be located?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We’re targeting pilot installs at UK beaches, waterparks, resorts, and councils from Summer 2026. Tell us where you’d like to see one."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I invest or collaborate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes — we’re speaking with venues, councils, and investors. Use the form below to discuss pilots, collaboration, or funding."
-      }
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is SolarMist safe for children?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SolarMist is being developed for family use. Our SPF formulas will undergo dermatological review prior to pilot installations, and on-booth guidance will help parents use it appropriately for children."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it mess up hair or makeup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We’re engineering an ultra-fine mist intended to apply evenly with a light finish. As with any sunscreen, we’ll publish usage tips (e.g., quick face shielding) ahead of pilots for best results."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I have sensitive skin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Formulations will be dermatologically reviewed and avoid common irritants. We’ll share full ingredient lists and guidance so users with sensitivities can make an informed choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it hygienic between users?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — the booth is contact-free. Between-use sanitisation features and daily cleaning protocols are part of the pilot design, and we’ll publish the validated process before trials."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I buy one for home use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We’re focused on high-footfall public locations first. A compact home unit is under exploration — you can register interest to be notified."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does the protection last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As with traditional sunscreen, reapply at least every 2 hours and after swimming or sweating. SolarMist aims to make topping up quick and consistent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where will booths be located?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We’re targeting pilot installs at UK beaches, waterparks, resorts, and councils from Summer 2026. Tell us where you’d like to see one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I invest or collaborate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — we’re speaking with venues, councils, and investors. Use the form below to discuss pilots, collaboration, or funding."
+          }
+        }
+      ]
     }
-  ]
-}
-</script>
+    </script>
 
+    <section id="get-involved" class="engage-section" data-animate>
+      <div class="engage-container">
 
-<section id="get-involved" class="engage-section" data-animate>
-  <div class="engage-container">
+        <!-- JOIN THE LAUNCH FORM -->
+        <div class="engage-box join-box">
+          <h2 class="signup-heading">Join the SolarMist Launch</h2>
+          <p class="signup-sub">Be among the first to try our touch-free SPF misting booth. Resorts, parks, councils — or just curious? Let us know below.</p>
 
-    <!-- JOIN THE LAUNCH FORM -->
-    <div class="engage-box join-box">
-      <h2 class="signup-heading">Join the SolarMist Launch</h2>
-      <p class="signup-sub">Be among the first to try our touch-free SPF misting booth. Resorts, parks, councils — or just curious? Let us know below.</p>
+          <form id="launchForm"
+                action="https://formspree.io/f/xwpqawqo"
+                method="POST"
+                class="floating-form">
 
-<form id="launchForm"
-      action="https://formspree.io/f/xwpqawqo"
-      method="POST"
-      class="floating-form">
+            <input type="hidden" name="form_source" value="Launch Signup (footer)">
+            <input type="hidden" name="_subject" value="SolarMist — New Launch Signup">
+            <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 
-  <input type="hidden" name="form_source" value="Launch Signup (footer)">
-  <input type="hidden" name="_subject" value="SolarMist — New Launch Signup">
-  <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
-  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
+            <div class="form-group">
+              <input type="text" name="name" id="launch-name" placeholder="Name" required autocomplete="name" />
+              <label for="launch-name" class="sr-only">Name</label>
+            </div>
 
-<div class="form-group">
-  <input type="text" name="name" id="launch-name" placeholder="Name" required autocomplete="name" />
-  <label for="launch-name" class="sr-only">Name</label>
-</div>
+            <div class="form-group">
+              <input type="email" name="email" id="launch-email" placeholder="Email address" required autocomplete="email" inputmode="email" />
+              <label for="launch-email" class="sr-only">Email address</label>
+            </div>
 
-<div class="form-group">
-  <input type="email" name="email" id="launch-email" placeholder="Email address" required autocomplete="email" inputmode="email" />
-  <label for="launch-email" class="sr-only">Email address</label>
-</div>
+            <div class="form-group">
+              <textarea name="message" id="launch-message" placeholder="Optional message"></textarea>
+              <label for="launch-message" class="sr-only">Optional message</label>
+            </div>
 
-<div class="form-group">
-  <textarea name="message" id="launch-message" placeholder="Optional message"></textarea>
-  <label for="launch-message" class="sr-only">Optional message</label>
-</div>
+            <button type="submit" class="cta-button">Join the launch</button>
+          </form>
 
-
-  <button type="submit" class="cta-button">Join the launch</button>
-</form>
-
-
-      <p class="form-trust-note">No spam. We’ll only contact you about SolarMist’s launch.</p>
-    </div>
-
-    <!-- SURVEY FORM -->
-    <div class="engage-box survey-box">
-      <h2 class="signup-heading">Help Us Improve Sun Protection</h2>
-      <p class="signup-sub">Answer a few quick questions to help shape SolarMist’s launch. Your feedback matters.</p>
-
-      <form id="surveyForm" class="survey-form" action="https://formspree.io/f/xwpbwepj" method="POST">
-  <!-- tagging + redirect + honeypot -->
-  <input type="hidden" name="utm_source" value="website">
-  <input type="hidden" name="form_source" value="Survey (get-involved)">
-  <input type="hidden" name="_subject" value="SolarMist — New Survey Response">
-  <input type="hidden" name="_redirect" value="/thanks/"> <!-- or /thanks.html -->
-  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
-
-        <!-- Q1 -->
-        <div class="question active">
-          <p>1. Have you ever forgotten to apply or run out of suncream during a day out?</p>
-          <div class="option"><label><input type="radio" name="q1" value="Yes" required> Yes</label></div>
-          <div class="option"><label><input type="radio" name="q1" value="No"> No</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn hidden">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
+          <p class="form-trust-note">No spam. We’ll only contact you about SolarMist’s launch.</p>
         </div>
 
-        <!-- Q2 -->
-        <div class="question">
-          <p>2. How often do you apply sunscreen when outside?</p>
-          <div class="option"><label><input type="radio" name="q2" value="Every 2 hours" required> Every 2 hours</label></div>
-          <div class="option"><label><input type="radio" name="q2" value="Sometimes"> Sometimes</label></div>
-          <div class="option"><label><input type="radio" name="q2" value="Rarely"> Rarely</label></div>
-          <div class="option"><label><input type="radio" name="q2" value="Never"> Never</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
+        <!-- SURVEY FORM -->
+        <div class="engage-box survey-box">
+          <h2 class="signup-heading">Help Us Improve Sun Protection</h2>
+          <p class="signup-sub">Answer a few quick questions to help shape SolarMist’s launch. Your feedback matters.</p>
+
+          <form id="surveyForm" class="survey-form" action="https://formspree.io/f/xwpbwepj" method="POST">
+            <!-- tagging + redirect + honeypot -->
+            <input type="hidden" name="utm_source" value="website">
+            <input type="hidden" name="form_source" value="Survey (get-involved)">
+            <input type="hidden" name="_subject" value="SolarMist — New Survey Response">
+            <input type="hidden" name="_redirect" value="https://solarmist.co.uk/thanks/">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+
+            <!-- Q1 -->
+            <div class="question active">
+              <p>1. Have you ever forgotten to apply or run out of suncream during a day out?</p>
+              <div class="option"><label><input type="radio" name="q1" value="Yes" required> Yes</label></div>
+              <div class="option"><label><input type="radio" name="q1" value="No"> No</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn hidden">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question">
+              <p>2. How often do you apply sunscreen when outside?</p>
+              <div class="option"><label><input type="radio" name="q2" value="Every 2 hours" required> Every 2 hours</label></div>
+              <div class="option"><label><input type="radio" name="q2" value="Sometimes"> Sometimes</label></div>
+              <div class="option"><label><input type="radio" name="q2" value="Rarely"> Rarely</label></div>
+              <div class="option"><label><input type="radio" name="q2" value="Never"> Never</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question">
+              <p>3. Where do you most struggle to keep on top of sunscreen?</p>
+              <div class="option"><label><input type="radio" name="q3" value="Theme parks" required> Theme parks</label></div>
+              <div class="option"><label><input type="radio" name="q3" value="Beaches"> Beaches</label></div>
+              <div class="option"><label><input type="radio" name="q3" value="Waterparks"> Waterparks</label></div>
+              <div class="option"><label><input type="radio" name="q3" value="Outdoor events"> Outdoor events</label></div>
+              <div class="option"><label><input type="radio" name="q3" value="Family days out"> Family days out</label></div>
+              <div class="option"><label><input type="radio" name="q3" value="I don't struggle"> I don't struggle</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question">
+              <p>4. Would you use a touch-free sunscreen booth at a park or festival? (£1–£2)</p>
+              <div class="option"><label><input type="radio" name="q4" value="Definitely" required> Definitely</label></div>
+              <div class="option"><label><input type="radio" name="q4" value="Maybe"> Maybe</label></div>
+              <div class="option"><label><input type="radio" name="q4" value="Only if I forgot sunscreen"> Only if I forgot sunscreen</label></div>
+              <div class="option"><label><input type="radio" name="q4" value="No - too expensive"> No - too expensive</label></div>
+              <div class="option"><label><input type="radio" name="q4" value="No - I wouldn’t use it"> No - I wouldn’t use it</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question">
+              <p>5. Which venues should install this first?</p>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="Beaches"> Beaches</label></div>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="Theme parks"> Theme parks</label></div>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="Festivals"> Festivals</label></div>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="Sports events"> Sports events</label></div>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="Holiday villages"> Holiday villages</label></div>
+              <div class="option"><label><input type="checkbox" name="q5[]" value="All of the above"> All of the above</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question">
+              <p>6. Which features make this worth paying for?</p>
+              <div class="option"><label><input type="checkbox" name="q6[]" value="Fast and easy"> Fast & Easy</label></div>
+              <div class="option"><label><input type="checkbox" name="q6[]" value="Full coverage"> Full Coverage</label></div>
+              <div class="option"><label><input type="checkbox" name="q6[]" value="No greasy hands"> No Greasy Hands</label></div>
+              <div class="option"><label><input type="checkbox" name="q6[]" value="Kid safe"> Kid Friendly</label></div>
+              <div class="option"><label><input type="checkbox" name="q6[]" value="No carrying SPF"> No Carrying SPF</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question">
+              <p>7. Any other thoughts, comments or concerns?</p>
+              <div class="form-group">
+                <textarea placeholder="Type your thoughts here..." name="q7"></textarea>
+              </div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="question">
+              <p>8. Would you recommend SolarMist to others?</p>
+              <div class="option"><label><input type="radio" name="q8" value="Yes" required> Yes</label></div>
+              <div class="option"><label><input type="radio" name="q8" value="Maybe"> Maybe</label></div>
+              <div class="option"><label><input type="radio" name="q8" value="No"> No</label></div>
+              <div class="button-group">
+                <button type="button" class="back-btn">Back</button>
+                <button type="submit">Submit</button>
+              </div>
+            </div>
+
+          </form>
         </div>
 
-        <!-- Q3 -->
-        <div class="question">
-          <p>3. Where do you most struggle to keep on top of sunscreen?</p>
-          <div class="option"><label><input type="radio" name="q3" value="Theme parks" required> Theme parks</label></div>
-          <div class="option"><label><input type="radio" name="q3" value="Beaches"> Beaches</label></div>
-          <div class="option"><label><input type="radio" name="q3" value="Waterparks"> Waterparks</label></div>
-          <div class="option"><label><input type="radio" name="q3" value="Outdoor events"> Outdoor events</label></div>
-          <div class="option"><label><input type="radio" name="q3" value="Family days out"> Family days out</label></div>
-          <div class="option"><label><input type="radio" name="q3" value="I don't struggle"> I don't struggle</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+
+      <div class="footer-column">
+        <p class="footer-logo">SolarMist</p>
+        <p class="footer-tagline">Touch-free sunscreen misting for public spaces.</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <a href="#about">Our Vision</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+        <a href="#get-involved">Get Involved</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <a href="#privacy" class="privacy-link" role="button" aria-haspopup="dialog" aria-controls="privacy-popup-wrapper">Privacy</a>
+      </div>
+
+      <!-- Privacy Popup -->
+      <div id="privacy-popup-wrapper" class="privacy-popup-wrapper" role="dialog" aria-modal="true" aria-labelledby="privacy-title" aria-describedby="privacy-desc">
+        <div class="privacy-popup">
+          <button type="button" class="close-btn" aria-label="Close privacy policy">&times;</button>
+          <h3 id="privacy-title">Privacy Policy</h3>
+          <p id="privacy-desc">We collect your email address and any optional message to keep you informed about SolarMist updates and availability. We do not sell your data. To access or delete your data, email <a href="mailto:info@solarmist.co.uk">info@solarmist.co.uk</a>. For details, see our full privacy notice.
+          </p>
         </div>
+      </div>
 
-        <!-- Q4 -->
-        <div class="question">
-          <p>4. Would you use a touch-free sunscreen booth at a park or festival? (£1–£2)</p>
-          <div class="option"><label><input type="radio" name="q4" value="Definitely" required> Definitely</label></div>
-          <div class="option"><label><input type="radio" name="q4" value="Maybe"> Maybe</label></div>
-          <div class="option"><label><input type="radio" name="q4" value="Only if I forgot sunscreen"> Only if I forgot sunscreen</label></div>
-          <div class="option"><label><input type="radio" name="q4" value="No - too expensive"> No - too expensive</label></div>
-          <div class="option"><label><input type="radio" name="q4" value="No - I wouldn’t use it"> No - I wouldn’t use it</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div class="question">
-          <p>5. Which venues should install this first?</p>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Beaches"> Beaches</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Theme parks"> Theme parks</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Festivals"> Festivals</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Sports events"> Sports events</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="Holiday villages"> Holiday villages</label></div>
-          <div class="option"><label><input type="checkbox" name="q5[]" value="All of the above"> All of the above</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div class="question">
-          <p>6. Which features make this worth paying for?</p>
-          <div class="option"><label><input type="checkbox" name="q6[]" value="Fast and easy"> Fast & Easy</label></div>
-          <div class="option"><label><input type="checkbox" name="q6[]" value="Full coverage"> Full Coverage</label></div>
-          <div class="option"><label><input type="checkbox" name="q6[]" value="No greasy hands"> No Greasy Hands</label></div>
-          <div class="option"><label><input type="checkbox" name="q6[]" value="Kid safe"> Kid Friendly</label></div>
-          <div class="option"><label><input type="checkbox" name="q6[]" value="No carrying SPF"> No Carrying SPF</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
-        </div>
-
-        <!-- Q7 -->
-  <div class="question">
-    <p>7. Any other thoughts, comments or concerns?</p>
-    <div class="form-group">
-      <textarea placeholder="Type your thoughts here..." name="q7"></textarea>
-    </div>
-    <div class="button-group">
-      <button type="button" class="back-btn">Back</button>
-      <button type="button" class="next-btn">Next</button>
-    </div>
-  </div>
-   
-
-        <!-- Q8 -->
-        <div class="question">
-          <p>8. Would you recommend SolarMist to others?</p>
-          <div class="option"><label><input type="radio" name="q8" value="Yes" required> Yes</label></div>
-          <div class="option"><label><input type="radio" name="q8" value="Maybe"> Maybe</label></div>
-          <div class="option"><label><input type="radio" name="q8" value="No"> No</label></div>
-          <div class="button-group">
-            <button type="button" class="back-btn">Back</button>
-            <button type="submit">Submit</button>
-          </div>
-        </div>
-
-      </form>
-    </div>
-
-  </div>
-</section>
-
-<footer class="site-footer">
-  <div class="footer-container">
-
-    <div class="footer-column">
-      <p class="footer-logo">SolarMist</p>
-      <p class="footer-tagline">Touch-free sunscreen misting for public spaces.</p>
-    </div>
-
-    <div class="footer-column">
-      <h4>Explore</h4>
-      <a href="#about">Our Vision</a>
-      <a href="#how-it-works">How it Works</a>
-      <a href="#features">Features</a>
-      <a href="#faq">FAQ</a>
-      <a href="#get-involved">Get Involved</a>
-    </div>
-
-    <div class="footer-column">
-      <h4>Legal</h4>
-      <a href="#" class="privacy-link">Privacy</a>
-    </div>
-
-    <!-- Privacy Popup -->
-    <div id="privacy-popup-wrapper" class="privacy-popup-wrapper">
-      <div class="privacy-popup">
-        <span class="close-btn">&times;</span>
-        <h3>Privacy Policy</h3>
-        <p>We collect your email address and any optional message to keep you informed about SolarMist updates and availability. We do not sell your data. To access or delete your data, email <a href="mailto:info@solarmist.co.uk">info@solarmist.co.uk</a>. For details, see our full privacy notice.
-        </p>
+      <div class="footer-column">
+        <h4>Follow</h4>
+        <a href="https://www.instagram.com/solarmistco?igsh=MXFkeDVpMDNrcndjdA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/company/solarmist" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
 
-    <div class="footer-column">
-  <h4>Follow</h4>
-  <a href="https://www.instagram.com/solarmistco?igsh=MXFkeDVpMDNrcndjdA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-  <a href="https://www.linkedin.com/company/solarmist" target="_blank" rel="noopener">LinkedIn</a>
-</div>
-  </div>
+    <div class="footer-bottom">
+      <p>© 2025 SolarMist. All rights reserved.</p>
+    </div>
+    <div id="form-status" class="sr-only" aria-live="polite"></div>
+  </footer>
 
-  <div class="footer-bottom">
-    <p>© 2025 SolarMist. All rights reserved.</p>
-  </div>
-  <div id="form-status" class="sr-only" aria-live="polite"></div>
-</footer>
-
-
- <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
-
 </html>

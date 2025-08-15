@@ -628,6 +628,10 @@ body.nav-open { overflow: hidden; }
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
+/* Progress bar visibility */
+.progress-container{ opacity:0; pointer-events:none; transition:opacity .25s }
+.progress-container.survey-active{ opacity:1; pointer-events:auto }
+
 
 /* Buttons */
 .button-group { display: flex; justify-content: space-between; margin-top: 20px; }
@@ -747,7 +751,7 @@ body.nav-open { overflow: hidden; }
 /* give the list a modest top offset that scales with screen height */
 .mobile-nav-overlay ul{
   /* ~44px button + a little breathing room; scales between 28–52px */
-  padding: clamp(28px, 7vh, 52px) 0 1rem 0 !important;
+  padding: clamp(28px, 8.5vh, 52px) 0 1rem 0 !important;
   gap: 1.25rem; /* keep your nice spacing */
 }
 

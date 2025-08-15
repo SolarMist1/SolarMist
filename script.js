@@ -7,15 +7,15 @@
    03) Smooth scrolling (offset-aware)
    04) Countdown (months to launch)
    05) Ripple effect on CTAs
-   06) Responsive Features grid (mobile swipe)
+   06) Features slider dots (mobile swipe helper)
    07) Privacy popup
    08) Survey (multi-step + shared progress bar)
-   09) Page scroll progress bar (coexists with survey)
+   09) Page scroll progress bar (no-op unless survey active)
    10) HIW arrows (horizontal scroll)
    11) Sticky CTA banner logic
-   12) FAQ accordion
+   12) FAQ accordion (with ARIA)
    13) Header scroll state
-   14) Forms (timestamp, async POST, redirect)
+   14) Forms (reportValidity, timestamp, async POST, redirect)
    15) Share button
 ========================================================== */
 
@@ -25,9 +25,10 @@
   /* -----------------------------
      00) Helpers & Config
   ----------------------------- */
-  const $ = (sel, root = document) => root.querySelector(sel);
+  const $  = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
+
   const throttle = (fn, wait = 100) => {
     let t = 0;
     return (...args) => {
@@ -37,12 +38,11 @@
   };
 
   const CONFIG = {
-    OFFSET: 45,                          // header height offset for anchors
-    MOBILE_MAX: 767,
+    MOBILE_MAX: 800,                    // match CSS breakpoint
     LAUNCH_DATE_ISO: '2026-05-01T00:00:00',
-    THANKS_URL_DEFAULT: '/thanks',       // fallback if _redirect not present
-    PROGRESS_BAR_ID: 'progressBar',      // shared top bar
-    SURVEY_PROGRESS_CLASS: 'is-survey',  // class to claim the bar for survey
+    THANKS_URL_DEFAULT: '/thanks/',     // align with forms
+    PROGRESS_BAR_ID: 'progressBar',     // shared top bar
+    SURVEY_PROGRESS_CLASS: 'is-survey', // class to claim the bar for survey
   };
 
   // Cache frequently used nodes
@@ -53,9 +53,10 @@
     pageProgress: $(`#${CONFIG.PROGRESS_BAR_ID}`),
     mobileToggle: $('#mobileToggle'),
     mobileMenu: $('#mobileMenu'),
-    featuresGrid: $('.features-grid'),
+    featuresTrack: $('#featuresTrack'),
+    featuresDots:  $('#featuresDots'),
     hiwCards: $('.hiw-cards'),
-    hiwLeft: $('.hiw-arrow-left'),
+    hiwLeft:  $('.hiw-arrow-left'),
     hiwRight: $('.hiw-arrow-right'),
     stickyBanner: $('.sticky-cta-banner'),
     hero: $('.hero'),
@@ -72,40 +73,72 @@
     surveyForm: $('#surveyForm'),
   };
 
-  /* -----------------------------
-     01) Animations on scroll
-  ----------------------------- */
-  const initAnimations = () => {
-    const targets = $$('[data-animate]');
-    if (!targets.length) return;
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        e.target.classList.toggle('visible', e.isIntersecting);
-      });
-    }, { threshold: 0.1 });
-
-    targets.forEach(el => io.observe(el));
-  };
+  const getHeaderOffset = () => DOM.header?.getBoundingClientRect().height ?? 65;
 
   /* -----------------------------
-     02) Mobile Nav (ARIA + transitions)
+   01) Animations on scroll (debounced, animate-once)
+----------------------------- */
+const initAnimations = () => {
+  const targets = $$('[data-animate]');
+  if (!targets.length) return;
+
+  const headerH = Math.ceil(getHeaderOffset()); // uses your helper
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
+        el.classList.add('visible');
+        // default: animate once (prevents flicker)
+        if (!el.hasAttribute('data-animate-repeat')) {
+          obs.unobserve(el);
+        }
+      } else {
+        // only remove if explicitly allowed to repeat
+        if (el.hasAttribute('data-animate-repeat')) {
+          el.classList.remove('visible');
+        }
+      }
+    });
+  }, {
+    // shrink the top by header height, add a little bottom hysteresis
+    root: null,
+    threshold: [0, 0.15, 0.5, 1],
+    rootMargin: `-${headerH}px 0px -15% 0px`
+  });
+
+  targets.forEach(el => io.observe(el));
+};
+
+
+  /* -----------------------------
+     02) Mobile Nav (ARIA + transitions + focus trap + Esc)
   ----------------------------- */
   const initMobileNav = () => {
     const { mobileToggle, mobileMenu, body } = DOM;
     if (!mobileToggle || !mobileMenu) return;
 
     let isAnimating = false;
+    let lastFocus = null;
+
+    const getFocusable = () =>
+      $$('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])', mobileMenu)
+        .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
 
     const openMenu = () => {
       if (isAnimating) return;
       isAnimating = true;
+      lastFocus = document.activeElement;
+
       mobileMenu.style.display = 'flex';
       body.classList.add('nav-open');
       requestAnimationFrame(() => {
         mobileMenu.classList.add('open');
         mobileToggle.classList.add('open');
         mobileToggle.setAttribute('aria-expanded', 'true');
+        // move focus into the menu
+        const focusables = getFocusable();
+        (focusables[0] || mobileMenu).focus({ preventScroll: true });
         isAnimating = false;
       });
     };
@@ -120,16 +153,42 @@
       const onEnd = () => {
         mobileMenu.style.display = 'none';
         mobileMenu.removeEventListener('transitionend', onEnd);
+        // return focus to the toggle
+        (lastFocus || mobileToggle).focus({ preventScroll: true });
         isAnimating = false;
       };
       mobileMenu.addEventListener('transitionend', onEnd);
     };
 
+    // Toggle
     on(mobileToggle, 'click', () => {
       mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
     });
 
-    $$('.mobile-nav-overlay a').forEach(a => on(a, 'click', closeMenu));
+    // Close when clicking a link
+    $$('.mobile-nav-overlay a').forEach(a => on(a, 'click', closeMenu, { passive: true }));
+
+    // Esc to close
+    on(document, 'keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        e.preventDefault();
+        closeMenu();
+      }
+    });
+
+    // Focus trap while open
+    on(mobileMenu, 'keydown', (e) => {
+      if (e.key !== 'Tab' || !mobileMenu.classList.contains('open')) return;
+      const focusables = getFocusable();
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    });
   };
 
   /* -----------------------------
@@ -143,16 +202,15 @@
         if (!target) return;
         e.preventDefault();
 
-        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - CONFIG.OFFSET;
-        const diff = Math.abs(window.pageYOffset - targetTop);
-        if (diff < 5) return;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset();
+        if (Math.abs(window.pageYOffset - targetTop) < 5) return;
 
         window.scrollTo({ top: targetTop, behavior: 'smooth' });
-      });
+      }, { passive: false });
     });
 
     // Remove focus outline after click on desktop nav
-    $$('.site-nav a').forEach(link => on(link, 'click', () => link.blur()));
+    $$('.site-nav a').forEach(link => on(link, 'click', () => link.blur(), { passive: true }));
   };
 
   /* -----------------------------
@@ -165,15 +223,11 @@
     const launchDate = new Date(CONFIG.LAUNCH_DATE_ISO);
     const update = () => {
       const now = new Date();
-      if (now >= launchDate) {
-        countdownEl.textContent = "We're live!";
-        return;
-      }
+      if (now >= launchDate) { countdownEl.textContent = "We're live!"; return; }
       const months =
         (launchDate.getFullYear() - now.getFullYear()) * 12 +
         (launchDate.getMonth() - now.getMonth()) -
         (now.getDate() > launchDate.getDate() ? 1 : 0);
-
       countdownEl.textContent = `Launching in: ${months} month${months !== 1 ? 's' : ''}`;
     };
 
@@ -200,97 +254,66 @@
     });
   };
 
-  /* 16) Feature slider dots — build + sync (with iOS scroll fallback) */
-(function () {
-  const track = document.getElementById('featuresTrack');
-  const dotsWrap = document.getElementById('featuresDots');
-  if (!track || !dotsWrap) return;
+  /* -----------------------------
+     06) Features slider dots — build + sync (idempotent)
+  ----------------------------- */
+  const initFeaturesDots = () => {
+    const track   = DOM.featuresTrack;
+    const dotsWrap= DOM.featuresDots;
+    if (!track || !dotsWrap) return;
 
-  const mq = window.matchMedia('(max-width: 900px)');
-  const cards = Array.from(track.querySelectorAll('.feature'));
-  if (!cards.length) return;
+    const cards = Array.from(track.querySelectorAll('.feature'));
+    if (!cards.length) return;
 
-  // Build dots
-  dotsWrap.innerHTML = cards.map((_, i) =>
-    `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
-  ).join('');
-  const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
+    if (dotsWrap.dataset.built === '1') return; // avoid duplicates on re-init
+    dotsWrap.innerHTML = cards.map((_, i) =>
+      `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
+    ).join('');
+    dotsWrap.dataset.built = '1';
 
-  const setActive = (idx) => {
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
+    const setActive = (idx) => dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+    setActive(0);
+
+    const getCenteredIndex = () => {
+      const t = track.getBoundingClientRect();
+      const centerX = t.left + t.width/2;
+      let best=0, bestDist=Infinity;
+      cards.forEach((c,i)=>{
+        const r = c.getBoundingClientRect();
+        const cx = r.left + r.width/2;
+        const d = Math.abs(cx - centerX);
+        if (d < bestDist){ best=i; bestDist=d; }
+      });
+      return best;
+    };
+
+    const syncActive = throttle(()=> setActive(getCenteredIndex()), 80);
+    on(track, 'scroll', syncActive, { passive:true });
+    on(window, 'resize', syncActive, { passive:true });
+
+    // Force start at first card on mobile (respect scroll-padding)
+    const spLeft = parseFloat(getComputedStyle(track).scrollPaddingLeft || '0');
+    const snapFirst = () => {
+      if (window.matchMedia('(max-width: 900px)').matches){
+        track.scrollTo({ left: cards[0].offsetLeft - spLeft, behavior: 'auto' });
+        setActive(0);
+      } else {
+        track.scrollLeft = 0;
+        setActive(0);
+      }
+    };
+    requestAnimationFrame(snapFirst);
+    on(window, 'pageshow', snapFirst);
+    on(window, 'orientationchange', () => setTimeout(snapFirst, 150));
+    dots.forEach((dot, i) => on(dot, 'click', () => {
+      const left = cards[i].offsetLeft - spLeft;
+      track.scrollTo({ left, behavior: 'smooth' });
+    }));
   };
-  setActive(0);
-
-  // Prefer IO inside the scroller; if it misbehaves, we’ll fall back to scroll math
-  let usedFallback = false;
-  let io;
-
-  const enableObserver = () => {
-    try {
-      io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const i = cards.indexOf(entry.target);
-          if (i > -1) setActive(i);
-        });
-      }, { root: track, threshold: 0.55 });
-      cards.forEach(c => io.observe(c));
-    } catch {
-      usedFallback = true;
-    }
-  };
-
-  const throttle = (fn, wait = 80) => {
-    let t = 0; return (...a) => { const n = Date.now(); if (n - t >= wait){ t = n; fn(...a);} };
-  };
-
-  const updateFromScroll = throttle(() => {
-    // card width + gap
-    const cs = getComputedStyle(track);
-    const gap = parseFloat(cs.gap) || 0;
-    const cardW = cards[0].getBoundingClientRect().width;
-    const step = cardW + gap;
-    const idx = Math.round(track.scrollLeft / step);
-    setActive(Math.max(0, Math.min(idx, cards.length - 1)));
-  });
-
-  const enableFallback = () => {
-    usedFallback = true;
-    track.addEventListener('scroll', updateFromScroll, { passive: true });
-    window.addEventListener('resize', updateFromScroll);
-    updateFromScroll();
-  };
-
-  const setup = () => {
-    // Show dots only on mobile
-    dotsWrap.style.display = mq.matches ? 'flex' : 'none';
-
-    if (mq.matches) {
-      enableObserver();
-      // Some iOS Safari builds don’t fire IO reliably for horizontal scrollers
-      // Kick the fallback if we don’t see an update quickly
-      setTimeout(() => { if (!dots.some(d => d.classList.contains('active'))) enableFallback(); }, 120);
-    } else {
-      if (io) { cards.forEach(c => io.unobserve(c)); io.disconnect(); }
-      track.removeEventListener('scroll', updateFromScroll);
-    }
-  };
-
-  // Dot click-to-jump
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-      setActive(i);
-    });
-  });
-
-  setup();
-  mq.addEventListener('change', setup);
-})();
-
 
   /* -----------------------------
-     07) Privacy popup
+     07) Privacy popup (Esc to close)
   ----------------------------- */
   const initPrivacy = () => {
     const { privacyLink, privacyWrapper, privacyClose } = DOM;
@@ -302,32 +325,38 @@
     on(privacyLink, 'click', (e) => { e.preventDefault(); show(); });
     on(privacyClose, 'click', hide);
     on(privacyWrapper, 'click', (e) => { if (e.target === privacyWrapper) hide(); });
+    on(document, 'keydown', (e) => { if (e.key === 'Escape') hide(); });
   };
 
-  /* -----------------------------
-     08) Survey (multi-step + shared progress bar)
-     - Claims the top progress bar for survey while active
-  ----------------------------- */
+/* -----------------------------
+   08) Survey (multi-step + shared progress bar)
+----------------------------- */
 const initSurvey = () => {
   const form = DOM.surveyForm;
-  const bar  = DOM.pageProgress;
-  const container = bar?.parentElement;     // <-- progress track wrapper
+  const bar = DOM.pageProgress;
+  const container = bar?.parentElement;
   if (!form || !bar || !container) return;
 
   const questions = $$('.question', form);
-  if (!questions.length) return;
+  if (!questions.length) return; // don't expose the bar if there's no survey
 
   let current = 0;
-  const OPTIONAL_INDEXES = new Set([6]); // Q7 is optional (0-based index)
+  const OPTIONAL_INDEXES = new Set([6]); // Q7 optional (0-based)
 
   // Claim the bar for survey + raise its container above the header
   bar.classList.add(CONFIG.SURVEY_PROGRESS_CLASS);
   container.classList.add('survey-active');
 
+  // Make the progressbar accessible while the survey owns it
+  container.setAttribute('aria-hidden', 'false');
+  bar.setAttribute('aria-valuemin', '0');
+  bar.setAttribute('aria-valuemax', '100');
+
   const showQuestion = (idx) => {
     questions.forEach((q, i) => q.classList.toggle('active', i === idx));
-    const pct = (idx / questions.length) * 100;
+    const pct = (idx / questions.length) * 100;    // keep your original scale
     bar.style.width = `${pct}%`;
+    bar.setAttribute('aria-valuenow', String(Math.round(pct)));
   };
 
   showQuestion(current);
@@ -345,7 +374,7 @@ const initSurvey = () => {
     });
   });
 
-  // Next buttons with validation
+  // Next buttons with minimal validation (radios/checkboxes/textarea)
   $$('.next-btn', form).forEach(btn => {
     on(btn, 'click', (e) => {
       e.preventDefault();
@@ -356,7 +385,6 @@ const initSurvey = () => {
       inputs.forEach(inp => {
         if ((inp.type === 'radio' || inp.type === 'checkbox') && inp.checked) answered = true;
         if (inp.tagName === 'TEXTAREA' && inp.value.trim() !== '') answered = true;
-        if (inp.type === 'email' && inp.value.trim() !== '') answered = true;
       });
 
       if (!answered && !OPTIONAL_INDEXES.has(current)) {
@@ -374,39 +402,38 @@ const initSurvey = () => {
   $$('.back-btn', form).forEach(btn => {
     on(btn, 'click', (e) => {
       e.preventDefault();
-      if (current > 0) {
-        current--;
-        showQuestion(current);
-      }
+      if (current > 0) { current--; showQuestion(current); }
     });
   });
 
-  // Optional: drop the elevated z-index once the form submits (redirect follows)
-  on(form, 'submit', () => container.classList.remove('survey-active'));
+  // Release the progress bar after submit (redirect follows)
+  on(form, 'submit', () => {
+    container.setAttribute('aria-hidden', 'true');
+    container.classList.remove('survey-active');
+    bar.classList.remove(CONFIG.SURVEY_PROGRESS_CLASS);
+  });
 };
 
 
   /* -----------------------------
      09) Page scroll progress bar
-     - Auto-disables when survey is controlling it
+     (kept inert unless survey claims it)
   ----------------------------- */
-const initPageProgress = () => {
-  const bar = DOM.pageProgress;
-  const container = bar?.parentElement;
-  if (!bar || !container) return;
+  const initPageProgress = () => {
+    const bar = DOM.pageProgress;
+    const container = bar?.parentElement;
+    if (!bar || !container) return;
 
-  const update = throttle(() => {
-    // Survey owns the bar; keep hidden otherwise
-    if (!bar.classList.contains(CONFIG.SURVEY_PROGRESS_CLASS)) {
-      container.classList.remove('active');
-      bar.style.width = '0%';
-    }
-  }, 50);
+    const update = throttle(() => {
+      // Survey owns the bar; keep hidden otherwise
+      if (!bar.classList.contains(CONFIG.SURVEY_PROGRESS_CLASS)) {
+        bar.style.width = '0%';
+      }
+    }, 50);
 
-  on(window, 'scroll', update, { passive: true });
-  update();
-};
-
+    on(window, 'scroll', update, { passive: true });
+    update();
+  };
 
   /* -----------------------------
      10) HIW arrows (horizontal scroll)
@@ -415,9 +442,13 @@ const initPageProgress = () => {
     const { hiwCards, hiwLeft, hiwRight } = DOM;
     if (!hiwCards || !hiwLeft || !hiwRight) return;
 
+    // ARIA labels for accessibility
+    hiwLeft.setAttribute('aria-label', 'Scroll steps left');
+    hiwRight.setAttribute('aria-label', 'Scroll steps right');
+
     const step = () => Math.min(hiwCards.clientWidth * 0.9, 600);
     on(hiwLeft, 'click', () => hiwCards.scrollBy({ left: -step(), behavior: 'smooth' }));
-    on(hiwRight, 'click', () => hiwCards.scrollBy({ left: step(), behavior: 'smooth' }));
+    on(hiwRight, 'click', () => hiwCards.scrollBy({ left: step(),  behavior: 'smooth' }));
   };
 
   /* -----------------------------
@@ -439,18 +470,12 @@ const initPageProgress = () => {
       const footerRect = footer?.getBoundingClientRect();
 
       if (isMobile()) {
-        if (visible(launchRect) || visible(footerRect)) {
-          stickyBanner.classList.remove('visible');
-        } else {
-          stickyBanner.classList.add('visible');
-        }
+        if (visible(launchRect) || visible(footerRect)) stickyBanner.classList.remove('visible');
+        else stickyBanner.classList.add('visible');
         return;
       }
 
-      if (!isHome) {
-        stickyBanner.classList.add('visible');
-        return;
-      }
+      if (!isHome) { stickyBanner.classList.add('visible'); return; }
 
       const heroBottom = hero.getBoundingClientRect().bottom + window.scrollY;
       if ((window.scrollY > heroBottom - 80 - buffer) && !visible(launchRect) && !visible(footerRect)) {
@@ -460,24 +485,40 @@ const initPageProgress = () => {
       }
     }, 80);
 
-    // small delay to ensure layout is ready
     setTimeout(() => {
       handle();
-      on(window, 'scroll', handle);
-      on(window, 'resize', handle);
+      on(window, 'scroll', handle, { passive: true });
+      on(window, 'resize', handle, { passive: true });
     }, 50);
   };
 
   /* -----------------------------
-     12) FAQ accordion (single open)
+     12) FAQ accordion (single open + ARIA)
   ----------------------------- */
   const initFAQ = () => {
-    $$('.faq-question').forEach(btn => {
+    $$('.faq-item').forEach((item, i) => {
+      const btn = $('.faq-question', item);
+      const ans = $('.faq-answer', item);
+      if (!btn || !ans) return;
+
+      // Ensure answer has an id and button references it
+      if (!ans.id) ans.id = `faq-a${i}`;
+      btn.setAttribute('aria-controls', ans.id);
+      btn.setAttribute('aria-expanded', 'false');
+
       on(btn, 'click', () => {
-        const item = btn.parentElement;
         const wasActive = item.classList.contains('active');
-        $$('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!wasActive) item.classList.add('active');
+        // close all
+        $$('.faq-item').forEach(it => {
+          it.classList.remove('active');
+          const b = $('.faq-question', it);
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        // open this one if it was closed
+        if (!wasActive) {
+          item.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
     });
   };
@@ -499,7 +540,7 @@ const initPageProgress = () => {
   };
 
   /* -----------------------------
-     14) Forms (timestamp, async POST, redirect)
+     14) Forms (reportValidity + async POST + redirect)
   ----------------------------- */
   const initForms = () => {
     const forms = [DOM.heroForm, DOM.launchForm, DOM.surveyForm].filter(Boolean);
@@ -516,6 +557,10 @@ const initPageProgress = () => {
     forms.forEach(form => {
       on(form, 'submit', async (e) => {
         e.preventDefault();
+
+        // Native validity (works even if you keep novalidate on some forms)
+        if (!form.reportValidity()) return;
+
         stamp(form);
 
         // Announce status (if live region exists)
@@ -531,7 +576,9 @@ const initPageProgress = () => {
             headers: { 'Accept': 'application/json' },
             body: new FormData(form)
           });
-        } catch (_) { /* ignore */ }
+        } catch (_) {
+          // swallow and still redirect
+        }
 
         const redirect = form.querySelector('input[name="_redirect"]')?.value || CONFIG.THANKS_URL_DEFAULT;
         window.location.href = redirect;
@@ -562,88 +609,19 @@ const initPageProgress = () => {
     });
   };
 
-/* 16) Feature slider dots — build + sync */
-/* Features slider dots: build, center-based activation, click-to-jump */
-(function () {
-  const track = document.getElementById('featuresTrack');
-  const dotsWrap = document.getElementById('featuresDots');
-  if (!track || !dotsWrap) return;
-
-  const cards = Array.from(track.querySelectorAll('.feature'));
-  if (!cards.length) return;
-
-  dotsWrap.innerHTML = cards.map((_, i) =>
-    `<button type="button" class="features-dot" aria-label="Go to feature ${i + 1}"></button>`
-  ).join('');
-  const dots = Array.from(dotsWrap.querySelectorAll('.features-dot'));
-
-  const setActive = (idx) => dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
-  setActive(0);
-
-  const getCenteredIndex = () => {
-    const t = track.getBoundingClientRect();
-    const centerX = t.left + t.width/2;
-    let best=0, bestDist=Infinity;
-    cards.forEach((c,i)=>{
-      const r = c.getBoundingClientRect();
-      const cx = r.left + r.width/2;
-      const d = Math.abs(cx - centerX);
-      if (d < bestDist){ best=i; bestDist=d; }
-    });
-    return best;
-  };
-
-  const throttle = (fn, wait=80)=>{ let t=0; return (...a)=>{ const n=Date.now(); if(n-t>=wait){ t=n; fn(...a);} }; };
-  const syncActive = throttle(()=> setActive(getCenteredIndex()), 80);
-
-  track.addEventListener('scroll', syncActive, { passive:true });
-  window.addEventListener('resize', syncActive);
-
-  // --- Force start at first card on mobile ---
-  const spLeft = parseFloat(getComputedStyle(track).scrollPaddingLeft || '0');
-  const snapFirst = () => {
-    if (window.matchMedia('(max-width: 900px)').matches){
-      // align the first card taking scroll-padding into account
-      track.scrollTo({ left: cards[0].offsetLeft - spLeft, behavior: 'auto' });
-      setActive(0);
-    } else {
-      track.scrollLeft = 0;
-      setActive(0);
-    }
-  };
-  // initial + iOS back-forward cache + orientation
-  requestAnimationFrame(snapFirst);
-  window.addEventListener('pageshow', snapFirst);
-  window.addEventListener('orientationchange', () => setTimeout(snapFirst, 150));
-
-  // Click a dot → scroll to that card
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      const left = cards[i].offsetLeft - spLeft;
-      track.scrollTo({ left, behavior: 'smooth' });
-    });
-  });
-})();
-
-
-
-
   /* -----------------------------
      Init on DOM ready
   ----------------------------- */
-// TEMP stub so init chain doesn't die (features handled by IIFE below)
-const initFeaturesGrid = () => {};
-
   document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initMobileNav();
     initSmoothScroll();
     initCountdown();
     initRipples();
-    initFeaturesGrid();
+    initFeaturesDots();   // build dots (single implementation)
     initPrivacy();
     initSurvey();         // claims top progress bar if survey present
-    initPageProgress();   // uses top progress bar only if not claimed by survey
+    initPageProgress();   // inert unless survey active
     initHIWArrows();
     initStickyCTA();
     initFAQ();
