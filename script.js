@@ -111,85 +111,111 @@ const initAnimations = () => {
 };
 
 
-  /* -----------------------------
-     02) Mobile Nav (ARIA + transitions + focus trap + Esc)
-  ----------------------------- */
-  const initMobileNav = () => {
-    const { mobileToggle, mobileMenu, body } = DOM;
-    if (!mobileToggle || !mobileMenu) return;
+/* -----------------------------
+   02) Mobile Nav (ARIA + transitions + focus trap + Esc)
+----------------------------- */
+const initMobileNav = () => {
+  const { mobileToggle, mobileMenu, body } = DOM;
+  if (!mobileToggle || !mobileMenu) return;
 
-    let isAnimating = false;
-    let lastFocus = null;
+  let isAnimating = false;
+  let lastFocus = null;
 
-    const getFocusable = () =>
-      $$('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])', mobileMenu)
-        .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+  const getFocusable = () =>
+    $$('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])', mobileMenu)
+      .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
 
-    const openMenu = () => {
-      if (isAnimating) return;
-      isAnimating = true;
-      lastFocus = document.activeElement;
+  const openMenu = () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    lastFocus = document.activeElement;
 
-      mobileMenu.style.display = 'flex';
-      body.classList.add('nav-open');
-      requestAnimationFrame(() => {
-        mobileMenu.classList.add('open');
-        mobileToggle.classList.add('open');
-        mobileToggle.setAttribute('aria-expanded', 'true');
-        // move focus into the menu
-        const focusables = getFocusable();
-        (focusables[0] || mobileMenu).focus({ preventScroll: true });
-        isAnimating = false;
-      });
-    };
+    mobileMenu.style.display = 'flex';
+    body.classList.add('nav-open');
 
-    const closeMenu = () => {
-      if (isAnimating) return;
-      isAnimating = true;
-      mobileMenu.classList.remove('open');
-      mobileToggle.classList.remove('open');
-      mobileToggle.setAttribute('aria-expanded', 'false');
-      body.classList.remove('nav-open');
-      const onEnd = () => {
-        mobileMenu.style.display = 'none';
-        mobileMenu.removeEventListener('transitionend', onEnd);
-        // return focus to the toggle
-        (lastFocus || mobileToggle).focus({ preventScroll: true });
-        isAnimating = false;
-      };
-      mobileMenu.addEventListener('transitionend', onEnd);
-    };
+    requestAnimationFrame(() => {
+      mobileMenu.classList.remove('closing'); // in case a quick re-open
+      mobileMenu.classList.add('open');
+      mobileToggle.classList.add('open');
+      mobileToggle.setAttribute('aria-expanded', 'true');
 
-    // Toggle
-    on(mobileToggle, 'click', () => {
-      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
-    });
-
-    // Close when clicking a link
-    $$('.mobile-nav-overlay a').forEach(a => on(a, 'click', closeMenu, { passive: true }));
-
-    // Esc to close
-    on(document, 'keydown', (e) => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-        e.preventDefault();
-        closeMenu();
-      }
-    });
-
-    // Focus trap while open
-    on(mobileMenu, 'keydown', (e) => {
-      if (e.key !== 'Tab' || !mobileMenu.classList.contains('open')) return;
       const focusables = getFocusable();
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last  = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault(); last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault(); first.focus();
-      }
+      (focusables[0] || mobileMenu).focus({ preventScroll: true });
+      // let the CSS transition play; we're done here
+      isAnimating = false;
     });
   };
+
+  const closeMenu = () => {
+    if (isAnimating || !mobileMenu.classList.contains('open')) return;
+    isAnimating = true;
+
+    // start reverse animation
+    mobileMenu.classList.add('closing');
+    mobileMenu.classList.remove('open');
+    mobileToggle.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
+
+    // wait for the overlay transition to finish
+    const onEnd = (e) => {
+      if (e && e.target !== mobileMenu) return; // ignore bubbled transitions
+      mobileMenu.style.display = 'none';
+      mobileMenu.classList.remove('closing');
+      mobileMenu.removeEventListener('transitionend', onEnd);
+      body.classList.remove('nav-open'); // unlock scroll only after animation
+      (lastFocus || mobileToggle).focus({ preventScroll: true });
+      isAnimating = false;
+    };
+    mobileMenu.addEventListener('transitionend', onEnd, { once: true });
+
+    // safety timeout in case transitionend is missed
+    setTimeout(() => {
+      if (!isAnimating) return;
+      onEnd({ target: mobileMenu });
+    }, 500);
+  };
+
+  // Toggle
+  on(mobileToggle, 'click', () => {
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  // Close when clicking a link inside the overlay
+  $$('.mobile-nav-overlay a').forEach(a => on(a, 'click', closeMenu, { passive: true }));
+
+  // Also close when the sticky CTA (or any #get-involved anchor) is clicked
+  on(document, 'click', (e) => {
+    if (!mobileMenu.classList.contains('open')) return;
+    const trigger = e.target.closest(
+      '.sticky-cta-banner .cta-button, ' +
+      '.sticky-cta-banner a[href*="#get-involved"], ' +
+      'a[href="#get-involved"]'
+    );
+    if (trigger) closeMenu();
+  }, { passive: true });
+
+  // Esc to close
+  on(document, 'keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      e.preventDefault();
+      closeMenu();
+    }
+  });
+
+  // Focus trap while open
+  on(mobileMenu, 'keydown', (e) => {
+    if (e.key !== 'Tab' || !mobileMenu.classList.contains('open')) return;
+    const focusables = getFocusable();
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last  = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+};
 
   /* -----------------------------
      03) Smooth scrolling (offset-aware)
